@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -16,5 +16,42 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="buttonBasic">
+        <item name="android:layout_height">44dp</item>
+    </style>
+
+    <style name="buttonGradient" parent="@style/buttonBasic">
+        <item name="android:background">@drawable/bgd_btn_gradient</item>
+        <item name="android:textColor">@color/buttonTextColor</item>
+    </style>
+
+    <style name="buttonStroke" parent="@style/buttonBasic">
+        <item name="android:background">@drawable/bgd_btn_empty_with_gradient_stroke</item>
+        <item name="android:textColor">@color/buttonNoBackground_textColor</item>
+    </style>
+
+    <style name="buttonNoBackground" parent="@style/buttonBasic">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textColor">@color/buttonNoBackground_textColor</item>
+    </style>
+
+    <style name="editTextStyle" parent="android:Widget.EditText">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:lines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textColor">@color/gradientStart</item>
+        <item name="android:textColorHint">@color/notActive</item>
+        <item name="colorControlNormal">@color/notActive</item>
+        <item name="colorControlActivated">@color/gradientStart</item>
+        <item name="colorControlHighlight">@color/gradientEnd</item>
+        <item name="android:colorActivatedHighlight">@color/notActive</item>
+        <item name="android:colorBackgroundFloating">@color/notActive</item>
+
+    </style>
+
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

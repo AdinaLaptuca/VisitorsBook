@@ -13,4 +13,8 @@
     <string name="create_account">Create account</string>
     <string name="forgot_password">Forgot password</string>
     <string name="terms_conditions">Terms and conditions</string>
+    <string name="title_activity_visitors">VisitorsActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
 </resources>
