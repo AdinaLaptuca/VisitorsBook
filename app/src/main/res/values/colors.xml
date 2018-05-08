@@ -9,6 +9,8 @@
     <color name="gradientEnd">#22C5F7</color>
     
     <color name="notActive">#bbb</color>
+    <color name="bgdEdit">#00c6fb</color>
+    <color name="bgdRemove">#ff5451</color>
 
     <color name="buttonTextColor">@android:color/white</color>
     <color name="buttonNoBackground_textColor">@color/gradientEnd</color>

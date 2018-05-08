@@ -10,15 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <!-- <activity -->
-        <!-- android:name=".login.LoginActivity" -->
-        <!-- android:theme="@style/AppTheme.NoActionBar"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
-
         <activity
             android:name=".activities.login.LoginActivity"
             android:windowSoftInputMode="adjustPan">
@@ -28,10 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.visitors.VisitorsActivity"
-            android:label="@string/title_activity_visitors"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+
     </application>
 
 </manifest>
