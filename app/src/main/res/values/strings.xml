@@ -17,5 +17,11 @@
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="title_activity_page_strip">PageStrip</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

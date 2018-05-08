@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import com.example.adinalaptuca.visitorsbook.MainActivity;
 import com.example.adinalaptuca.visitorsbook.R;
+import com.example.adinalaptuca.visitorsbook.activities.main.MainActivity;
 import com.example.adinalaptuca.visitorsbook.custom.BaseActivity;
 
 import butterknife.BindView;
@@ -31,6 +30,6 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.btnSignIn)
     public void signIn(View v) {
-//        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
     }
 }
