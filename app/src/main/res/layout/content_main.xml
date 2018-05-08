@@ -8,9 +8,5 @@
     tools:context="com.example.adinalaptuca.visitorsbook.activities.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <android.support.v4.view.PagerTabStrip
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        />
 
 </android.support.constraint.ConstraintLayout>

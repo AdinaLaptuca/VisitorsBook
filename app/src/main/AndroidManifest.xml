@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
+
         <activity
             android:name=".activities.login.LoginActivity"
             android:windowSoftInputMode="adjustPan">
@@ -18,10 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".activities.main.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".activities.main.MainActivity" />
     </application>
 
 </manifest>
