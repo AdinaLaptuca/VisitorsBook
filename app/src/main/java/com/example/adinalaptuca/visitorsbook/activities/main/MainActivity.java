@@ -1,8 +1,11 @@
 package com.example.adinalaptuca.visitorsbook.activities.main;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,25 +16,53 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adinalaptuca.visitorsbook.R;
+import com.example.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
+import com.example.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
+import com.example.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.example.adinalaptuca.visitorsbook.custom.BaseActivity;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.tabLayout)
+    protected TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        unbinder = ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.visits));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.employees));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.rooms));
+
+        //handling tab click event
+        replaceFragment(new VisitsFragment());
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0)
+                    replaceFragment(new VisitsFragment());
+                else if (tab.getPosition() == 1)
+                    replaceFragment(new EmployeesFragment());
+                else
+                    replaceFragment(new RoomsFragment());
             }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -42,6 +73,13 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 
     @Override

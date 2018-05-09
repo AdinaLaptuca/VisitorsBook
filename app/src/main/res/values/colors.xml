@@ -7,6 +7,11 @@
 
     <color name="gradientStart">#1060E5</color>
     <color name="gradientEnd">#22C5F7</color>
+
+    <color name="gradientStartLight">#237eae</color>
+    <color name="gradientEndLight">#6dd7d7</color>
+
+    <color name="blueLight">#dceef6</color>
     
     <color name="notActive">#bbb</color>
     <color name="bgdEdit">#00c6fb</color>

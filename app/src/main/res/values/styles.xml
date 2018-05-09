@@ -17,8 +17,21 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabTextAppearance">@style/MyCustomTabText</item>
+        <item name="tabSelectedTextColor">@color/buttonTextColor</item>
+        <item name="tabIndicatorHeight">4dp</item>
+        <item name="tabIndicatorColor">@color/buttonTextColor</item>
+    </style>
+
+    <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/buttonTextColor</item>
+    </style>
+
     <style name="buttonBasic">
         <item name="android:layout_height">44dp</item>
+        <item name="android:textColor">@color/buttonTextColor</item>
     </style>
 
     <style name="buttonGradient" parent="@style/buttonBasic">
@@ -34,6 +47,11 @@
     <style name="buttonNoBackground" parent="@style/buttonBasic">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textColor">@color/buttonNoBackground_textColor</item>
+    </style>
+
+    <style name="headerUpcommingVisits" parent="@style/buttonBasic">
+        <item name="android:background">@color/blueLight</item>
+        <item name="android:textColor">@color/gradientStart</item>
     </style>
 
     <style name="editTextStyle" parent="android:Widget.EditText">

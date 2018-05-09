@@ -17,11 +17,20 @@
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="title_activity_page_strip">PageStrip</string>
-    <string name="section_format">Hello World from section: %1$d</string>
+
+    <string name="visits">Visits</string>
+    <string name="employees">Employees</string>
+    <string name="rooms">Rooms</string>
+
+    <string name="takePhoto">Take a photo of \nyour visitor\'s ID</string>
+    <string name="visitorIdPhotoPreview">Visitor\nID photo preview</string>
+
+    <string name="visitAndVisitorDetails">Visit and visitor details</string>
+    <string name="placeholderGivenName">Name (given name)</string>
+    <string name="placeholderGivenSurname">Surname (given name)</string>
+    <string name="placeholderVisitStarts">Visit starts</string>
+    <string name="placeholderVisitEnds">Visit ends</string>
+    <string name="placeholderSelectARoom">Select a room</string>
+    <string name="room">Room</string>
 
 </resources>
