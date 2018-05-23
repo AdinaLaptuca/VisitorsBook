@@ -30,6 +30,10 @@ public class MainActivity extends BaseActivity
     @BindView(R.id.tabLayout)
     protected TabLayout tabLayout;
 
+    private VisitsFragment      visitsFragment;
+    private EmployeesFragment   employeesFragment;
+    private RoomsFragment       roomsFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +48,22 @@ public class MainActivity extends BaseActivity
         tabLayout.addTab(tabLayout.newTab().setText(R.string.employees));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.rooms));
 
+        visitsFragment = new VisitsFragment();
+        employeesFragment = new EmployeesFragment();
+        roomsFragment = new RoomsFragment();
+
         //handling tab click event
-        replaceFragment(new VisitsFragment());
+        replaceFragment(visitsFragment);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0)
-                    replaceFragment(new VisitsFragment());
+                    replaceFragment(visitsFragment);
                 else if (tab.getPosition() == 1)
-                    replaceFragment(new EmployeesFragment());
+                    replaceFragment(employeesFragment);
                 else
-                    replaceFragment(new RoomsFragment());
+                    replaceFragment(roomsFragment);
             }
 
             @Override
@@ -73,13 +81,6 @@ public class MainActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    private void replaceFragment(Fragment fragment) {
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .commit();
     }
 
     @Override
