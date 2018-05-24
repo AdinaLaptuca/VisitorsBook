@@ -8,13 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adinalaptuca.visitorsbook.R;
+import com.example.adinalaptuca.visitorsbook.custom.BaseFragment;
 
-public class RoomsFragment extends Fragment {
+public class RoomsFragment extends BaseFragment {
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.component_visits_view_data, container, false);
-        return view;
+    protected int layoutId() {
+        return R.layout.component_visits_view_data;
     }
 }

@@ -30,6 +30,16 @@ public abstract class BaseFragment extends Fragment {
 
     protected void initView() {}
 
+    protected void addFragment(Fragment fragment) {
+//        getActivity().getFragmentManager()
+        getChildFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.animator.enter_from_up, R.animator.exit_to_down, R.animator.enter_from_down, R.animator.exit_to_up)
+                .add(R.id.fragment_container, fragment, fragment.getClass().getSimpleName())
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

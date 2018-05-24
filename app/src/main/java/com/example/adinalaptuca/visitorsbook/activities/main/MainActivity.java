@@ -1,17 +1,16 @@
 package com.example.adinalaptuca.visitorsbook.activities.main;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.view.View;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,16 +19,25 @@ import com.example.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.E
 import com.example.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
 import com.example.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.example.adinalaptuca.visitorsbook.custom.BaseActivity;
+import com.example.adinalaptuca.visitorsbook.custom.BaseFragment;
+import com.example.adinalaptuca.visitorsbook.custom.BaseToolbarActivity;
+import com.example.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends BaseToolbarActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.tabLayout)
     protected TabLayout tabLayout;
 
+    private List<List<BaseFragment>> stackFragments = new ArrayList<>();
     private VisitsFragment      visitsFragment;
     private EmployeesFragment   employeesFragment;
     private RoomsFragment       roomsFragment;
@@ -52,18 +60,18 @@ public class MainActivity extends BaseActivity
         employeesFragment = new EmployeesFragment();
         roomsFragment = new RoomsFragment();
 
+        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(visitsFragment)));
+        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(employeesFragment)));
+        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(roomsFragment)));
+
         //handling tab click event
-        replaceFragment(visitsFragment);
+        replaceFragment(stackFragments.get(0).get(0));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0)
-                    replaceFragment(visitsFragment);
-                else if (tab.getPosition() == 1)
-                    replaceFragment(employeesFragment);
-                else
-                    replaceFragment(roomsFragment);
+                List<BaseFragment> stackAtIndex = stackFragments.get(tab.getPosition());
+                replaceFragment(stackAtIndex.get(stackAtIndex.size() - 1));
             }
 
             @Override
@@ -85,11 +93,22 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+        }
+        else {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStackImmediate();
+
+                if (getFragmentManager().findFragmentById(R.id.fragment_container) != null && getFragmentManager().findFragmentById(R.id.fragment_container) instanceof BaseToolbarFragment)
+                    ((BaseToolbarFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).setToolbarTitle();
+
+//                if (getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().getBackStackEntryCount() > 0)
+//                    getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().popBackStack();
+            }
+            else
+                super.onBackPressed();
         }
     }
 
@@ -139,4 +158,36 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    public class PagerAdapter extends FragmentStatePagerAdapter {
+//        int mNumOfTabs;
+//
+//        public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+//            super(fm);
+//            this.mNumOfTabs = NumOfTabs;
+//        }
+//
+//        @Override
+//        public Fragment getItem(int position) {
+//
+//            switch (position) {
+//                case 0:
+//                    TabFragment1 tab1 = new TabFragment1();
+//                    return tab1;
+//                case 1:
+//                    TabFragment2 tab2 = new TabFragment2();
+//                    return tab2;
+//                case 2:
+//                    TabFragment3 tab3 = new TabFragment3();
+//                    return tab3;
+//                default:
+//                    return null;
+//            }
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return mNumOfTabs;
+//        }
+//    }
 }

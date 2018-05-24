@@ -47,7 +47,7 @@ public class Presenter implements VisitsContract.Presenter {
                 Visit.builder().setDateOfVisit(new Date()).setName("Duncan McCloud").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
                 Visit.builder().setDateOfVisit(new Date()).setName("John Wick").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
                 Visit.builder().setDateOfVisit(new Date()).setName("Indiana jones").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Amy Winehouse").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
+                Visit.builder().setDateOfVisit(new Date()).setName("Neo").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
                 Visit.builder().setDateOfVisit(new Date()).setName("Han Solo").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
                 Visit.builder().setDateOfVisit(new Date()).setName("Chewbaka").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
                 Visit.builder().setDateOfVisit(new Date()).setName("Darth Vader").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),

@@ -50,7 +50,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
         @BindView(R.id.lblTimeSpent)
         TextView lblTimeSpent;
 
-        public VisitViewHolder(View itemView) {
+        VisitViewHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);

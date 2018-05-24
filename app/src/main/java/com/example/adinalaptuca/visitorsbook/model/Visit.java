@@ -5,7 +5,7 @@ import com.google.auto.value.AutoValue;
 import java.util.Date;
 
 @AutoValue
-public abstract class Visit //implements Parcelable
+public abstract class Visit implements Parcelable
 {
     public abstract Date dateOfVisit();
     public abstract Date timeStarted();
