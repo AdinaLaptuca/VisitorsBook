@@ -9,10 +9,15 @@
 
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="retype_password">Re-type password</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
     <string name="create_account">Create account</string>
     <string name="forgot_password">Forgot password</string>
     <string name="terms_conditions">Terms and conditions</string>
+
+    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="OK">OK</string>
 
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>

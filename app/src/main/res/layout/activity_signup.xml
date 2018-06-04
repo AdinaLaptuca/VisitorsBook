@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColor="@color/gradientStart"-->
+        <!--android:textColorHint="@color/gradientEnd">-->
+
+        <EditText
+            android:id="@+id/txtUsername"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:hint="@string/username"
+            />
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textColorHint="@color/gradientEnd">-->
+
+        <EditText
+            android:id="@+id/txtPassword"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:hint="@string/password"
+            />
+
+        <EditText
+            android:id="@+id/txtRetypePassword"
+            style="@style/editTextStyle"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:hint="@string/retype_password"
+            />
+
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+        <Button
+            android:id="@+id/btnSignUp"
+            style="@style/buttonGradient"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/sign_up"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

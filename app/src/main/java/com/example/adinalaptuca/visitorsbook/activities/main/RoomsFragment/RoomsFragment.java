@@ -1,19 +1,47 @@
 package com.example.adinalaptuca.visitorsbook.activities.main.RoomsFragment;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import com.example.adinalaptuca.visitorsbook.R;
 import com.example.adinalaptuca.visitorsbook.custom.BaseFragment;
 
-public class RoomsFragment extends BaseFragment {
+import butterknife.BindView;
+
+public class RoomsFragment extends BaseFragment implements RoomsContract.View{
+
+    private RoomsContract.Presenter presenter;
+
+    @BindView(R.id.tblData)
+    protected RecyclerView tblData;
+
+    private RoomsAdapter adapter;
 
     @Override
     protected int layoutId() {
-        return R.layout.component_visits_view_data;
+        return R.layout.fragment_rooms;
+    }
+
+    protected void initView() {
+        presenter = new Presenter(this);
+
+        tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
+        tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        adapter = new RoomsAdapter(presenter.getRooms());
+        tblData.setAdapter(adapter);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        presenter.getData();
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        adapter.notifyDataSetChanged();
     }
 }
