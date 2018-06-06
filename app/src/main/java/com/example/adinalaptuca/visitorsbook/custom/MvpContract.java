@@ -1,5 +1,7 @@
 package com.example.adinalaptuca.visitorsbook.custom;
 
+import android.content.Context;
+
 /**
  * Copyright @ Julien Arzul 2016
  */
@@ -11,7 +13,12 @@ public interface MvpContract
      */
     interface View
     {
+        Context getContext();
 
+        void showLoadingDialog(String message);
+        void dismissLoadingDialog();
+
+        void showToast(String message);
     }
 
     /**

@@ -22,6 +22,8 @@
                 style="@style/editTextStyle"
                 android:layout_width="match_parent"
                 android:hint="@string/username"
+                android:inputType="text"
+                android:imeOptions="actionNext"
                 />
 
         <!--</android.support.design.widget.TextInputLayout>-->
@@ -37,6 +39,8 @@
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:hint="@string/password"
+                android:inputType="textPassword"
+                android:imeOptions="actionGo"
                 />
 
         <!--</android.support.design.widget.TextInputLayout>-->

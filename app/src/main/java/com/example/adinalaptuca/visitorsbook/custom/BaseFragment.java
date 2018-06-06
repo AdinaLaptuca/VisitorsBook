@@ -1,6 +1,7 @@
 package com.example.adinalaptuca.visitorsbook.custom;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,8 +13,32 @@ import com.example.adinalaptuca.visitorsbook.R;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements MvpContract.View {
     protected Unbinder unbinder;
+    protected MvpContract.View baseActivity;
+
+    @Override
+    public void showLoadingDialog(String message) {
+        baseActivity.showLoadingDialog(message);
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        baseActivity.dismissLoadingDialog();
+    }
+
+    @Override
+    public void showToast(String message) {
+        baseActivity.showToast(message);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof MvpContract.View)
+            baseActivity = (MvpContract.View) getActivity();
+    }
 
     @Nullable
     @Override

@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "13747421716",
+    "firebase_url": "https://visitor-s-book.firebaseio.com",
+    "project_id": "visitor-s-book",
+    "storage_bucket": "visitor-s-book.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13747421716:android:d49fa7e8af33a56a",
+        "android_client_info": {
+          "package_name": "com.adinalaptuca.visitorsbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13747421716-93qfqm3m2j6mlu5gq43pqnj9m96indim.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adinalaptuca.visitorsbook",
+            "certificate_hash": "3e9428305f86dadcc8170626f7f3c4d39f754da1"
+          }
+        },
+        {
+          "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFMfJMj3o7l2cm7E9h5VH_VCa69gU2vTQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,6 +2,7 @@ package com.example.adinalaptuca.visitorsbook.activities.main;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -14,7 +15,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.adinalaptuca.visitorsbook.AppDelegate;
 import com.example.adinalaptuca.visitorsbook.R;
+import com.example.adinalaptuca.visitorsbook.activities.authentication.login.LoginActivity;
 import com.example.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
 import com.example.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
 import com.example.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
@@ -33,6 +36,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseToolbarActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final int ACTIVITY_RESULT = 10;
 
     @BindView(R.id.tabLayout)
     protected TabLayout tabLayout;
@@ -129,6 +134,12 @@ public class MainActivity extends BaseToolbarActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+
+        if (id == R.id.nav_camera) {
+            AppDelegate.getInstance(this).getFirebaseAuth().signOut();
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

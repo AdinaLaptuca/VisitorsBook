@@ -16,7 +16,12 @@
     <string name="forgot_password">Forgot password</string>
     <string name="terms_conditions">Terms and conditions</string>
 
-    <string name="passwords_dont_match">Passwords don\'t match</string>
+    <string name="cant_be_empty">Field cannot be empty</string>
+    <string name="email_not_valid">Email is not valid</string>
+    <string name="passwords_dont_match">Passwords do not match</string>
+    <string name="password_length">Password must at least 6 chars</string>
+    <string name="authentication_failed">Email and/or password incorrect</string>
+    <string name="registration_failed">Registration failed. Reason: </string>
     <string name="OK">OK</string>
 
     <string name="checkOut">Check out</string>

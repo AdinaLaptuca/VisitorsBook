@@ -2,15 +2,45 @@ package com.example.adinalaptuca.visitorsbook.custom;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.example.adinalaptuca.visitorsbook.R;
+import com.example.adinalaptuca.visitorsbook.activities.authentication.login.LoginActivity;
 
 import butterknife.Unbinder;
 
-public class BaseActivity extends Activity implements BaseActivityInterface {
+public class BaseActivity extends Activity implements BaseActivityInterface, MvpContract.View {
     protected Unbinder unbinder;
+
+    private ProgressDialog progressBar;
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void showLoadingDialog(String message) {
+        if (progressBar == null)
+            progressBar = new ProgressDialog(this);
+
+        progressBar.setMessage(message);
+        progressBar.show();
+    }
+
+    @Override
+    public void dismissLoadingDialog() {
+        progressBar.dismiss();
+    }
+
+    @Override
+    public void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
     public void replaceFragment(Fragment fragment) {
 
