@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.authentication.signup.SignupActivity;
@@ -13,6 +14,7 @@ import com.adinalaptuca.visitorsbook.custom.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnEditorAction;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
@@ -35,6 +37,16 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         if (presenter.isSignedIn())
             goToMainscreen();
+    }
+
+    @OnEditorAction(R.id.txtPassword)
+    public boolean passwordDone(int actionId) {
+        if (actionId == EditorInfo.IME_ACTION_GO) {
+            signIn(null);
+            return true;
+        }
+
+        return false;
     }
 
     @OnClick(R.id.btnSignIn)

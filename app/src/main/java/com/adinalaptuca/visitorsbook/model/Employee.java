@@ -4,16 +4,33 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
+import com.google.firebase.firestore.PropertyName;
 
 @AutoValue
 public abstract class Employee implements Parcelable {
-    @Nullable public abstract String firstName();
-    @Nullable public abstract String lastName();
-    @Nullable public abstract String function();
+    @PropertyName("firstName")
+    @Nullable
+    public abstract String getFirstName();
+
+    @PropertyName("lastName")
+    @Nullable
+    public abstract String getLastName();
+
+    @PropertyName("function")
+    @Nullable
+    public abstract String getFunction();
 
     public static Employee.Builder builder() {
         return new AutoValue_Employee.Builder();
     }
+
+//    public static TypeAdapter<Employee> typeAdapter(Gson gson) {
+//        return new AutoValue_Employee.GsonTypeAdapter(gson);
+//    }
+//
+//    public static TypeAdapter<Employee> typeAdapter(Gson gson) {
+//        return new Employee_GsonTypeAdapter(gson);
+//    }
 
     @AutoValue.Builder
     public abstract static class Builder {
