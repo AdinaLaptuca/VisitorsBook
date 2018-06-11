@@ -5,18 +5,24 @@ import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
 import com.google.firebase.firestore.PropertyName;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Map;
 
 @AutoValue
 public abstract class Employee implements Parcelable {
-    @PropertyName("firstName")
+    @SerializedName("firstName")
     @Nullable
     public abstract String getFirstName();
 
-    @PropertyName("lastName")
+    @SerializedName("lastName")
     @Nullable
     public abstract String getLastName();
 
-    @PropertyName("function")
+    @SerializedName("function")
+//    @PropertyName("function")
     @Nullable
     public abstract String getFunction();
 
@@ -39,5 +45,12 @@ public abstract class Employee implements Parcelable {
         public abstract Builder setFunction(@Nullable String function);
 
         public abstract Employee build();
+    }
+
+    public static Employee map2Object(Map<String, Object> map) {
+        return Employee.builder()
+                .setFirstName((String) map.get("firstname"))
+                .setLastName((String) map.get("lastName"))
+                .setFunction((String) map.get("function")).build();
     }
 }
