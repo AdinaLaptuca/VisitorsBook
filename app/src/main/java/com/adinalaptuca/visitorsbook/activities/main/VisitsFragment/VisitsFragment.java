@@ -40,7 +40,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         adapter = new VisitsAdapter(presenter.getVisits());
         tblData.setAdapter(adapter);
 
-        SwipeController swipeController = new SwipeController();
+        SwipeController swipeController = new SwipeController();        // swipe on adapter
 
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
         itemTouchhelper.attachToRecyclerView(tblData);

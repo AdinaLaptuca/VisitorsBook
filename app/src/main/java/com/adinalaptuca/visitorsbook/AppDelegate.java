@@ -2,6 +2,7 @@ package com.adinalaptuca.visitorsbook;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,6 +19,9 @@ public class AppDelegate extends Application {
         super.onCreate();
 
         mAuth = FirebaseAuth.getInstance();
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
     }
 
     public FirebaseAuth getFirebaseAuth() {

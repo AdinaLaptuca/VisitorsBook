@@ -13,44 +13,33 @@ import java.util.Map;
 
 @AutoValue
 public abstract class Employee implements Parcelable {
-    @SerializedName("firstName")
-    @Nullable
-    public abstract String getFirstName();
 
-    @SerializedName("lastName")
+    @SerializedName("email")
     @Nullable
-    public abstract String getLastName();
+    public abstract String getEmail();
 
-    @SerializedName("function")
-//    @PropertyName("function")
+    @SerializedName("fullName")
     @Nullable
-    public abstract String getFunction();
+    public abstract String getFullname();
+
+    @SerializedName("role")
+    @Nullable
+    public abstract EmployeeRole getEmployeeRole();
 
     public static Employee.Builder builder() {
         return new AutoValue_Employee.Builder();
     }
 
-//    public static TypeAdapter<Employee> typeAdapter(Gson gson) {
-//        return new AutoValue_Employee.GsonTypeAdapter(gson);
-//    }
-//
-//    public static TypeAdapter<Employee> typeAdapter(Gson gson) {
-//        return new Employee_GsonTypeAdapter(gson);
-//    }
+    public static TypeAdapter<Employee> typeAdapter(Gson gson) {
+        return new AutoValue_Employee.GsonTypeAdapter(gson);
+    }
 
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder setFirstName(@Nullable String firstName);
-        public abstract Builder setLastName(@Nullable String lastName);
-        public abstract Builder setFunction(@Nullable String function);
+        public abstract Builder setEmail(@Nullable String email);
+        public abstract Builder setFullname(@Nullable String fullname);
+        public abstract Builder setEmployeeRole(@Nullable EmployeeRole role);
 
         public abstract Employee build();
-    }
-
-    public static Employee map2Object(Map<String, Object> map) {
-        return Employee.builder()
-                .setFirstName((String) map.get("firstname"))
-                .setLastName((String) map.get("lastName"))
-                .setFunction((String) map.get("function")).build();
     }
 }

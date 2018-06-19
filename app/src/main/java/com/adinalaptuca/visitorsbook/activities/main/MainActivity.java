@@ -1,6 +1,7 @@
 package com.adinalaptuca.visitorsbook.activities.main;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +18,7 @@ import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.authentication.login.LoginActivity;
 import com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
 import com.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.TakePhoto.TakePhotoFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarActivity;
@@ -39,6 +41,8 @@ public class MainActivity extends BaseToolbarActivity
     private VisitsFragment visitsFragment;
     private EmployeesFragment employeesFragment;
     private RoomsFragment       roomsFragment;
+
+    private TakePhotoFragment takePhotoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,23 +94,10 @@ public class MainActivity extends BaseToolbarActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
-        else {
-            if (getFragmentManager().getBackStackEntryCount() > 0) {
-                getFragmentManager().popBackStackImmediate();
-
-                if (getFragmentManager().findFragmentById(R.id.fragment_container) != null && getFragmentManager().findFragmentById(R.id.fragment_container) instanceof BaseToolbarFragment)
-                    ((BaseToolbarFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).setToolbarTitle();
-
-//                if (getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().getBackStackEntryCount() > 0)
-//                    getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().popBackStack();
-            }
-            else
-                super.onBackPressed();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == TakePhotoFragment.ACTIVITY_RESULT_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            Fragment fragment = visitsFragment.getChildFragmentManager().findFragmentByTag("TakePhotoFragment");
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -159,35 +150,24 @@ public class MainActivity extends BaseToolbarActivity
         return true;
     }
 
-//    public class PagerAdapter extends FragmentStatePagerAdapter {
-//        int mNumOfTabs;
-//
-//        public PagerAdapter(FragmentManager fm, int NumOfTabs) {
-//            super(fm);
-//            this.mNumOfTabs = NumOfTabs;
-//        }
-//
-//        @Override
-//        public Fragment getItem(int position) {
-//
-//            switch (position) {
-//                case 0:
-//                    TabFragment1 tab1 = new TabFragment1();
-//                    return tab1;
-//                case 1:
-//                    TabFragment2 tab2 = new TabFragment2();
-//                    return tab2;
-//                case 2:
-//                    TabFragment3 tab3 = new TabFragment3();
-//                    return tab3;
-//                default:
-//                    return null;
-//            }
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return mNumOfTabs;
-//        }
-//    }
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
+        else {
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                getFragmentManager().popBackStackImmediate();
+
+                if (getFragmentManager().findFragmentById(R.id.fragment_container) != null && getFragmentManager().findFragmentById(R.id.fragment_container) instanceof BaseToolbarFragment)
+                    ((BaseToolbarFragment) getFragmentManager().findFragmentById(R.id.fragment_container)).setToolbarTitle();
+
+//                if (getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().getBackStackEntryCount() > 0)
+//                    getFragmentManager().findFragmentById(R.id.fragment_container).getChildFragmentManager().popBackStack();
+            }
+            else
+                super.onBackPressed();
+        }
+    }
 }

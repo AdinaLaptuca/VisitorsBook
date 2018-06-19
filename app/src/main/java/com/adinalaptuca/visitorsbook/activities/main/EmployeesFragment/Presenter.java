@@ -41,15 +41,15 @@ public class Presenter implements EmployeesContract.Presenter {
         DocumentReference doc = FirebaseFirestore.getInstance().document("v1/employeesData");
 
         List<Employee> list = new ArrayList<>();
-        list.add(Employee.builder().setFirstName("John").setLastName("Smith").setFunction("Lead dev").build());
-        list.add(Employee.builder().setFirstName("John").setLastName("Doe").setFunction("Junior dev").build());
-        list.add(Employee.builder().setFirstName("Duncan").setLastName("McCloud").setFunction("Junior dev").build());
-        list.add(Employee.builder().setFirstName("John").setLastName("Wick").setFunction("Junior dev").build());
-        list.add(Employee.builder().setFirstName("Indiana").setLastName("jones").setFunction("Junior dev").build());
-        list.add(Employee.builder().setFirstName("Han").setLastName("Solo").setFunction("The solo one").build());
-        list.add(Employee.builder().setFirstName("Chewbaka").setFunction("Junior dev").build());
-        list.add(Employee.builder().setFirstName("Darth").setLastName("Vader").setFunction("Most evil").build());
-        list.add(Employee.builder().setFirstName("Simona").setLastName("Halep").setFunction("#1 Mondial").build());
+//        list.add(Employee.builder().setFirstName("John").setLastName("Smith").setFunction("Lead dev").build());
+//        list.add(Employee.builder().setFirstName("John").setLastName("Doe").setFunction("Junior dev").build());
+//        list.add(Employee.builder().setFirstName("Duncan").setLastName("McCloud").setFunction("Junior dev").build());
+//        list.add(Employee.builder().setFirstName("John").setLastName("Wick").setFunction("Junior dev").build());
+//        list.add(Employee.builder().setFirstName("Indiana").setLastName("jones").setFunction("Junior dev").build());
+//        list.add(Employee.builder().setFirstName("Han").setLastName("Solo").setFunction("The solo one").build());
+//        list.add(Employee.builder().setFirstName("Chewbaka").setFunction("Junior dev").build());
+//        list.add(Employee.builder().setFirstName("Darth").setLastName("Vader").setFunction("Most evil").build());
+//        list.add(Employee.builder().setFirstName("Simona").setLastName("Halep").setFunction("#1 Mondial").build());
 
         Map<String, List<Employee>> listData = new HashMap<>();
         listData.put("employees", list);
@@ -68,8 +68,11 @@ public class Presenter implements EmployeesContract.Presenter {
 //            Log.e("pres", "1, document: " + documentSnapshot.getData());
 //        });
 //
-        doc.collection("employees").addSnapshotListener((Activity) view.getContext(), (queryDocumentSnapshots, e) -> {
-            Log.e("pres", "2, document: " + queryDocumentSnapshots);
+        doc.collection("employees").addSnapshotListener((Activity) view.getContext(), (querySnapshot, e) -> {
+//            Log.e("pres", "2, document: " + querySnapshot);
+            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                Log.e("pres", "2.1, document: " + querySnapshot);
+            }
         });
 //
 //        db.collection("employees").get().addOnSuccessListener((Activity) view.getContext(), queryDocumentSnapshots -> {

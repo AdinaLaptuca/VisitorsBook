@@ -54,7 +54,20 @@
         <item name="android:textColor">@color/gradientStart</item>
     </style>
 
+    <style name="textInputLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/gradientStart</item>
+        <item name="android:colorActivatedHighlight">@color/notActive</item>
+    </style>
+
+    <style name="passwordInputLayoutStyle" parent="@style/textInputLayoutStyle">
+        <item name="passwordToggleEnabled">true</item>
+        <item name="passwordToggleTint">@color/gradientEnd</item>
+    </style>
+
     <style name="editTextStyle" parent="android:Widget.EditText">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:lines">1</item>
         <item name="android:scrollHorizontally">true</item>

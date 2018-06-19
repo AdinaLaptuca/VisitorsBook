@@ -20,8 +20,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private LoginContract.Presenter presenter;
 
-    @BindView(R.id.txtUsername)
-    protected EditText txtUsername;
+    @BindView(R.id.txtEmail)
+    protected EditText txtEmail;
 
     @BindView(R.id.txtPassword)
     protected EditText txtPassword;
@@ -51,11 +51,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @OnClick(R.id.btnSignIn)
     public void signIn(View v) {
-        if (!AuthenticationUtils.validateCredentials(txtUsername, txtPassword, null))
+        if (!AuthenticationUtils.validateCredentials(txtEmail, txtPassword, null))
             return;
 
         showLoadingDialog(null);
-        presenter.trySignIn(txtUsername.getText().toString(), txtPassword.getText().toString());
+        presenter.trySignIn(txtEmail.getText().toString(), txtPassword.getText().toString());
     }
 
     @Override

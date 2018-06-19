@@ -11,39 +11,34 @@
         android:orientation="vertical"
         android:layout_centerInParent="true">
 
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColor="@color/gradientStart"-->
-            <!--android:textColorHint="@color/gradientEnd">-->
+        <android.support.design.widget.TextInputLayout
+            style="@style/textInputLayoutStyle"
+            >
 
             <EditText
-                android:id="@+id/txtUsername"
+                android:id="@+id/txtEmail"
                 style="@style/editTextStyle"
-                android:layout_width="match_parent"
-                android:hint="@string/username"
-                android:inputType="text"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:imeOptions="actionNext"
                 />
 
-        <!--</android.support.design.widget.TextInputLayout>-->
+        </android.support.design.widget.TextInputLayout>
 
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textColorHint="@color/gradientEnd">-->
+        <android.support.design.widget.TextInputLayout
+            style="@style/passwordInputLayoutStyle"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            >
 
             <EditText
                 android:id="@+id/txtPassword"
                 style="@style/editTextStyle"
-                android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:imeOptions="actionGo"
                 />
 
-        <!--</android.support.design.widget.TextInputLayout>-->
+        </android.support.design.widget.TextInputLayout>
         
         <Button
             android:id="@+id/btnSignIn"
