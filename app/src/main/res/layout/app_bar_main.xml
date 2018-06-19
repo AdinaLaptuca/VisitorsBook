@@ -19,7 +19,7 @@
             android:background="@drawable/bgd_gradient"
             app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
             app:title="@string/visits"
-            android:elevation="4dp"/>
+            android:elevation="@dimen/elevationBasic"/>
 
     </android.support.design.widget.AppBarLayout>
 

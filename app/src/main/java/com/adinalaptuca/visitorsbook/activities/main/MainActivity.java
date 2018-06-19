@@ -18,6 +18,7 @@ import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.authentication.login.LoginActivity;
 import com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
 import com.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.TakePhoto.TakePhotoFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseFragment;
@@ -34,13 +35,7 @@ public class MainActivity extends BaseToolbarActivity
 
     public static final int ACTIVITY_RESULT = 10;
 
-    @BindView(R.id.tabLayout)
-    protected TabLayout tabLayout;
-
-    private List<List<BaseFragment>> stackFragments = new ArrayList<>();
     private VisitsFragment visitsFragment;
-    private EmployeesFragment employeesFragment;
-    private RoomsFragment       roomsFragment;
 
     private TakePhotoFragment takePhotoFragment;
 
@@ -54,36 +49,12 @@ public class MainActivity extends BaseToolbarActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setActionBar(toolbar);
 
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.visits));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.employees));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.rooms));
-
         visitsFragment = new VisitsFragment();
-        employeesFragment = new EmployeesFragment();
-        roomsFragment = new RoomsFragment();
-
-        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(visitsFragment)));
-        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(employeesFragment)));
-        stackFragments.add(new ArrayList<BaseFragment>(Collections.singletonList(roomsFragment)));
 
         //handling tab click event
-        replaceFragment(stackFragments.get(0).get(0));
+        replaceFragment(visitsFragment);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                List<BaseFragment> stackAtIndex = stackFragments.get(tab.getPosition());
-                replaceFragment(stackAtIndex.get(stackAtIndex.size() - 1));
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -95,9 +66,10 @@ public class MainActivity extends BaseToolbarActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == TakePhotoFragment.ACTIVITY_RESULT_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Fragment fragment = visitsFragment.getChildFragmentManager().findFragmentByTag("TakePhotoFragment");
-            fragment.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PreviewVisitorDataFragment.ACTIVITY_RESULT_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
+            Fragment fragment = getFragmentManager().findFragmentByTag("PreviewVisitorDataFragment");
+            if (fragment != null)
+                fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -123,26 +95,15 @@ public class MainActivity extends BaseToolbarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.logout) {
             AppDelegate.getInstance(this).getFirebaseAuth().signOut();
             setResult(RESULT_OK);
             finish();
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

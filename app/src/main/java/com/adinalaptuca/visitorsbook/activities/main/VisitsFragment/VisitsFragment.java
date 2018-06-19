@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.TakePhoto.TakePhotoFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 
@@ -55,7 +56,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
     @OnClick(R.id.fab)
     public void addClicked() {
-        addFragment(new TakePhotoFragment());
+        addFragment(new PreviewVisitorDataFragment());
     }
 
 

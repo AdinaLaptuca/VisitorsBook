@@ -54,8 +54,8 @@ public abstract class BaseFragment extends Fragment implements MvpContract.View 
     protected void initView() {}
 
     protected void addFragment(Fragment fragment) {
-        getChildFragmentManager()
-//        getActivity().getFragmentManager()
+//        getChildFragmentManager()
+        getActivity().getFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.animator.enter_from_up, R.animator.exit_to_down, R.animator.enter_from_down, R.animator.exit_to_up)
                 .add(R.id.fragment_container, fragment, fragment.getClass().getSimpleName())
