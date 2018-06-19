@@ -12,21 +12,9 @@ import android.widget.Spinner;
 
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.custom.BaseActivity;
-import com.adinalaptuca.visitorsbook.activities.authentication.AuthenticationUtils;
 import com.adinalaptuca.visitorsbook.model.Office;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,6 +48,7 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
 
     @BindView(R.id.spinnerRole)
     protected Spinner spinnerRole;
+    private ArrayAdapter<String> adapterRoles;
 
     @BindView(R.id.txtEmail)
     protected EditText txtEmail;
@@ -78,7 +67,8 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
         unbinder = ButterKnife.bind(this);
 
         presenter = new Presenter(this);
-        presenter.getData();
+        presenter.fetchCompanies();
+        presenter.fetchRoles();
 
         adapterCompany = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, presenter.getCompanies());
         adapterCompany.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -89,7 +79,14 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
     }
 
     @Override
-    public void dataFetched() {
+    public void rolesFetched(List<String> roles) {
+        adapterRoles = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, roles);
+        adapterRoles.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerRole.setAdapter(adapterRoles);
+    }
+
+    @Override
+    public void companiesFetched() {
         adapterCompany.notifyDataSetChanged();
     }
 

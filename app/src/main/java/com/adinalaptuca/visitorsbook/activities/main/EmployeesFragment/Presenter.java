@@ -62,10 +62,10 @@ public class Presenter implements EmployeesContract.Presenter {
 
 
 //        doc.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
-////            Employee employee = Employee.map2Object(documentSnapshot.getData());
-////                    new Gson().fromJson(documentSnapshot.getData().toString(), Employee.class);
+////            Employee employee = Employee.map2Object(documentSnapshot.fetchCompanies());
+////                    new Gson().fromJson(documentSnapshot.fetchCompanies().toString(), Employee.class);
 //            //documentSnapshot.toObject(Employee.class);
-//            Log.e("pres", "1, document: " + documentSnapshot.getData());
+//            Log.e("pres", "1, document: " + documentSnapshot.fetchCompanies());
 //        });
 //
         doc.collection("employees").addSnapshotListener((Activity) view.getContext(), (querySnapshot, e) -> {

@@ -9,19 +9,23 @@ class SignupContract {
     interface View extends MvpContract.View {
         void signedUpSuccesfull();
 
-        void dataFetched();
+        void rolesFetched(List<String> roles);
+
+        void companiesFetched();
     }
 
     interface Presenter extends MvpContract.Presenter<SignupContract.View> {
 
-        void getData();
+        void fetchRoles();
+
+        void fetchCompanies();
 
         List<String> getCompanies();
 
         List<String> getOfficesForCompany(String company);
 
-        void trySignUp(String email, String password);
-
         Office getOffice(String companyName, String officeName);
+
+        void trySignUp(String email, String password);
     }
 }

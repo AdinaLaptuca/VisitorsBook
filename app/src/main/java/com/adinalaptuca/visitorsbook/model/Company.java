@@ -6,6 +6,8 @@ import com.google.auto.value.AutoValue;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @AutoValue
@@ -28,7 +30,8 @@ public abstract class Company implements Parcelable {
     public abstract List<Office> getOffices();
 
     public static Builder builder() {
-        return new AutoValue_Company.Builder();
+        return new AutoValue_Company.Builder()
+                .setOffices(new ArrayList<>());
     }
 
     public static TypeAdapter<Company> typeAdapter(Gson gson) {

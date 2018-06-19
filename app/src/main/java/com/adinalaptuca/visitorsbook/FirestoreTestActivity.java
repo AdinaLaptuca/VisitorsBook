@@ -76,13 +76,13 @@ public class FirestoreTestActivity extends AppCompatActivity {
 //
 //        doc.get()
 //                .addOnSuccessListener(FirestoreTestActivity.this, (querySnapshot) -> {
-//                    Log.e("pres", "2, success: " + querySnapshot.getData());        // returns data
+//                    Log.e("pres", "2, success: " + querySnapshot.fetchCompanies());        // returns data
 //                });
 //
 //        db.document("v1/employeesData")
 //                .get()
 //                .addOnSuccessListener(this, documentSnapshot -> {
-//            Log.e("pres", "3, success: " + documentSnapshot.getData());     // returns data
+//            Log.e("pres", "3, success: " + documentSnapshot.fetchCompanies());     // returns data
 //        });
 
 //        doc.collection("v1/employeesData/employees")
@@ -107,7 +107,7 @@ public class FirestoreTestActivity extends AppCompatActivity {
                 catch (Exception error) {
                     Log.e("pres", "error: " + error.getMessage());
                 }
-//                new Gson().fromJson(documentSnapshot.getData().toString(), Employee.class);
+//                new Gson().fromJson(documentSnapshot.fetchCompanies().toString(), Employee.class);
                 Log.e("pres", "2, document: " + employeeList.size());
             }
         });
