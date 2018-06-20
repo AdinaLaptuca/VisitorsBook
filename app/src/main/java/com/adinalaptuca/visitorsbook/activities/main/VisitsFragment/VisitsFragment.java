@@ -11,7 +11,6 @@ import butterknife.OnClick;
 import android.support.v7.widget.helper.ItemTouchHelper.Callback;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.TakePhoto.TakePhotoFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View {
@@ -40,11 +39,6 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new VisitsAdapter(presenter.getVisits());
         tblData.setAdapter(adapter);
-
-        SwipeController swipeController = new SwipeController();        // swipe on adapter
-
-        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeController);
-        itemTouchhelper.attachToRecyclerView(tblData);
     }
 
     @Override
@@ -57,25 +51,6 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     @OnClick(R.id.fab)
     public void addClicked() {
         addFragment(new PreviewVisitorDataFragment());
-    }
-
-
-    class SwipeController extends Callback {
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            return makeMovementFlags(0, ItemTouchHelper.LEFT );
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
     }
 
     @Override

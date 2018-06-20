@@ -13,11 +13,9 @@ import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.utils.ImageUtils;
-
 import java.io.File;
 import java.util.Date;
 import java.util.Locale;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 

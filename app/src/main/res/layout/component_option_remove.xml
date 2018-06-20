@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/btnRemove"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
+    android:layout_width="@dimen/cellVisitHeight"
+    android:layout_height="@dimen/cellVisitHeight"
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/bgdRemove">
@@ -13,10 +13,7 @@
         android:src="@android:drawable/arrow_up_float"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/remove"
-        android:layout_marginTop="8dp"/>
+        style="@style/textViewSwipeOpions"
+        android:text="@string/remove"/>
 
 </LinearLayout>

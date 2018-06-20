@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,19 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
-import com.adinalaptuca.visitorsbook.activities.authentication.login.LoginActivity;
-import com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
-import com.adinalaptuca.visitorsbook.activities.main.RoomsFragment.RoomsFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.TakePhoto.TakePhotoFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
-import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarActivity;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseToolbarActivity
@@ -36,8 +26,6 @@ public class MainActivity extends BaseToolbarActivity
     public static final int ACTIVITY_RESULT = 10;
 
     private VisitsFragment visitsFragment;
-
-    private TakePhotoFragment takePhotoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

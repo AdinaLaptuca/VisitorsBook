@@ -6,7 +6,10 @@
     <color name="colorAccent">@color/gradientEnd</color>      <!-- #FF4081 -->
 
     <color name="gradientStart">#1060E5</color>
-    <color name="gradientEnd">#22C5F7</color>
+    <color name="gradientEnd">#b7e9fa</color>
+
+    <color name="gradientStartDrawerLayout">#e6f9fe</color>
+    <color name="gradientEndDrawerLayout">#a0c2f8</color>
 
     <color name="gradientStartLight">#237eae</color>
     <color name="gradientEndLight">#6dd7d7</color>
@@ -14,6 +17,7 @@
     <color name="blueLight">#dceef6</color>
     
     <color name="notActive">#bbb</color>
+    <color name="bgdCheckin">#33abe1</color>
     <color name="bgdEdit">#00c6fb</color>
     <color name="bgdRemove">#ff5451</color>
 

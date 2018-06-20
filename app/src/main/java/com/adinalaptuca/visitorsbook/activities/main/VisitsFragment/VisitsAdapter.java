@@ -1,24 +1,30 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.custom.swipeLayout.SwipeRevealLayout;
+import com.adinalaptuca.visitorsbook.custom.swipeLayout.ViewBinderHelper;
 import com.adinalaptuca.visitorsbook.model.Visit;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewHolder> {
     private List<Visit> listVisits;
+    private final ViewBinderHelper binderHelper = new ViewBinderHelper();
 
     VisitsAdapter(List<Visit> listVisits) {
         this.listVisits = listVisits;
+        binderHelper.setOpenOnlyOne(true);
     }
 
     @Override
@@ -34,9 +40,13 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
     @Override
     public void onBindViewHolder(VisitViewHolder holder, int position) {
         holder.lblName.setText(listVisits.get(position).name());
+        binderHelper.bind(holder.swipeLayout, listVisits.get(position).name());
     }
 
     class VisitViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.swipeLayout)
+        SwipeRevealLayout swipeLayout;
 
         @BindView(R.id.lblDate)
         TextView lblDate;
@@ -54,6 +64,11 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.btnCheckOut)
+        public void btnCheckOut() {
+            Log.e("asd", "btnCheckOut: " + getAdapterPosition());
         }
     }
 

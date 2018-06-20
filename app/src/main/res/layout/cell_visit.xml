@@ -1,83 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.adinalaptuca.visitorsbook.custom.swipeLayout.SwipeRevealLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeLayout"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="@dimen/cellVisitHeight"
+    app:dragEdge="right"
+    app:mode="same_level">
 
-    <TextView
-        android:id="@+id/lblDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="15\nAug"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/black"
-        />
-    
-    <LinearLayout
+    <include layout="@layout/component_swipe_options"/>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/lblDate"
-        android:layout_toLeftOf="@+id/imgInOut"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin">
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/lblName"
+            android:id="@+id/lblDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="15\nAug"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:textColor="@android:color/black"
+            />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            tools:text="John Smith"/>
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/lblDate"
+            android:layout_toLeftOf="@+id/imgInOut"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/lblName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                tools:text="John Smith"/>
+
+            <TextView
+                android:id="@+id/lblTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                tools:text="09:00 - 11:00"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/imgInOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/lblTimeSpent"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_in"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/check_out"
+                />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/lblTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            tools:text="09:00 - 11:00"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/imgInOut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/lblTimeSpent"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical">
-
-        <ImageView
+            android:id="@+id/lblTimeSpent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/check_in"
-            />
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            tools:text="09:01\n10:56"
+            android:textSize="12sp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:lineSpacingExtra="6dp"/>
+        
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/bgdCheckin"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/check_out"
-            />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/lblTimeSpent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        tools:text="09:01\n10:56"
-        android:textSize="12sp"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:lineSpacingExtra="6dp"/>
-    
-</RelativeLayout>
+</com.adinalaptuca.visitorsbook.custom.swipeLayout.SwipeRevealLayout>
