@@ -46,7 +46,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -55,7 +55,7 @@
                     android:id="@+id/txtVisitStart"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
-                    android:hint="@string/placeholderGivenName"
+                    android:hint="@string/placeholderVisitStarts"
                     android:layout_toLeftOf="@+id/btnCalendarStart"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     />
@@ -63,25 +63,32 @@
                 <ImageView
                     android:id="@+id/btnCalendarStart"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:src="@drawable/calendar"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btnTimeStart"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="?selectableItemBackground"/>
 
                 <ImageView
                     android:id="@+id/btnTimeStart"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:src="@drawable/time"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true"
+                    android:background="?selectableItemBackground"
+                    android:enabled="false"/>
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
@@ -90,7 +97,7 @@
                     android:id="@+id/txtVisitEnd"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
-                    android:hint="@string/placeholderGivenSurname"
+                    android:hint="@string/placeholderVisitEnds"
                     android:layout_toLeftOf="@+id/btnCalendarEnd"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     />
@@ -98,19 +105,26 @@
                 <ImageView
                     android:id="@+id/btnCalendarEnd"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:src="@drawable/calendar"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btnTimeEnd"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:background="?selectableItemBackground"/>
 
                 <ImageView
                     android:id="@+id/btnTimeEnd"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
                     android:src="@drawable/time"
                     android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
+                    android:layout_alignParentRight="true"
+                    android:background="?selectableItemBackground"
+                    android:enabled="false"/>
 
             </RelativeLayout>
 
@@ -133,21 +147,54 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
+            <TextView
+                style="@style/headerUpcommingVisits"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/otherParticipants"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+            <LinearLayout
+                android:id="@+id/viewParticipants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAddParticipant"
+                android:layout_width="match_parent"
+                style="@style/buttonStroke"
+                android:text="@string/addParticipant"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+
         </LinearLayout>
 
         <Button
             android:id="@+id/btnFinish"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
             style="@style/buttonGradient"
-            android:layout_alignParentBottom="true"
-            android:text="Finish"
+            android:text="@string/finish"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            />
 
     </LinearLayout>
 </ScrollView>

@@ -54,4 +54,13 @@ class Presenter implements LoginContract.Presenter {
                     Log.e("login", "failed, e: " + e.getMessage());
                 });
     }
+
+    @Override
+    public void forgotPassword(String email) {
+        AppDelegate.getInstance(view.getContext()).getFirebaseAuth()
+                .sendPasswordResetEmail(email)
+                .addOnCompleteListener((Activity) view.getContext(), task -> {
+                    Log.e("auth presenter", "login: " +task.isSuccessful());
+                });
+    }
 }

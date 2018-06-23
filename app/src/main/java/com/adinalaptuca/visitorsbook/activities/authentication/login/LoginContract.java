@@ -10,5 +10,6 @@ interface LoginContract {
     interface Presenter extends MvpContract.Presenter<LoginContract.View> {
         boolean isSignedIn();
         void trySignIn(String email, String password);
+        void forgotPassword(String email);
     }
 }

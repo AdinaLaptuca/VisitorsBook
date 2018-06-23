@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/drawerBackground"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lblVisits"
+            style="@style/drawerLabel"
+            android:textColor="@color/gradientEnd"
+            android:text="@string/visits" />
+
+        <TextView
+            android:id="@+id/lblStatistics"
+            style="@style/drawerLabel"
+            android:text="@string/statistics"/>
+
+        <TextView
+            android:id="@+id/lblExternalRegisters"
+            style="@style/drawerLabel"
+            android:text="@string/external_registers"
+            />
+
+        <TextView
+            android:id="@+id/lblLanguage"
+            style="@style/drawerLabel"
+            android:text="@string/change_language"/>
+
+        <TextView
+            android:id="@+id/lblProfile"
+            style="@style/drawerLabel"
+            android:text="@string/profile_information"/>
+
+        <TextView
+            android:id="@+id/lblImportRooms"
+            style="@style/drawerLabel"
+            android:text="@string/import_rooms_csv"/>
+
+        <TextView
+            android:id="@+id/lblImportEmployees"
+            style="@style/drawerLabel"
+            android:text="@string/import_employees_csv"/>
+
+        <TextView
+            android:id="@+id/lblTerms"
+            style="@style/drawerLabel"
+            android:text="@string/terms_conditions"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lblLogout"
+        style="@style/drawerLabel"
+        android:text="@string/logout"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

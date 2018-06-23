@@ -17,7 +17,6 @@
     <string name="sign_up">Sign up</string>
     <string name="create_account">Create account</string>
     <string name="forgot_password">Forgot password</string>
-    <string name="terms_conditions">Terms and conditions</string>
 
     <string name="cant_be_empty">Field cannot be empty</string>
     <string name="email_not_valid">Email is not valid</string>
@@ -27,6 +26,17 @@
     <string name="registration_failed">Registration failed. Reason: </string>
     <string name="newOffice">New Office</string>
     <string name="OK">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="statistics">Statistics</string>
+    <string name="external_registers">External registers</string>
+    <string name="change_language">Change language</string>
+    <string name="profile_information">Profile information</string>
+    <string name="import_rooms_csv">Import rooms CSV</string>
+    <string name="import_employees_csv">Import employees CSV</string>
+    <string name="terms_conditions">Terms and conditions</string>
+    <string name="logout">Log out</string>
+    <string name="logoutQuestion">Are you sure you wish to log out? This will terminate your current session</string>
 
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>
@@ -35,8 +45,10 @@
     <string name="visits">Visits</string>
     <string name="employees">Employees</string>
     <string name="rooms">Rooms</string>
+    <string name="room">Room</string>
 
     <string name="takePhotoFragmentTitle">Take photo</string>
+    <string name="enter_manually">Enter manually</string>
     <string name="checkInVisitor">Check in visitor</string>
     <string name="addVisitor">Add visitor</string>
 
@@ -49,7 +61,28 @@
     <string name="placeholderVisitStarts">Visit starts</string>
     <string name="placeholderVisitEnds">Visit ends</string>
     <string name="placeholderSelectARoom">Select a room</string>
-    <string name="room">Room</string>
+    <string name="electronicSignature">Electronic signature</string>
+    <string name="printBadge">Print badge</string>
+    <string name="finish">Finish</string>
+    <string name="addParticipant">Add participant</string>
+    <string name="otherParticipants">Other participants</string>
+
+    <string name="enterSignature">Enter signature</string>
+    <string name="signHerePlaceholder">Please enter your signature below</string>
+    <string name="signHere">Sign here</string>
+
+    <string name="viewVisit">View visit</string>
+    <string name="name">Name:</string>
+    <string name="cnp">CNP:</string>
+    <string name="idSerialNumber">ID Serial Number:</string>
+    <string name="visitorDetails">Visitor details</string>
+    <string name="visitDetails">Visit details</string>
+    <string name="checkinTime">Check-in time:</string>
+    <string name="checkoutTime">Check-out time:</string>
+    <string name="attendingPersonnel">Attending personnel</string>
+    <string name="exportPDF">Export PDF</string>
+
+
     <string name="title_activity_test">TestActivity</string>
 
 </resources>

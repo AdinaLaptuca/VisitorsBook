@@ -17,25 +17,13 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabTextAppearance">@style/MyCustomTabText</item>
-        <item name="tabSelectedTextColor">@color/buttonTextColor</item>
-        <item name="tabIndicatorHeight">4dp</item>
-        <item name="tabIndicatorColor">@color/buttonTextColor</item>
-    </style>
-
-    <style name="MyCustomTabText" parent="TextAppearance.AppCompat.Button">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/buttonTextColor</item>
-    </style>
-
     <style name="buttonBasic">
         <item name="android:layout_height">44dp</item>
         <item name="android:textColor">@color/buttonTextColor</item>
     </style>
 
     <style name="buttonGradient" parent="@style/buttonBasic">
-        <item name="android:background">@drawable/bgd_btn_gradient</item>
+        <item name="android:background">@drawable/bgd_btn_gradient_left_right</item>
         <item name="android:textColor">@color/buttonTextColor</item>
     </style>
 
@@ -52,6 +40,11 @@
     <style name="headerUpcommingVisits" parent="@style/buttonBasic">
         <item name="android:background">@color/blueLight</item>
         <item name="android:textColor">@color/gradientStart</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
+
+    <style name="viewData_textView" parent="@style/buttonBasic">
+        <item name="android:textColor">@color/textViewViewData</item>
     </style>
 
     <style name="textInputLayoutStyle">
@@ -64,6 +57,17 @@
     <style name="passwordInputLayoutStyle" parent="@style/textInputLayoutStyle">
         <item name="passwordToggleEnabled">true</item>
         <item name="passwordToggleTint">@color/gradientEnd</item>
+    </style>
+
+    <style name="drawerLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/drawerTextColor</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_marginTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:background">?selectableItemBackground</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <style name="editTextStyle" parent="android:Widget.EditText">

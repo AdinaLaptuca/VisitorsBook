@@ -18,7 +18,7 @@ public abstract class Company implements Parcelable {
     @Nullable
     public abstract String getName();
 
-    @SerializedName("fullName")
+    @SerializedName("getFullName")
     @Nullable
     public abstract String getFullname();
 

@@ -19,7 +19,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:background="@drawable/bgd_btn_floating"
-        android:backgroundTint="@color/gradientEnd"
         android:src="@drawable/plus"
         android:scaleType="center"/>
 

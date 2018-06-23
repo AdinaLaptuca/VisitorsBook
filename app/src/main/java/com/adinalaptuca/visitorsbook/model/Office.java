@@ -12,7 +12,7 @@ import java.util.List;
 
 @AutoValue
 public abstract class Office implements Parcelable {
-    @SerializedName("fullName")
+    @SerializedName("getFullName")
     @Nullable
     public abstract String getFullname();
 

@@ -13,7 +13,6 @@ import com.adinalaptuca.visitorsbook.model.Office;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -34,7 +33,7 @@ public class Presenter implements SignupContract.Presenter {
 
     @Override
     public void fetchRoles() {
-        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_DOC_ROLES);
+        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_COLLECTION_ROLES);
         ref.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
             Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
 
@@ -58,7 +57,7 @@ public class Presenter implements SignupContract.Presenter {
 
     @Override
     public void fetchCompanies() {
-        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_DOC_COMPANIES);
+        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_COLLECTION_COMPANIES);
 
         ref.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
 
@@ -71,7 +70,7 @@ public class Presenter implements SignupContract.Presenter {
                     continue;
 
                 Map<String, Object> data = snapshot.getData();
-                data.put(Company.SERIALIZE_NAME_SHORT_NAME, snapshot.getId());      // set the name from document's id
+                data.put(Company.SERIALIZE_NAME_SHORT_NAME, snapshot.getId());      // set the getFullName from document's id
                 Company company = gson.fromJson(gson.toJson(data), Company.class);
                 listCompanies.add(company);
             }
@@ -128,11 +127,14 @@ public class Presenter implements SignupContract.Presenter {
 
     @Override
     public Office getOffice(String companyName, String officeName) {
+        if (officeName == null || officeName.length() == 0)
+            return null;
+
 
         for (Company company : listCompanies) {
             if (company.getShortname().equalsIgnoreCase(companyName)) {
                 for (Office office : company.getOffices()) {
-                    if (office.getFullname().equalsIgnoreCase(officeName))
+                    if (officeName.equalsIgnoreCase(office.getFullname()))
                         return office;
                 }
             }

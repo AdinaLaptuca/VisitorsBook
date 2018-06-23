@@ -1,11 +1,24 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
+import android.app.Activity;
+import android.util.Log;
+
+import com.adinalaptuca.visitorsbook.Constants;
+import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
+import com.adinalaptuca.visitorsbook.model.EmployeeRole;
 import com.adinalaptuca.visitorsbook.model.Visit;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import rx.Observable;
+import java.util.Map;
 
 public class Presenter implements VisitsContract.Presenter {
 
@@ -25,33 +38,32 @@ public class Presenter implements VisitsContract.Presenter {
     @Override
     public void getData() {
 
-        Calendar calendarStart = Calendar.getInstance();
-        calendarStart.add(Calendar.MINUTE, -3);
+        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_COLLECTION_VISITS);
 
-        Calendar calendarEnd = Calendar.getInstance();
-        calendarEnd.add(Calendar.MINUTE, 6);
+        ref.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
+            Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
 
-        Observable.just(
-                Visit.builder()
-                        .setDateOfVisit(new Date())
-                        .setName("John Smith")
-                        .setTimeStarted(calendarStart.getTime())
-                        .setTimeEnded(calendarEnd.getTime())
-                        .build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("John Doe").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Duncan McCloud").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("John Wick").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Indiana jones").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Neo").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Han Solo").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Chewbaka").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Darth Vader").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build(),
-                Visit.builder().setDateOfVisit(new Date()).setName("Cpt Pickard").setTimeStarted(calendarStart.getTime()).setTimeEnded(calendarEnd.getTime()).build()
-        )
-                .asObservable()
-                .subscribe(visit -> {
-                    listVisits.add(visit);
-                    view.notifyDataChanged();
-                });
+            if (documentSnapshot != null && !documentSnapshot.isEmpty()) {
+
+                DocumentSnapshot snapshot = documentSnapshot.getDocuments().get(0);
+                if (snapshot.contains("visitors")) {
+                    List<HashMap<String, Object>> visitors = (List<HashMap<String, Object>>) snapshot.get("visitors");
+
+                    for (HashMap<String, Object> map : visitors) {
+                        try {
+                            Visit visit = gson.fromJson(gson.toJson(map), Visit.class);
+                            listVisits.add(visit);
+                        }
+                        catch (Exception error) {
+                            Log.e("presenter", "error: " + error.getMessage());
+                        }
+                    }
+                }
+            }
+
+            Collections.sort(listVisits);
+
+            view.notifyDataChanged();
+        });
     }
 }

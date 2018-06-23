@@ -8,8 +8,13 @@
     <color name="gradientStart">#007bea</color>
     <color name="gradientEnd">#00bbed</color>
 
-    <color name="gradientStartDrawerLayout">#66b8ff</color>
-    <color name="gradientEndDrawerLayout">#66deff</color>
+    <color name="gradientStartFabCancel">#d91f1f</color>
+    <color name="gradientEndFabCancel">#ff0844</color>
+
+    <color name="drawerBackground">#fafafa</color>
+    <color name="drawerTextColor">@android:color/black</color>
+
+    <color name="textViewViewData">@android:color/black</color>
 
     <color name="gradientStartLight">#237eae</color>
     <color name="gradientEndLight">#6dd7d7</color>
@@ -17,6 +22,8 @@
     <color name="blueLight">#dceef6</color>
     
     <color name="notActive">#bbb</color>
+
+    <color name="placeholderTextColor">@color/notActive</color>
 
     <color name="bgdCheckin">#33abe1</color>
     <color name="bgdEdit">#00c6fb</color>

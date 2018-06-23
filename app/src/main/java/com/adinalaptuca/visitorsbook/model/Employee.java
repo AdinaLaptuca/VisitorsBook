@@ -18,7 +18,7 @@ public abstract class Employee implements Parcelable {
     @Nullable
     public abstract String getEmail();
 
-    @SerializedName("fullName")
+    @SerializedName("getFullName")
     @Nullable
     public abstract String getFullname();
 

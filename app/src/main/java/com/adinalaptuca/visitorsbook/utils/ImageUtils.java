@@ -8,14 +8,12 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class ImageUtils {
-    public static Bitmap decodeFile(String path) {
+    public static Bitmap decodeFile(File fileToDecode) {
         BitmapFactory.Options o = new BitmapFactory.Options();
         o.inJustDecodeBounds = true;
 
-        File f=new File(path);
-
         try {
-            FileInputStream fis = new FileInputStream(f);
+            FileInputStream fis = new FileInputStream(fileToDecode);
 
             try {
                 BitmapFactory.decodeStream(fis, null, o);
@@ -27,7 +25,7 @@ public class ImageUtils {
             int scale = 1;
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            fis = new FileInputStream(f);
+            fis = new FileInputStream(fileToDecode);
 
             try {
                 return BitmapFactory.decodeStream(fis, null, o);

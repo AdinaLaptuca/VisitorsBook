@@ -1,31 +1,45 @@
 package com.adinalaptuca.visitorsbook.activities.main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarActivity;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
-import butterknife.ButterKnife;
 
-public class MainActivity extends BaseToolbarActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class MainActivity extends BaseToolbarActivity {
 
     public static final int ACTIVITY_RESULT = 10;
 
+    @BindView(R.id.drawerLayout)
+    protected DrawerLayout drawerLayout;
+
     private VisitsFragment visitsFragment;
+
+    //fullname, date, time start, time end/ intervievator, sala
+    // cnp, ora getCheckin, ora checkout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,68 +56,57 @@ public class MainActivity extends BaseToolbarActivity
         //handling tab click event
         replaceFragment(visitsFragment);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PreviewVisitorDataFragment.ACTIVITY_RESULT_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            Fragment fragment = getFragmentManager().findFragmentByTag("PreviewVisitorDataFragment");
+            Fragment fragment = getFragmentManager().findFragmentByTag(PreviewVisitorDataFragment.class.getSimpleName());
             if (fragment != null)
                 fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PreviewVisitorDataFragment.PERMISSION_REQUEST_TAKE_PHOTO) {
+            PreviewVisitorDataFragment fragment = (PreviewVisitorDataFragment) getFragmentManager().findFragmentByTag(PreviewVisitorDataFragment.class.getSimpleName());
+            fragment.takePhotoClicked();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.logout) {
-            AppDelegate.getInstance(this).getFirebaseAuth().signOut();
-            setResult(RESULT_OK);
-            finish();
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    @OnClick(R.id.lblLogout)
+    protected void logoutClicked() {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.logoutQuestion)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.OK, ((dialogInterface, which) -> {
+                    AppDelegate.getInstance(MainActivity.this).getFirebaseAuth().signOut();
+                    setResult(RESULT_OK);
+                    finish();
+                }))
+        .show();
     }
+
+    private void closeDrawer() {
+        drawerLayout.closeDrawer(Gravity.START);
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        getMenuInflater().inflate(R.menu.main, menu);
+//        return true;
+//    }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         }
         else {
             if (getFragmentManager().getBackStackEntryCount() > 0) {
