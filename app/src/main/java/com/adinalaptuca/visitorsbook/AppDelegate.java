@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.StrictMode;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.microblink.MicroblinkSDK;
+import com.microblink.intent.IntentDataTransferMode;
 
 public class AppDelegate extends Application {
 
@@ -22,6 +24,13 @@ public class AppDelegate extends Application {
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
+
+        // obtain your licence at http://microblink.com/login or contact us at http://help.microblink.com
+        MicroblinkSDK.setLicenseFile("MB_com.adinalaptuca.visitorsbook_BlinkID_Android.mblic", this);
+
+        // use optimised way for transferring RecognizerBundle between activities, while ensuring
+        // data does not get lost when Android restarts the scanning activity
+        MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
     }
 
     public FirebaseAuth getFirebaseAuth() {

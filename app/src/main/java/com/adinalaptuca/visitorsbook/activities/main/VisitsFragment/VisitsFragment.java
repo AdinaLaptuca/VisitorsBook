@@ -72,7 +72,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
     @OnClick(R.id.fab)
     public void addClicked() {
-        addFragment(new UpcomingVisitorFragment());
+        addFragment(new PreviewVisitorDataFragment());
 
 //        final CollectionReference ref = FirebaseFirestore.getInstance().collection("tests");
 //
