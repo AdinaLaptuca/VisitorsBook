@@ -25,6 +25,90 @@
         {
           "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
           "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFMfJMj3o7l2cm7E9h5VH_VCa69gU2vTQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13747421716:android:9dcc1839c6b84f97",
+        "android_client_info": {
+          "package_name": "com.adinalaptuca.visitorsbook.ibm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13747421716-vppbq7ahlv9fp7fdv7qdb4olefsvl4e7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adinalaptuca.visitorsbook.ibm",
+            "certificate_hash": "3e9428305f86dadcc8170626f7f3c4d39f754da1"
+          }
+        },
+        {
+          "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFMfJMj3o7l2cm7E9h5VH_VCa69gU2vTQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13747421716:android:c16ace305703543f",
+        "android_client_info": {
+          "package_name": "com.adinalaptuca.visitorsbook.oracle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13747421716-iobnkhg7o6cbk3613rm2c61kh7ndncao.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adinalaptuca.visitorsbook.oracle",
+            "certificate_hash": "3e9428305f86dadcc8170626f7f3c4d39f754da1"
+          }
         },
         {
           "client_id": "13747421716-gbbpgitd2latmpqf2osqb7efl718vfjb.apps.googleusercontent.com",

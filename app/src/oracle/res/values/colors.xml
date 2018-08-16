@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#FA6775</color>
+    <color name="colorPrimaryDark">#F52549</color>
+    <color name="colorAccent">@color/gradientEnd</color>      <!-- #FF4081 -->
+
+    <color name="gradientStart">#fd746c</color>
+    <color name="gradientEnd">  #ff9068</color>
+
+    <color name="gradientStartFabCancel">#d91f1f</color>
+    <color name="gradientEndFabCancel">#ff0844</color>
+
+    <color name="drawerBackground">#fafafa</color>
+    <color name="drawerTextColor">@android:color/black</color>
+
+    <color name="textViewViewData">@android:color/black</color>
+
+    <color name="gradientStartLight">#237eae</color>
+    <color name="gradientEndLight">#6dd7d7</color>
+
+    <color name="blueLight">#dceef6</color>
+    
+    <color name="notActive">#bbb</color>
+
+    <color name="placeholderTextColor">@color/notActive</color>
+
+    <color name="bgdCheckin">#33abe1</color>
+    <color name="bgdEdit">#00c6fb</color>
+    <color name="bgdRemove">#ff5451</color>
+
+    <color name="swipeOptionIcon">@android:color/white</color>
+
+    <color name="buttonTextColor">@android:color/white</color>
+    <color name="buttonNoBackground_textColor">@color/gradientEnd</color>
+
+</resources>
