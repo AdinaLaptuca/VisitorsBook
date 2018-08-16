@@ -63,8 +63,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/drawerTextColor</item>
-        <item name="android:padding">6dp</item>
-        <item name="android:layout_marginTop">@dimen/activity_horizontal_margin</item>
+        <item name="android:padding">@dimen/activity_horizontal_marginHalf</item>
+        <item name="android:layout_marginTop">@dimen/activity_horizontal_marginHalf</item>
         <item name="android:background">?selectableItemBackground</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>

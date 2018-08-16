@@ -44,6 +44,7 @@ public class Presenter implements VisitsContract.Presenter {
             Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
 
             if (documentSnapshot != null && !documentSnapshot.isEmpty()) {
+                listVisits.clear();
 
                 DocumentSnapshot snapshot = documentSnapshot.getDocuments().get(0);
                 if (snapshot.contains("visitors")) {

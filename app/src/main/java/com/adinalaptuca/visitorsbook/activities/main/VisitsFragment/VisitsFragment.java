@@ -72,7 +72,9 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
     @OnClick(R.id.fab)
     public void addClicked() {
-        addFragment(new PreviewVisitorDataFragment());
+        //fab with 2 options: add un announced visitor (add visitor + checkin step), only add visitor
+
+        addFragment(new UpcomingVisitorFragment());
 
 //        final CollectionReference ref = FirebaseFirestore.getInstance().collection("tests");
 //
@@ -82,6 +84,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 //
 //            Map<String, Object> map = new HashMap<>();
 //            map.put("list", list);
+////            ref.document("list").update(map);
 //            ref.document("list").set(map, SetOptions.merge());
 //        });
 //
