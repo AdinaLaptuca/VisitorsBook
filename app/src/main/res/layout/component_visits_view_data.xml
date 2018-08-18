@@ -44,7 +44,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:text="Name"
-                            android:hint="@string/placeholderGivenName"/>
+                            android:hint="@string/placeholderGivenName"
+                            android:imeOptions="actionNext"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -57,7 +58,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:text="Surname"
-                            android:hint="@string/placeholderGivenSurname"/>
+                            android:hint="@string/placeholderGivenSurname"
+                            android:imeOptions="actionDone"/>
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout

@@ -48,8 +48,8 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
     public void onBindViewHolder(VisitViewHolder holder, int position) {
         Visit visit = listVisits.get(position);
 
-        holder.lblName.setText(visit.getFullName());
-        binderHelper.bind(holder.swipeLayout, visit.getFullName());         // save the swiped state of the cell
+        holder.lblName.setText(visit.getPerson().getFullName());
+        binderHelper.bind(holder.swipeLayout, visit.getPerson().getFullName());         // save the swiped state of the cell
 
         holder.lblDate.setVisibility(DateUtils.timelessDate(visit.getTimeStart()).toString().equals(previousDate) ? View.INVISIBLE : View.VISIBLE);
         holder.lblDate.setText(DateUtils.dateToString(visit.getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VISIT_DATE));
@@ -82,7 +82,7 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
                 holder.lblTimeSpent.setText(DateUtils.dateToString(visit.getCheckin().getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VISIT_TIME));
         }
         else
-            holder.lblCheckout.setText(R.string.checkOut);
+            holder.lblCheckout.setText(R.string.checkIn);
     }
 
     class VisitViewHolder extends RecyclerView.ViewHolder {
@@ -124,14 +124,16 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
 
                 if (visit.getCheckin() == null)
                     ((BaseActivityInterface) v.getContext()).addFragment(PreviewVisitorDataFragment.newInstance(visit));
+                else if (visit.getCheckin() != null && visit.getCheckin().getTimeEnd() == null)
+                    checkoutVisit(visit);
                 else
                     ((BaseActivityInterface) v.getContext()).addFragment(ViewVisitFragment.newInstance(visit));
             }
         }
     }
 
-
-
-
-    //TEST commit mama
+    private void checkoutVisit(Visit visit)
+    {
+        // TODO
+    }
 }

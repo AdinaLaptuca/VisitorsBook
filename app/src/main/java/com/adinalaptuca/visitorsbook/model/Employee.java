@@ -18,9 +18,8 @@ public abstract class Employee implements Parcelable {
     @Nullable
     public abstract String getEmail();
 
-    @SerializedName("getFullName")
-    @Nullable
-    public abstract String getFullname();
+    @SerializedName("person")
+    public abstract Person getPerson();
 
     @SerializedName("role")
     @Nullable
@@ -37,7 +36,7 @@ public abstract class Employee implements Parcelable {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Builder setEmail(@Nullable String email);
-        public abstract Builder setFullname(@Nullable String fullname);
+        public abstract Builder setPerson(Person person);
         public abstract Builder setEmployeeRole(@Nullable EmployeeRole role);
 
         public abstract Employee build();

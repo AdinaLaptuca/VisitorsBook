@@ -45,7 +45,7 @@ public abstract class BaseFragment extends Fragment implements MvpContract.View 
         View view = inflater.inflate(layoutId(), container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        initView();
+        initView(view);
 
         return view;
     }
@@ -57,7 +57,7 @@ public abstract class BaseFragment extends Fragment implements MvpContract.View 
 
     protected abstract int layoutId();
 
-    protected void initView() {}
+    protected void initView(View view) {}
 
     protected void addFragment(Fragment fragment) {
 //        getChildFragmentManager()

@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
                         imgSplash.postDelayed(() -> {
                             imgSplash.setAlpha(0f);
-                        }, 500);
+                        }, 1500);
                     }
                     else {
                         ObjectAnimator animator = ObjectAnimator.ofFloat(imgSplash, "alpha", 1f, 0f);

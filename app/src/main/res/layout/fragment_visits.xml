@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/cell_visit" />
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/fab"
         android:layout_width="56dp"
         android:layout_height="56dp"
@@ -20,7 +20,16 @@
         android:layout_margin="@dimen/fab_margin"
         android:background="@drawable/bgd_btn_floating"
         android:src="@drawable/plus"
-        android:scaleType="center"/>
+        android:scaleType="center"/>-->
+
+    <com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial
+        android:id="@+id/fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:fab_menu="@menu/fab_visit_fragment"
+        app:fab_useTouchGuard="true"
+        app:fab_touchGuardColor="@color/fabTouchBackground"
+        app:fab_useRevealEffect="true"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"

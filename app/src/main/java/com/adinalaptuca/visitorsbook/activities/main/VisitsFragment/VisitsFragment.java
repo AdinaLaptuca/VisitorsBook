@@ -2,24 +2,23 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-
 import butterknife.BindView;
-import butterknife.OnClick;
 
 import android.transition.TransitionManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
-
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+import com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View {
 
@@ -33,6 +32,9 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
     private VisitsAdapter adapter;
 
+    @BindView(R.id.fab)
+    protected FabSpeedDial fab;
+
     @Override
     public String getToolbarTitle() {
         return getString(R.string.visits);
@@ -43,10 +45,19 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         return R.layout.fragment_visits;
     }
 
-    protected void initView() {
+    protected void initView(View view) {
         presenter = new Presenter(this);
 
 //        setHasOptionsMenu(true);
+
+        fab.addOnMenuItemClickListener((miniFab, label, itemId) -> {
+            searchMenuItem.collapseActionView();        // close toolbar search
+
+            if (itemId == R.id.actionAddVisitor)
+                addFragment(UpcomingVisitorFragment.newInstance(false));
+            else if (itemId == R.id.actionFastCheckin)
+                addFragment(PreviewVisitorDataFragment.newInstance(true));
+            });
 
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -120,14 +131,10 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         presenter.getData();
     }
 
-    @OnClick(R.id.fab)
-    public void addClicked() {
-        //fab with 2 options: add un announced visitor (add visitor + checkin step), only add visitor
-
-        searchMenuItem.collapseActionView();        // close toolbar search
-
-        addFragment(new UpcomingVisitorFragment());
-
+//    @OnClick(R.id.fab)
+//    public void addClicked() {
+//        //fab with 2 options: add un announced visitor (add visitor + checkin step), only add visitor
+//
 //        final CollectionReference ref = FirebaseFirestore.getInstance().collection("tests");
 //
 //        ref.document("list").get().addOnCompleteListener(task -> {
@@ -145,7 +152,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 //            querySnapshot.getId();
 //            Log.e("asd", "list: " + list1);
 //        });
-    }
+//    }
 
     @Override
     public void notifyDataChanged() {

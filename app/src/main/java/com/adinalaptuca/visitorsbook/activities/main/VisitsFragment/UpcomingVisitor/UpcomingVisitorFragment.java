@@ -3,6 +3,7 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVis
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TimePicker;
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.Presenter;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsAdapter;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 
@@ -29,6 +31,8 @@ import butterknife.OnClick;
 
 public class UpcomingVisitorFragment extends BaseToolbarFragment
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener {
+
+    private static final String EXTRA_FULL_VISIT    = "EXTRA_FULL_VISIT";
 
     private enum DateType {
         DATETIME_START, DATETIME_END
@@ -59,6 +63,16 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     private TimePickerDialog timePickerDialog;
     private DateType timePickerTypeShown = null;
     private Calendar timePicked = Calendar.getInstance();
+
+    public static UpcomingVisitorFragment newInstance(boolean isFullVisit) {
+        UpcomingVisitorFragment fragment = new UpcomingVisitorFragment();
+
+        Bundle args = new Bundle();
+        args.putBoolean(EXTRA_FULL_VISIT, isFullVisit);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public String getToolbarTitle() {

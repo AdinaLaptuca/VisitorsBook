@@ -14,21 +14,16 @@ import java.util.Date;
 @AutoValue
 public abstract class Visit implements Parcelable, Comparable<Visit>
 {
-    @SerializedName("fullName")
-    public abstract String getFullName();
-
-    @SerializedName("firstName")
-    public abstract String getFirstName();
-
-    @SerializedName("lastName")
-    public abstract String getLastName();
-
     @SerializedName("timeStart")
     public abstract Date getTimeStart();
 
     @Nullable
     @SerializedName("timeEnd")
     public abstract Date getTimeEnd();
+
+    @NonNull
+    @SerializedName("person")
+    public abstract Person getPerson();
 
     @Nullable
     @SerializedName("checkin")
@@ -44,12 +39,10 @@ public abstract class Visit implements Parcelable, Comparable<Visit>
     
     @AutoValue.Builder
     public abstract static class Builder {
-        public abstract Builder setFullName(String name);
-        public abstract Builder setFirstName(String firstName);
-        public abstract Builder setLastName(String lastName);
         public abstract Builder setTimeStart(Date timeStarted);
         public abstract Builder setTimeEnd(Date timeEnded);
         public abstract Builder setCheckin(Checkin checkin);
+        public abstract Builder setPerson(Person person);
 
         public abstract Visit build();
     }

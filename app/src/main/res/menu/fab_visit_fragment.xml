@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/actionAddVisitor"
+        android:icon="@drawable/plus"
+        android:orderInCategory="1"
+        android:title="@string/addVisitor"
+        android:iconTint="@color/toolbarMenuIcon"
+        />
+
+    <item
+        android:id="@+id/actionFastCheckin"
+        android:icon="@drawable/plus"
+        android:orderInCategory="2"
+        android:title="@string/fullVisit"
+        android:iconTint="@color/toolbarMenuIcon"
+        />
+
+</menu>

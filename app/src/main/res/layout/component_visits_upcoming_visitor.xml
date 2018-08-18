@@ -26,23 +26,37 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"/>
 
-            <EditText
-                android:id="@+id/txtName"
-                style="@style/editTextStyle"
-                android:layout_width="match_parent"
-                android:hint="@string/placeholderGivenName"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+            <android.support.design.widget.TextInputLayout
+                style="@style/textInputLayoutStyle"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
 
-            <EditText
-                android:id="@+id/txtSurname"
-                style="@style/editTextStyle"
-                android:layout_width="match_parent"
-                android:hint="@string/placeholderGivenSurname"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                <EditText
+                    android:id="@+id/txtName"
+                    style="@style/editTextStyle"
+                    android:layout_width="match_parent"
+                    android:hint="@string/placeholderGivenName"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/textInputLayoutStyle"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                <EditText
+                    android:id="@+id/txtSurname"
+                    style="@style/editTextStyle"
+                    android:layout_width="match_parent"
+                    android:hint="@string/placeholderGivenSurname"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -51,7 +65,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
-                <EditText
+                <TextView
                     android:id="@+id/txtVisitStart"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
@@ -93,7 +107,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
-                <EditText
+                <TextView
                     android:id="@+id/txtVisitEnd"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"

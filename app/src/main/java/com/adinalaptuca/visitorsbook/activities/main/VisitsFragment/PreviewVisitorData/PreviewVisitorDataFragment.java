@@ -44,8 +44,9 @@ import butterknife.OnLongClick;
 
 public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
-    private static final String EXTRA_IMAGE_PATH = "EXTRA_IMAGE_PATH";
-    private static final String EXTRA_VISIT = "EXTRA_VISIT";
+//    private static final String EXTRA_IMAGE_PATH    = "EXTRA_IMAGE_PATH";
+    private static final String EXTRA_VISIT         = "EXTRA_VISIT";
+    private static final String EXTRA_FULL_VISIT    = "EXTRA_FULL_VISIT";
 
     public static final int ACTIVITY_RESULT_OCR_ROMANIAN         = 121;
     public static final int ACTIVITY_RESULT_OCR_DRIVER_LICENSE   = 122;
@@ -55,7 +56,8 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     public static final int PERMISSION_REQUEST_TAKE_PHOTO = 12;
 
 
-    private RecognizerBundle mRecognizerBundle;
+    private RecognizerBundle mRecognizerBundle;     // used for an OCR entry
+    private boolean isFastCheckin = false;
 
     @BindView(R.id.btnTakePhoto)
     protected View btnTakePhoto;
@@ -78,6 +80,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     @BindView(R.id.lblSeries)
     protected TextView lblSeries;
 
+    @BindView(R.id.btnFinish)
+    protected TextView btnFinish;
+
     public static PreviewVisitorDataFragment newInstance(Visit visit) {
         PreviewVisitorDataFragment fragment = new PreviewVisitorDataFragment();
 
@@ -88,15 +93,25 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
         return fragment;
     }
 
-    public static PreviewVisitorDataFragment newInstance(String photoPath) {
+    public static PreviewVisitorDataFragment newInstance(boolean isFullVisit) {
         PreviewVisitorDataFragment fragment = new PreviewVisitorDataFragment();
 
         Bundle args = new Bundle();
-        args.putString(EXTRA_IMAGE_PATH, photoPath);
+        args.putBoolean(EXTRA_FULL_VISIT, isFullVisit);
         fragment.setArguments(args);
 
         return fragment;
     }
+
+//    public static PreviewVisitorDataFragment newInstance(String photoPath) {
+//        PreviewVisitorDataFragment fragment = new PreviewVisitorDataFragment();
+//
+//        Bundle args = new Bundle();
+//        args.putString(EXTRA_IMAGE_PATH, photoPath);
+//        fragment.setArguments(args);
+//
+//        return fragment;
+//    }
 
     @Override
     public String getToolbarTitle() {
@@ -113,11 +128,17 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
         super.onActivityCreated(savedInstanceState);
 
         Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey(EXTRA_VISIT)) {
-            Visit visit = (Visit) bundle.getParcelable(EXTRA_VISIT);
 
-            lblName.setText(visit.getFirstName());
-            lblSurname.setText(visit.getLastName());
+        if (bundle != null) {
+            if (bundle.containsKey(EXTRA_VISIT)) {
+                Visit visit = (Visit) bundle.getParcelable(EXTRA_VISIT);
+
+                lblName.setText(visit.getPerson().getFirstName());
+                lblSurname.setText(visit.getPerson().getLastName());
+            }
+
+            else if (bundle.containsKey(EXTRA_FULL_VISIT))
+                isFastCheckin = bundle.getBoolean(EXTRA_FULL_VISIT, false);
         }
 //            imgPhoto.setImageBitmap(ImageUtils.decodeFile(bundle.getString(EXTRA_IMAGE_PATH)));
     }
@@ -261,12 +282,15 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
     @OnClick(R.id.btnFinish)
     public void finishClicked() {
-//        addFragment(new UpcomingVisitorFragment());
-
         if (!validateData())
             return;
 
+        if (isFastCheckin) {
+            addFragment(new UpcomingVisitorFragment());
+            return;
+        }
 
+        // TODO save
     }
 
     private boolean validateData() {

@@ -77,9 +77,9 @@ public class ViewVisitFragment extends BaseToolbarFragment {
 
                 Checkin checkin = visit.getCheckin();
 
-                setLabelInfo(txtName, R.string.name, visit.getFullName());
-                setLabelInfo(txtCNP, R.string.cnp, checkin.getCNP());
-                setLabelInfo(txtIdSerialNumber, R.string.idSerialNumber, checkin.getSerialNumber());
+                setLabelInfo(txtName, R.string.name, visit.getPerson().getFullName());
+                setLabelInfo(txtCNP, R.string.cnp, visit.getPerson().getCNP());
+                setLabelInfo(txtIdSerialNumber, R.string.idSerialNumber, visit.getPerson().getSerialNumber());
                 setLabelInfo(txtCheckinTime, R.string.checkinTime, DateUtils.dateToString(checkin.getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
                 setLabelInfo(txtCheckoutTime, R.string.checkoutTime, DateUtils.dateToString(checkin.getTimeEnd(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
             }

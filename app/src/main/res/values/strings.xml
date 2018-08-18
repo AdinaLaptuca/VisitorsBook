@@ -39,6 +39,7 @@
     <string name="logout">Log out</string>
     <string name="logoutQuestion">Are you sure you wish to log out? This will terminate your current session</string>
 
+    <string name="checkIn">Check in</string>
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
@@ -52,6 +53,7 @@
     <string name="enter_manually">Enter manually</string>
     <string name="checkInVisitor">Check in visitor</string>
     <string name="addVisitor">Add visitor</string>
+    <string name="fullVisit">Fast check in</string>
 
     <string name="takePhoto">Take a photo of \nyour visitor\'s ID</string>
     <string name="visitorIdPhotoPreview">Visitor\nID photo preview</string>

@@ -48,7 +48,7 @@ public class Presenter implements VisitsContract.Presenter {
             listFilteredVisits.addAll(listAllVisits);
         else {
             for (Visit visit : listAllVisits) {
-                if (visit.getFullName().toLowerCase(Locale.getDefault()).contains(searchedString))
+                if (visit.getPerson().getFullName().toLowerCase(Locale.getDefault()).contains(searchedString))
                     listFilteredVisits.add(visit);
             }
         }
