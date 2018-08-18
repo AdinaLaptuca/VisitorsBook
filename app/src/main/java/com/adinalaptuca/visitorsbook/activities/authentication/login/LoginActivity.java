@@ -36,6 +36,7 @@ import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import rx.Observable;
 import rx.Scheduler;
+import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -61,12 +62,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
         unbinder = ButterKnife.bind(this);
 
-        Observable.timer(BuildConfig.DEBUG ? 1 : 4, TimeUnit.SECONDS)
+        Observable.timer(BuildConfig.DEBUG ? 2 : 4, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(time -> {
 
-                    if (presenter.isSignedIn())
+                    if (presenter.isSignedIn()) {
                         goToMainscreen();
+
+                        imgSplash.postDelayed(() -> {
+                            imgSplash.setAlpha(0f);
+                        }, 500);
+                    }
                     else {
                         ObjectAnimator animator = ObjectAnimator.ofFloat(imgSplash, "alpha", 1f, 0f);
                         animator.setDuration(600);
@@ -109,6 +115,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainActivity.ACTIVITY_RESULT && resultCode != Activity.RESULT_OK)
             finish();
+//        else if (requestCode == MainActivity.ACTIVITY_RESULT && resultCode == Activity.RESULT_OK)
+//            imgSplash.setAlpha(0f);
         else if (requestCode == SignupActivity.ACTIVITY_RESULT && resultCode == Activity.RESULT_OK)
             goToMainscreen();
     }

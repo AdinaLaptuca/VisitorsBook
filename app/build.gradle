@@ -89,6 +89,8 @@ dependencies {
     }
     implementation 'com.google.http-client:google-http-client-gson:1.22.0'
 
+    implementation 'com.github.ajithvgiri:Canvas-Library:v1.1.1'       // electronic signature
+
     implementation('com.microblink:blinkid:4.1.0@aar') {        // OCR
         transitive = false
         exclude group: 'com.android.support', module: 'support-compat'

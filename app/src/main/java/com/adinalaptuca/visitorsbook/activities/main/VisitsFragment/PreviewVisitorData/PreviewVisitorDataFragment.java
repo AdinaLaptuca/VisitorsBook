@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,16 +15,16 @@ import android.widget.Toast;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ElectronicSignature.ElectronicSignatureFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
-import com.adinalaptuca.visitorsbook.activities.ocr.ImageSettings;
-import com.adinalaptuca.visitorsbook.activities.ocr.extract.BaseResultExtractor;
-import com.adinalaptuca.visitorsbook.activities.ocr.extract.RecognitionResultEntry;
-import com.adinalaptuca.visitorsbook.activities.ocr.extract.ResultExtractorFactoryProvider;
+import com.adinalaptuca.visitorsbook.utils.ocr.ImageSettings;
+import com.adinalaptuca.visitorsbook.utils.ocr.extract.BaseResultExtractor;
+import com.adinalaptuca.visitorsbook.utils.ocr.extract.RecognitionResultEntry;
+import com.adinalaptuca.visitorsbook.utils.ocr.extract.ResultExtractorFactoryProvider;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.model.Visit;
-import com.adinalaptuca.visitorsbook.utils.ImageUtils;
-import com.microblink.entities.parsers.config.fieldbyfield.FieldByFieldBundle;
 import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.RecognizerBundle;
+import com.microblink.entities.recognizers.blinkid.eudl.EudlCountry;
+import com.microblink.entities.recognizers.blinkid.eudl.EudlRecognizer;
 import com.microblink.entities.recognizers.blinkid.romania.RomaniaIdFrontRecognizer;
 import com.microblink.uisettings.ActivityRunner;
 import com.microblink.uisettings.BaseScanUISettings;
@@ -33,30 +34,36 @@ import com.microblink.uisettings.options.BeepSoundUIOptions;
 import com.microblink.uisettings.options.ShowOcrResultMode;
 import com.microblink.uisettings.options.ShowOcrResultUIOptions;
 
-import java.io.File;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 
 public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
     private static final String EXTRA_IMAGE_PATH = "EXTRA_IMAGE_PATH";
     private static final String EXTRA_VISIT = "EXTRA_VISIT";
 
-    public static final int ACTIVITY_RESULT_OCR = 123;
+    public static final int ACTIVITY_RESULT_OCR_ROMANIAN         = 121;
+    public static final int ACTIVITY_RESULT_OCR_DRIVER_LICENSE   = 122;
+    public static final int ACTIVITY_RESULT_OCR_GERMAN           = 123;
+    
     public static final int ACTIVITY_RESULT_TAKE_PHOTO = 12;
     public static final int PERMISSION_REQUEST_TAKE_PHOTO = 12;
 
 
-    private File pickedImagePath;
+    private RecognizerBundle mRecognizerBundle;
 
     @BindView(R.id.btnTakePhoto)
     protected View btnTakePhoto;
 
     @BindView(R.id.imgPhoto)
     protected ImageView imgPhoto;
+
+    @BindView(R.id.viewPhotoPlaceholder)
+    protected View viewPhotoPlaceholder;
 
     @BindView(R.id.lblName)
     protected TextView lblName;
@@ -66,6 +73,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
     @BindView(R.id.lblCNP)
     protected TextView lblCNP;
+
+    @BindView(R.id.lblSeries)
+    protected TextView lblSeries;
 
     public static PreviewVisitorDataFragment newInstance(Visit visit) {
         PreviewVisitorDataFragment fragment = new PreviewVisitorDataFragment();
@@ -106,8 +116,6 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 //            imgPhoto.setImageBitmap(ImageUtils.decodeFile(bundle.getString(EXTRA_IMAGE_PATH)));
     }
 
-    private RecognizerBundle mRecognizerBundle;
-
     @OnClick({R.id.imgPhoto, R.id.btnTakePhoto})
     public void takePhotoClicked() {
         RomaniaIdFrontRecognizer romaniaFront = new RomaniaIdFrontRecognizer();
@@ -116,7 +124,32 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
         mRecognizerBundle = new RecognizerBundle(romaniaFront);
         UISettings activitySettings = new DocumentUISettings(mRecognizerBundle);
         setupActivitySettings(activitySettings, null);
-        ActivityRunner.startActivityForResult(this, ACTIVITY_RESULT_OCR, activitySettings);
+        ActivityRunner.startActivityForResult(this, ACTIVITY_RESULT_OCR_ROMANIAN, activitySettings);
+    }
+
+    @OnLongClick({R.id.imgPhoto, R.id.btnTakePhoto})
+    public boolean chooseOcrOption() {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Choose input method")        //TODO translate
+                .setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList("Romanian ID card", "Driver license", "German ID card")),    // TODO translate
+                        ((dialog, which) -> {
+//                            Log.e("asd", "which");
+                            if (which == 0)
+                                takePhotoClicked();
+                            else if (which == 1) {
+                                EudlRecognizer eudl = new EudlRecognizer(EudlCountry.EUDL_COUNTRY_GERMANY);
+                                ImageSettings.enableAllImages(eudl);
+
+                                mRecognizerBundle = new RecognizerBundle(eudl);
+                                UISettings activitySettings = new DocumentUISettings(mRecognizerBundle);
+                                setupActivitySettings(activitySettings, null);
+                                ActivityRunner.startActivityForResult(this, ACTIVITY_RESULT_OCR_DRIVER_LICENSE, activitySettings);
+                            }
+                        }))
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+
+        return true;
     }
 
     private void setupActivitySettings(@NonNull UISettings settings, @Nullable Intent helpIntent) {
@@ -150,25 +183,22 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ACTIVITY_RESULT_OCR && resultCode == Activity.RESULT_OK && data != null) {
-            showOcrData(data);
-        } else {
-            Toast.makeText(getActivity(), "Scan incrrect!", Toast.LENGTH_SHORT).show();
-        }
-
-        if (requestCode == ACTIVITY_RESULT_TAKE_PHOTO && resultCode == Activity.RESULT_OK) {
-            imgPhoto.setImageBitmap(ImageUtils.decodeFile(pickedImagePath));
-            ((ViewGroup) btnTakePhoto.getParent()).removeView(btnTakePhoto);
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            if (requestCode == ACTIVITY_RESULT_OCR_ROMANIAN || requestCode == ACTIVITY_RESULT_OCR_GERMAN) {
+                showOcrData(extractData(data), R.string.PPFirstName, R.string.PPLastName, R.string.PPCNP, R.string.PPSeries, R.string.PPIdentityCardNumber);
+            }
+            else if (requestCode == ACTIVITY_RESULT_OCR_DRIVER_LICENSE) {
+                showOcrData(extractData(data), R.string.PPFirstName, R.string.PPLastName, R.string.PPDriverNumber, 0, 0);
+            }
+            else {
+                Toast.makeText(getActivity(), "Scan incrrect!", Toast.LENGTH_SHORT).show();     // TODO
+            }
         }
     }
 
-    private void showOcrData(Intent data) {
+    private List<RecognitionResultEntry> extractData(Intent data) {
         RecognizerBundle mRecognizerBundle = new RecognizerBundle();
         mRecognizerBundle.loadFromIntent(data);
-
-        FieldByFieldBundle mFieldByFieldBundle = new FieldByFieldBundle();
-        mFieldByFieldBundle.saveToIntent(data);
-        mFieldByFieldBundle.getElements();
 
         Recognizer<Recognizer, Recognizer.Result> recognizers[] = mRecognizerBundle.getRecognizers();
 
@@ -176,11 +206,46 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
             Recognizer<Recognizer, Recognizer.Result> recognizer = recognizers[0];
 
             BaseResultExtractor resultExtractor = ResultExtractorFactoryProvider.get().createExtractor(recognizer);
-            List<RecognitionResultEntry> extractedData = resultExtractor.extractData(getActivity(), recognizer);
-            extractedData.get(0).getKey();
-
-            
+            return resultExtractor.extractData(getActivity(), recognizer);
         }
+
+        return null;
+    }
+
+    private void showOcrData(List<RecognitionResultEntry> extractedData,
+            int idFirstName,
+            int idLastName,
+            int idCNP,
+            int idSeries, int idSeriesNumber) {
+
+        if (extractedData != null)
+            return;
+
+            btnTakePhoto.setVisibility(View.GONE);
+
+            imgPhoto.setImageBitmap(getResultEntry(extractedData, R.string.MBFaceImage).getImageValue());
+            viewPhotoPlaceholder.setVisibility(View.INVISIBLE);
+
+            lblName.setText(getResultEntry(extractedData, idFirstName).getValue());
+            lblSurname.setText(getResultEntry(extractedData, idLastName).getValue());
+            lblCNP.setText(getResultEntry(extractedData, idCNP).getValue());
+
+            if (idSeries != 0)
+                lblSeries.setText(String.format("%s %s",
+                        getResultEntry(extractedData, idSeries).getValue(), getResultEntry(extractedData, idSeriesNumber).getValue()));
+    }
+
+    private RecognitionResultEntry getResultEntry(List<RecognitionResultEntry> extractedData, int keyId) {
+        return getResultEntry(extractedData, getResources().getString(keyId));
+    }
+
+    private RecognitionResultEntry getResultEntry(List<RecognitionResultEntry> extractedData, String key) {
+        return extractedData.stream().filter(entry -> entry.getKey().equals(key)).findAny().get();
+    }
+
+    @OnClick(R.id.btnEnterManually)
+    public void enterManuallyClicked() {
+        btnTakePhoto.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btnSignature)
@@ -197,8 +262,6 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     public void onDestroy() {
         super.onDestroy();
 
-        if (pickedImagePath != null && pickedImagePath.exists())
-            pickedImagePath.delete();
     }
 
 }
