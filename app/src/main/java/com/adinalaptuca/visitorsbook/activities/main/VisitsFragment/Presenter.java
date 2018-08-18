@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
-import com.adinalaptuca.visitorsbook.model.EmployeeRole;
 import com.adinalaptuca.visitorsbook.model.Visit;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -14,17 +13,18 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class Presenter implements VisitsContract.Presenter {
 
     private VisitsContract.View view;
 
-    private List<Visit> listVisits = new ArrayList<>();
+    private List<Visit> listAllVisits = new ArrayList<>();
+    private List<Visit> listFilteredVisits = new ArrayList<>();
+
+    private String searchedString = "";
 
     Presenter(VisitsContract.View view) {
         this.view = view;
@@ -32,7 +32,28 @@ public class Presenter implements VisitsContract.Presenter {
 
     @Override
     public List<Visit> getVisits() {
-        return listVisits;
+        return listFilteredVisits;
+    }
+
+    @Override
+    public void setSearchString(String query) {
+        this.searchedString = query.trim().toLowerCase(Locale.getDefault());
+        applyFilter();
+    }
+
+    private void applyFilter() {
+        listFilteredVisits.clear();
+
+        if (searchedString.isEmpty())
+            listFilteredVisits.addAll(listAllVisits);
+        else {
+            for (Visit visit : listAllVisits) {
+                if (visit.getFullName().toLowerCase(Locale.getDefault()).contains(searchedString))
+                    listFilteredVisits.add(visit);
+            }
+        }
+
+        view.notifyDataChanged();
     }
 
     @Override
@@ -44,7 +65,7 @@ public class Presenter implements VisitsContract.Presenter {
             Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
 
             if (documentSnapshot != null && !documentSnapshot.isEmpty()) {
-                listVisits.clear();
+                listAllVisits.clear();
 
                 DocumentSnapshot snapshot = documentSnapshot.getDocuments().get(0);
                 if (snapshot.contains("visitors")) {
@@ -53,7 +74,7 @@ public class Presenter implements VisitsContract.Presenter {
                     for (HashMap<String, Object> map : visitors) {
                         try {
                             Visit visit = gson.fromJson(gson.toJson(map), Visit.class);
-                            listVisits.add(visit);
+                            listAllVisits.add(visit);
                         }
                         catch (Exception error) {
                             Log.e("presenter", "error: " + error.getMessage());
@@ -62,9 +83,9 @@ public class Presenter implements VisitsContract.Presenter {
                 }
             }
 
-            Collections.sort(listVisits);
+            Collections.sort(listAllVisits);
 
-            view.notifyDataChanged();
+            applyFilter();
         });
     }
 }

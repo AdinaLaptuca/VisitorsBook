@@ -1,43 +1,32 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.support.v7.widget.SearchView;
+
 import butterknife.BindView;
 import butterknife.OnClick;
-import android.support.v7.widget.helper.ItemTouchHelper.Callback;
-import android.util.Log;
 
-import com.adinalaptuca.visitorsbook.Constants;
+import android.transition.TransitionManager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+
 import com.adinalaptuca.visitorsbook.R;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
-import com.adinalaptuca.visitorsbook.model.Employee;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.SetOptions;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View {
 
     private VisitsContract.Presenter presenter;
+
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
 
     @BindView(R.id.tblData)
     protected RecyclerView tblData;
@@ -57,10 +46,71 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     protected void initView() {
         presenter = new Presenter(this);
 
+//        setHasOptionsMenu(true);
+
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new VisitsAdapter(presenter.getVisits());
         tblData.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+//        setMenuVisibility(true);
+        setHasOptionsMenu(true);
+//        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+//        setHasOptionsMenu(false);
+        setMenuVisibility(false);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {}
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.main_screen, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+        searchMenuItem = menu.findItem(R.id.action_search);
+
+        searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint(getResources().getString(R.string.search));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                presenter.setSearchString(newText);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+            TransitionManager.beginDelayedTransition((ViewGroup) getActivity().findViewById(R.id.toolbar));
+            item.expandActionView();
+//            MenuItemCompat.expandActionView(item);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -73,6 +123,8 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     @OnClick(R.id.fab)
     public void addClicked() {
         //fab with 2 options: add un announced visitor (add visitor + checkin step), only add visitor
+
+        searchMenuItem.collapseActionView();        // close toolbar search
 
         addFragment(new UpcomingVisitorFragment());
 

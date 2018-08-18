@@ -58,12 +58,12 @@ public class SwipeRevealLayout extends ViewGroup {
     public static final int DRAG_EDGE_BOTTOM = 0x1 << 3;
 
     /**
-     * The secondary view will be under the main view.
+     * The secondary view will be under the main_screen view.
      */
     public static final int MODE_NORMAL = 0;
 
     /**
-     * The secondary view will stick the edge of the main view.
+     * The secondary view will stick the edge of the main_screen view.
      */
     public static final int MODE_SAME_LEVEL = 1;
 
@@ -78,12 +78,12 @@ public class SwipeRevealLayout extends ViewGroup {
     private View mSecondaryView;
 
     /**
-     * The rectangle position of the main view when the layout is closed.
+     * The rectangle position of the main_screen view when the layout is closed.
      */
     private Rect mRectMainClose = new Rect();
 
     /**
-     * The rectangle position of the main view when the layout is opened.
+     * The rectangle position of the main_screen view when the layout is opened.
      */
     private Rect mRectMainOpen  = new Rect();
 
@@ -138,18 +138,18 @@ public class SwipeRevealLayout extends ViewGroup {
      */
     public interface SwipeListener {
         /**
-         * Called when the main view becomes completely closed.
+         * Called when the main_screen view becomes completely closed.
          */
         void onClosed(SwipeRevealLayout view);
 
         /**
-         * Called when the main view becomes completely opened.
+         * Called when the main_screen view becomes completely opened.
          */
         void onOpened(SwipeRevealLayout view);
 
         /**
-         * Called when the main view's position changes.
-         * @param slideOffset The new offset of the main view within its range, from 0-1
+         * Called when the main_screen view's position changes.
+         * @param slideOffset The new offset of the main_screen view within its range, from 0-1
          */
         void onSlide(SwipeRevealLayout view, float slideOffset);
     }
@@ -665,7 +665,7 @@ public class SwipeRevealLayout extends ViewGroup {
     }
 
     private void initRects() {
-        // close position of main view
+        // close position of main_screen view
         mRectMainClose.set(
                 mMainView.getLeft(),
                 mMainView.getTop(),
@@ -681,7 +681,7 @@ public class SwipeRevealLayout extends ViewGroup {
                 mSecondaryView.getBottom()
         );
 
-        // open position of the main view
+        // open position of the main_screen view
         mRectMainOpen.set(
                 getMainOpenLeft(),
                 getMainOpenTop(),

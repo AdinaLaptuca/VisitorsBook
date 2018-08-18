@@ -36,6 +36,7 @@ import com.microblink.uisettings.options.ShowOcrResultUIOptions;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -111,8 +112,13 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        Bundle bundle = getArguments();
-//        if (bundle != null && bundle.containsKey(EXTRA_IMAGE_PATH))
+        Bundle bundle = getArguments();
+        if (bundle != null && bundle.containsKey(EXTRA_VISIT)) {
+            Visit visit = (Visit) bundle.getParcelable(EXTRA_VISIT);
+
+            lblName.setText(visit.getFirstName());
+            lblSurname.setText(visit.getLastName());
+        }
 //            imgPhoto.setImageBitmap(ImageUtils.decodeFile(bundle.getString(EXTRA_IMAGE_PATH)));
     }
 
@@ -191,7 +197,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
                 showOcrData(extractData(data), R.string.PPFirstName, R.string.PPLastName, R.string.PPDriverNumber, 0, 0);
             }
             else {
-                Toast.makeText(getActivity(), "Scan incrrect!", Toast.LENGTH_SHORT).show();     // TODO
+                Toast.makeText(getActivity(), "Scan incrrect!", Toast.LENGTH_SHORT).show();     // TODO translate
             }
         }
     }
@@ -255,7 +261,24 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
     @OnClick(R.id.btnFinish)
     public void finishClicked() {
-        addFragment(new UpcomingVisitorFragment());
+//        addFragment(new UpcomingVisitorFragment());
+
+        if (!validateData())
+            return;
+
+
+    }
+
+    private boolean validateData() {
+        for (TextView mandatoryField : Arrays.asList(lblName, lblSurname, lblCNP)) {
+            if (mandatoryField.getText().toString().isEmpty()) {
+                mandatoryField.requestFocus();
+                mandatoryField.setError(getResources().getString(R.string.cant_be_empty));
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override

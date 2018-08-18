@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.authentication.AuthenticationUtils;
 import com.adinalaptuca.visitorsbook.custom.BaseActivity;
 import com.adinalaptuca.visitorsbook.model.Office;
 
@@ -128,20 +129,15 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
 
     @OnClick(R.id.btnSignUp)
     public void signUp(View v) {
-//        FirebaseFirestore.getInstance().collection("companies").addSnapshotListener((documentSnapshot, e) -> {
-//            Log.e(TAG, "something");
-//        });
+        if (!AuthenticationUtils.validateCredentials(txtEmail, txtPassword, txtRetypePassword))
+            return;
 
+        showLoadingDialog(null);
 
-//        if (!AuthenticationUtils.validateCredentials(txtEmail, txtPassword, txtRetypePassword))
-//            return;
-//
-//        showLoadingDialog(null);
-//
-//        String email = txtEmail.getText().toString().trim();
-//        String password = txtPassword.getText().toString();
-//
-//        presenter.trySignUp(email, password);
+        String email = txtEmail.getText().toString().trim();
+        String password = txtPassword.getText().toString();
+
+        presenter.trySignUp(email, password);
     }
 
     @Override

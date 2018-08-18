@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import com.adinalaptuca.visitorsbook.R;
 import butterknife.Unbinder;
 
-public class BaseActivity extends Activity implements BaseActivityInterface, MvpContract.View {
+public class BaseActivity extends AppCompatActivity implements BaseActivityInterface, MvpContract.View {
     protected Unbinder unbinder;
 
     private ProgressDialog progressBar;
@@ -49,6 +50,7 @@ public class BaseActivity extends Activity implements BaseActivityInterface, Mvp
         getFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment, fragment.getClass().getSimpleName())
+//                .setCustomAnimations(R.animator.enter_from_up, R.animator.exit_to_down, R.animator.enter_from_down, R.animator.exit_to_up)
                 .addToBackStack(null)
 //                .addToBackStack(fragment.getClass().getName())
                 .commit();

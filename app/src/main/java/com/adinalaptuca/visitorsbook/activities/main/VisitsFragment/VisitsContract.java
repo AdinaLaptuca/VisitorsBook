@@ -13,6 +13,7 @@ public class VisitsContract {
 
     interface Presenter extends MvpContract.Presenter<View> {
         List<Visit> getVisits();
+        void setSearchString(String query);
 
         void getData();
     }

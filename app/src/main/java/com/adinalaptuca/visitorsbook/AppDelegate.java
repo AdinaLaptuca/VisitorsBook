@@ -26,7 +26,7 @@ public class AppDelegate extends Application {
         StrictMode.setVmPolicy(builder.build());
 
         // obtain your licence at http://microblink.com/login or contact us at http://help.microblink.com
-        MicroblinkSDK.setLicenseFile("MB_com.adinalaptuca.visitorsbook_BlinkID_Android.mblic", this);
+//        MicroblinkSDK.setLicenseFile("MB_com.adinalaptuca.visitorsbook_BlinkID_Android.mblic", this);         // TODO put a different license for each package
 
         // use optimised way for transferring RecognizerBundle between activities, while ensuring
         // data does not get lost when Android restarts the scanning activity
