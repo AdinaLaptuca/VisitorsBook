@@ -130,4 +130,12 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
         }
     }
 
+
+
+
+
+
+
+    //TEST COMMIT
+
 }
