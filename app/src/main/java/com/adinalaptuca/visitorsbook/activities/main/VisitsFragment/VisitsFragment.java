@@ -9,6 +9,7 @@ import android.support.v7.widget.SearchView;
 import butterknife.BindView;
 
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,15 @@ import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisit
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial;
+import com.adinalaptuca.visitorsbook.model.Checkin;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View {
 
@@ -52,11 +62,10 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
         fab.addOnMenuItemClickListener((miniFab, label, itemId) -> {
             searchMenuItem.collapseActionView();        // close toolbar search
-
-            if (itemId == R.id.actionAddVisitor)
-                addFragment(UpcomingVisitorFragment.newInstance(false));
-            else if (itemId == R.id.actionFastCheckin)
-                addFragment(PreviewVisitorDataFragment.newInstance(true));
+                if (itemId == R.id.actionAddVisitor)
+                    addFragment(UpcomingVisitorFragment.newInstance(false));
+                else if (itemId == R.id.actionFastCheckin)
+                    addFragment(PreviewVisitorDataFragment.newInstance(true));
             });
 
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -130,29 +139,6 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
         presenter.getData();
     }
-
-//    @OnClick(R.id.fab)
-//    public void addClicked() {
-//        //fab with 2 options: add un announced visitor (add visitor + checkin step), only add visitor
-//
-//        final CollectionReference ref = FirebaseFirestore.getInstance().collection("tests");
-//
-//        ref.document("list").get().addOnCompleteListener(task -> {
-//            List<String> list = (List<String>) task.getResult().get("list");
-//            list.add(Integer.toString(new Random().nextInt(999)));
-//
-//            Map<String, Object> map = new HashMap<>();
-//            map.put("list", list);
-////            ref.document("list").update(map);
-//            ref.document("list").set(map, SetOptions.merge());
-//        });
-//
-//        ref.document("list").addSnapshotListener(getActivity(), (querySnapshot, e) -> {
-//            List<String> list1 = (List<String>) querySnapshot.get("list");
-//            querySnapshot.getId();
-//            Log.e("asd", "list: " + list1);
-//        });
-//    }
 
     @Override
     public void notifyDataChanged() {
