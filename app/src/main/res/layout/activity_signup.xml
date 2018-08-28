@@ -59,9 +59,23 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
                 <EditText
-                    android:id="@+id/txtEmployeeName"
+                    android:id="@+id/txtEmployeeFirstName"
                     style="@style/editTextStyle"
-                    android:hint="@string/employeeName"
+                    android:hint="@string/employeeFirstName"
+                    android:inputType="textCapWords"
+                    android:imeOptions="actionNext"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/textInputLayoutStyle"
+                android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                <EditText
+                    android:id="@+id/txtEmployeeLastName"
+                    style="@style/editTextStyle"
+                    android:hint="@string/employeeLastName"
                     android:inputType="textCapWords"
                     android:imeOptions="actionNext"
                     />

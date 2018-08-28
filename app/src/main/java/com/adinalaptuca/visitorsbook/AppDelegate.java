@@ -11,6 +11,7 @@ import com.microblink.intent.IntentDataTransferMode;
 public class AppDelegate extends Application {
 
     private FirebaseAuth mAuth;
+    private String loginPath;
 
     public static AppDelegate getInstance(Context context) {
         return (AppDelegate) context.getApplicationContext();
@@ -35,5 +36,13 @@ public class AppDelegate extends Application {
 
     public FirebaseAuth getFirebaseAuth() {
         return mAuth;
+    }
+
+    public String getLoginPath() {
+        return loginPath;
+    }
+
+    public void setLoginPath(String loginPath) {
+        this.loginPath = loginPath;
     }
 }

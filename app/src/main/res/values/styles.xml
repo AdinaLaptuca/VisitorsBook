@@ -37,7 +37,7 @@
         <item name="android:textColor">@color/buttonNoBackground_textColor</item>
     </style>
 
-    <style name="headerUpcommingVisits" parent="@style/buttonBasic">
+    <style name="headerList" parent="@style/buttonBasic">
         <item name="android:background">@color/blueLight</item>
         <item name="android:textColor">@color/gradientStart</item>
         <item name="android:layout_height">40dp</item>
@@ -95,5 +95,11 @@
     <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="BaseSeekBar" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/gradientEnd</item>
+        <item name="android:colorControlNormal">@color/seekbarControlNormal</item>
+        <item name="android:thumb">@drawable/seekbar_progress_drawable</item>
+    </style>
 
 </resources>

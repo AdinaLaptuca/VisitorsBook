@@ -21,7 +21,7 @@
             <include layout="@layout/component_photo_placeholder" />
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:text="@string/visitorDetails"
                 android:gravity="center_vertical"
@@ -67,7 +67,7 @@
                 android:layout_height="20dp" />
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:text="@string/visitDetails"
                 android:gravity="center_vertical"
@@ -103,7 +103,7 @@
                 android:layout_height="20dp" />
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:text="@string/attendingPersonnel"
                 android:gravity="center_vertical"

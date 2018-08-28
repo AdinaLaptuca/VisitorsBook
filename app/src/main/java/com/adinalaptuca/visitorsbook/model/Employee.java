@@ -21,6 +21,10 @@ public abstract class Employee implements Parcelable {
     @SerializedName("person")
     public abstract Person getPerson();
 
+    @SerializedName("userID")
+    @Nullable
+    public abstract String getUserID();
+
     @SerializedName("role")
     @Nullable
     public abstract EmployeeRole getEmployeeRole();
@@ -38,6 +42,7 @@ public abstract class Employee implements Parcelable {
         public abstract Builder setEmail(@Nullable String email);
         public abstract Builder setPerson(Person person);
         public abstract Builder setEmployeeRole(@Nullable EmployeeRole role);
+        public abstract Builder setUserID(@Nullable String userID);
 
         public abstract Employee build();
     }

@@ -18,7 +18,7 @@
             android:layout_weight="1">
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/visitAndVisitorDetails"
@@ -143,7 +143,7 @@
             </RelativeLayout>
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/room"
@@ -152,24 +152,26 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-            <Spinner
-                android:id="@+id/spinnerRoom"
-                style="@style/editTextStyle"
+            <TextView
+                android:id="@+id/btnSelectRoom"
+                style="@style/buttonBasic"
+                android:text="@string/placeholderSelectARoom"
+                android:textColor="@color/gradientStart"
                 android:layout_width="match_parent"
-                android:hint="@string/placeholderGivenName"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:drawableRight="@drawable/check_for_rooms"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:background="?selectableItemBackground"/>
 
             <TextView
-                style="@style/headerUpcommingVisits"
+                style="@style/headerList"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:text="@string/otherParticipants"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="@dimen/activity_vertical_margin"/>
+                android:paddingRight="@dimen/activity_horizontal_margin"/>
 
             <LinearLayout
                 android:id="@+id/viewParticipants"

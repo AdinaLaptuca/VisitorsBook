@@ -3,6 +3,7 @@ package com.adinalaptuca.visitorsbook.model;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import com.google.auto.value.AutoValue;
+import com.google.firebase.firestore.Exclude;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
@@ -26,6 +27,7 @@ public abstract class Person implements Parcelable
     @SerializedName("serialNumber")
     public abstract String getSerialNumber();
 
+    @Exclude
     public String getFullName() {
         return String.format(Locale.getDefault(), "%s %s", getFirstName(), getLastName());
     }

@@ -1,4 +1,4 @@
-package com.adinalaptuca.visitorsbook.activities.main.RoomsFragment;
+package com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.model.Room;
 
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,8 +35,10 @@ public class RoomsAdapter extends RecyclerView.Adapter<RoomsAdapter.RoomViewHold
 
     @Override
     public void onBindViewHolder(RoomViewHolder holder, int position) {
-        holder.txtTitle.setText(listRooms.get(position).getRoom());
-        holder.txtDetail.setText(listRooms.get(position).getFloor());
+        holder.txtTitle.setText(listRooms.get(position).getName());
+        holder.txtDetail.setText(String.format(Locale.getDefault(), "%s %d",
+                holder.txtDetail.getContext().getResources().getString(R.string.floor),
+                listRooms.get(position).getFloor()));
     }
 
     class RoomViewHolder extends RecyclerView.ViewHolder {

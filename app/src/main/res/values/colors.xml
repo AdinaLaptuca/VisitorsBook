@@ -38,4 +38,6 @@
     <color name="buttonTextColor">@android:color/white</color>
     <color name="buttonNoBackground_textColor">@color/gradientEnd</color>
 
+    <color name="seekbarControlNormal">#888888</color>
+
 </resources>

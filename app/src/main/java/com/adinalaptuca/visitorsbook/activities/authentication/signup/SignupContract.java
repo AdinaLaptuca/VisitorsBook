@@ -12,6 +12,8 @@ class SignupContract {
         void rolesFetched(List<String> roles);
 
         void companiesFetched();
+
+        void officesFetched(String companyName, List<String> result);
     }
 
     interface Presenter extends MvpContract.Presenter<SignupContract.View> {
@@ -24,8 +26,25 @@ class SignupContract {
 
         List<String> getOfficesForCompany(String company);
 
+        void fetchOfficesForCompany(final String companyName);
+
         Office getOffice(String companyName, String officeName);
 
-        void trySignUp(String email, String password);
+        void trySignUpUserNewCompany(String companyName,
+                                     String officeName,
+                                     String address,
+                                     String firstName,
+                                     String lastName,
+                                     String employeeRole,
+                                     String email,
+                                     String password);
+
+        void trySignUpInCompany(final String companyName,
+                                final String officeName,
+                                final String employeeFirstName,
+                                final String employeeLastName,
+                                final String employeeRole,
+                                final String email,
+                                final String password);
     }
 }

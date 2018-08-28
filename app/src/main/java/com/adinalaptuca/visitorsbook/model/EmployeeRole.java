@@ -13,7 +13,7 @@ public abstract class EmployeeRole implements Parcelable {
 
     public static final String SERIALIZE_NAME_ROLE = "role";
 
-    @SerializedName("role")
+    @SerializedName(SERIALIZE_NAME_ROLE)
     @Nullable
     public abstract String getRole();
 

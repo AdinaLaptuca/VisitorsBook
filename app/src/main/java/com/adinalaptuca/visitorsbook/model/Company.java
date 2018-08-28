@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class Company implements Parcelable {
 
     public static final String SERIALIZE_NAME_SHORT_NAME = "shortName";
+    public static final String SERIALIZE_NAME_OFFICES = "offices";
 
     @Nullable
     public abstract String getName();
@@ -26,7 +27,7 @@ public abstract class Company implements Parcelable {
     @Nullable
     public abstract String getShortname();
 
-    @SerializedName("offices")
+    @SerializedName(SERIALIZE_NAME_OFFICES)
     public abstract List<Office> getOffices();
 
     public static Builder builder() {

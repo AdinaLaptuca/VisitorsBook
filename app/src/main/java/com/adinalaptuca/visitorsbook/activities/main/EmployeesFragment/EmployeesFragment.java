@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import butterknife.BindView;
@@ -23,7 +25,8 @@ public class EmployeesFragment extends BaseFragment implements EmployeesContract
         return R.layout.fragment_employees;
     }
 
-    protected void initView() {
+    @Override
+    protected void initView(View v) {
         presenter = new Presenter(this);
 
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));

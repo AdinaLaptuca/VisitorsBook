@@ -1,6 +1,7 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,18 +16,32 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial;
 import com.adinalaptuca.visitorsbook.model.Checkin;
+import com.adinalaptuca.visitorsbook.model.Room;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -72,12 +87,31 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         adapter = new VisitsAdapter(presenter.getVisits());
         tblData.setAdapter(adapter);
+
+//        String roomsPath = String.format(Locale.getDefault(), "%s/%s",
+//                AppDelegate.getInstance(getActivity()).getLoginPath(),
+//                "rooms");
+//
+//        List<Room> list = Arrays.asList(Room.builder().setName("Selena").setFloor(5).setNoSpots(4).build(),
+//                Room.builder().setName("Moonwalk").setFloor(-1).setNoSpots(5).setUtilities(Arrays.asList(Room.FLIPCHART)).build(),
+//                Room.builder().setName("Beatles").setFloor(7).setNoSpots(4).setUtilities(Arrays.asList(Room.CONFERENCE_PHONE, Room.FLIPCHART)).build(),
+//                Room.builder().setName("Materhorn").setFloor(6).setNoSpots(20).setUtilities(Arrays.asList(Room.CONFERENCE_PHONE, Room.SMART_FLIPCHART, Room.VIDEO_PROJECTOR)).build(),
+//                Room.builder().setName("Arsenal").setFloor(5).setNoSpots(4).setUtilities(Arrays.asList(Room.FLIPCHART, Room.WHITEBOARD)).build(),
+//                Room.builder().setName("Invincibles").setFloor(1).setNoSpots(11).setUtilities(Arrays.asList(Room.WHITEBOARD)).build(),
+//                Room.builder().setName("Hebe").setFloor(0).setNoSpots(6).setUtilities(Arrays.asList(Room.FLIPCHART, Room.WHITEBOARD)).build(),
+//                Room.builder().setName("Success").setFloor(-1).setNoSpots(10).setUtilities(Arrays.asList(Room.CONFERENCE_PHONE)).build(),
+//                Room.builder().setName("Victory").setFloor(5).setNoSpots(3).setUtilities(Arrays.asList(Room.FLIPCHART, Room.WHITEBOARD)).build());
+//
+//        for (Room room : list) {
+//            FirebaseFirestore.getInstance().collection(roomsPath)
+//                    .add(room);
+//        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        Log.e("visit fragment", "on onResume");
 //        setMenuVisibility(true);
         setHasOptionsMenu(true);
 //        getActivity().invalidateOptionsMenu();
@@ -86,7 +120,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     @Override
     public void onPause() {
         super.onPause();
-
+Log.e("visit fragment", "on pause");
 //        setHasOptionsMenu(false);
         setMenuVisibility(false);
     }

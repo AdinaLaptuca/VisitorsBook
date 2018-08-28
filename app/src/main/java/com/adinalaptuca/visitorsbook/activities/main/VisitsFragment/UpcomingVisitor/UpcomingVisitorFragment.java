@@ -4,20 +4,22 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.Presenter;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
-import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsAdapter;
+import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFilter.RoomsFilterFragment;
+import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsAdapter;
+import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+import com.adinalaptuca.visitorsbook.model.Room;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -30,7 +32,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 public class UpcomingVisitorFragment extends BaseToolbarFragment
-        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener {
+        implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener,
+        RoomsFragment.OnRoomSelectListener {
 
     private static final String EXTRA_FULL_VISIT    = "EXTRA_FULL_VISIT";
 
@@ -64,6 +67,11 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     private DateType timePickerTypeShown = null;
     private Calendar timePicked = Calendar.getInstance();
 
+    @BindView(R.id.btnSelectRoom)
+    protected TextView btnSelectRoom;
+
+    private Room selectedRoom = null;
+
     public static UpcomingVisitorFragment newInstance(boolean isFullVisit) {
         UpcomingVisitorFragment fragment = new UpcomingVisitorFragment();
 
@@ -84,10 +92,36 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
         return R.layout.component_visits_upcoming_visitor;
     }
 
-    protected void initView() {
+    @Override
+    protected void initView(View v) {
         btnTimeStart.setEnabled(false);
         btnTimeEnd.setEnabled(false);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e("visit fragment", "on onResume");
+//        setMenuVisibility(true);
+        setHasOptionsMenu(false);
+//        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.e("visit fragment", "on pause");
+//        setHasOptionsMenu(false);
+        setMenuVisibility(false);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {}
+
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 
     @OnClick({R.id.btnCalendarStart, R.id.btnCalendarEnd})
     public void calendarClicked(View v) {
@@ -203,5 +237,21 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     public void onDismiss(DialogInterface dialogInterface) {
         datePickerTypeShown = null;
         timePickerTypeShown = null;
+    }
+
+    @OnClick(R.id.btnSelectRoom)
+    public void selectRoomClicked() {
+        RoomsFilterFragment fragment = new RoomsFilterFragment();
+        fragment.setOnRoomSelectListener(this);
+        addFragment(fragment);
+    }
+
+    @Override
+    public void onRoomSelected(Room room) {
+        this.selectedRoom = room;
+
+        btnSelectRoom.setText(String.format(Locale.getDefault(), "%s: %s, %s %d",
+                getResources().getString(R.string.room), room.getName(),
+                getResources().getString(R.string.floor), room.getFloor()));
     }
 }

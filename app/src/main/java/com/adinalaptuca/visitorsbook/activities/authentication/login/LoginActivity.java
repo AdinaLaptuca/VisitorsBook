@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -21,12 +22,14 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.ViewAnimator;
 
+import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.BuildConfig;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.authentication.signup.SignupActivity;
 import com.adinalaptuca.visitorsbook.activities.authentication.AuthenticationUtils;
 import com.adinalaptuca.visitorsbook.activities.main.MainActivity;
 import com.adinalaptuca.visitorsbook.custom.BaseActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.TimeUnit;
 
@@ -67,11 +70,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                 .subscribe(time -> {
 
                     if (presenter.isSignedIn()) {
-                        goToMainscreen();
-
-                        imgSplash.postDelayed(() -> {
-                            imgSplash.setAlpha(0f);
-                        }, 1500);
+                        presenter.fetchLoginPath();
                     }
                     else {
                         ObjectAnimator animator = ObjectAnimator.ofFloat(imgSplash, "alpha", 1f, 0f);
@@ -101,11 +100,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         presenter.trySignIn(txtEmail.getText().toString(), txtPassword.getText().toString());
     }
 
-    @Override
-    public void goToMainscreen() {
-        startActivityForResult(new Intent(this, MainActivity.class), MainActivity.ACTIVITY_RESULT);
-    }
-
     @OnClick(R.id.btnCreateAccount)
     public void signUpClicked(View v) {
         startActivityForResult(new Intent(this, SignupActivity.class), SignupActivity.ACTIVITY_RESULT);
@@ -118,7 +112,23 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 //        else if (requestCode == MainActivity.ACTIVITY_RESULT && resultCode == Activity.RESULT_OK)
 //            imgSplash.setAlpha(0f);
         else if (requestCode == SignupActivity.ACTIVITY_RESULT && resultCode == Activity.RESULT_OK)
-            goToMainscreen();
+            presenter.fetchLoginPath();
+    }
+
+    @Override
+    public void loginPathFetched(String path) {
+        AppDelegate.getInstance(this).setLoginPath(path);
+
+        goToMainscreen();
+
+        imgSplash.postDelayed(() -> {
+            imgSplash.setAlpha(0f);
+        }, 1500);
+    }
+
+    @Override
+    public void goToMainscreen() {
+        startActivityForResult(new Intent(this, MainActivity.class), MainActivity.ACTIVITY_RESULT);
     }
 
     @OnClick(R.id.btnForgotPassword)
