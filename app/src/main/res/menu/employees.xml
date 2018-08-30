@@ -5,23 +5,16 @@
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24"
-        app:showAsAction="ifRoom|collapseActionView"
+        app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:iconTint="@color/toolbarMenuIcon"
         />
 
     <item
-        android:id="@+id/action_dates"
-        android:icon="@drawable/calendar"
-        app:showAsAction="ifRoom|collapseActionView"
+        android:id="@+id/action_done"
+        android:icon="@drawable/checkmark"
+        app:showAsAction="ifRoom"
         android:iconTint="@color/toolbarMenuIcon"
-        >
-
-        <!--<menu>-->
-            <!--<item android:icon="@drawable/close"/>-->
-            <!--<item android:icon="@drawable/checkmark"/>-->
-        <!--</menu>-->
-
-    </item>
+        />
 
 </menu>

@@ -5,15 +5,17 @@ import com.adinalaptuca.visitorsbook.model.Employee;
 
 import java.util.List;
 
-public class EmployeesContract {
+interface EmployeesContract {
 
     interface View extends MvpContract.View {
-        void notifyDataChanged();
+        void employeesFetched();
     }
 
     interface Presenter extends MvpContract.Presenter<View> {
         List<Employee> getEmployees();
 
-        void getData();
+        void fetchEmployees();
+
+        void searchEmployees(String filter);
     }
 }

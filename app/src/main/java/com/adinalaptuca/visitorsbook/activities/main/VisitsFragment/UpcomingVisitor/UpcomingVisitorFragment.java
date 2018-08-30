@@ -5,27 +5,29 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
 import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFilter.RoomsFilterFragment;
-import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsAdapter;
-import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+import com.adinalaptuca.visitorsbook.model.Employee;
 import com.adinalaptuca.visitorsbook.model.Room;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -33,13 +35,21 @@ import butterknife.OnClick;
 
 public class UpcomingVisitorFragment extends BaseToolbarFragment
         implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, DialogInterface.OnDismissListener,
-        RoomsFragment.OnRoomSelectListener {
+        UpcomingVisitorContract.View {
 
     private static final String EXTRA_FULL_VISIT    = "EXTRA_FULL_VISIT";
 
     private enum DateType {
         DATETIME_START, DATETIME_END
     }
+
+    private Presenter presenter;
+
+    @BindView(R.id.txtFirstName)
+    protected TextView txtFirstName;
+
+    @BindView(R.id.txtLastName)
+    protected TextView txtLastName;
 
     @BindView(R.id.txtVisitStart)
     protected TextView txtVisitStart;
@@ -70,6 +80,10 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     @BindView(R.id.btnSelectRoom)
     protected TextView btnSelectRoom;
 
+    @BindView(R.id.viewParticipants)
+    protected ViewGroup viewParticipants;
+
+    private List<Employee> listEmployees = new ArrayList<>();
     private Room selectedRoom = null;
 
     public static UpcomingVisitorFragment newInstance(boolean isFullVisit) {
@@ -94,34 +108,14 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
 
     @Override
     protected void initView(View v) {
+        presenter = new Presenter(this);
+
         btnTimeStart.setEnabled(false);
         btnTimeEnd.setEnabled(false);
+
+        showSelectedRoom();
+        showSelectedEmployees();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.e("visit fragment", "on onResume");
-//        setMenuVisibility(true);
-        setHasOptionsMenu(false);
-//        getActivity().invalidateOptionsMenu();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.e("visit fragment", "on pause");
-//        setHasOptionsMenu(false);
-        setMenuVisibility(false);
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {}
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//    }
 
     @OnClick({R.id.btnCalendarStart, R.id.btnCalendarEnd})
     public void calendarClicked(View v) {
@@ -239,19 +233,73 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
         timePickerTypeShown = null;
     }
 
-    @OnClick(R.id.btnSelectRoom)
-    public void selectRoomClicked() {
-        RoomsFilterFragment fragment = new RoomsFilterFragment();
-        fragment.setOnRoomSelectListener(this);
+    @OnClick(R.id.btnAddParticipant)
+    public void addParticipantClicked() {
+        EmployeesFragment fragment = new EmployeesFragment();
+        fragment.setOnItemSelectListener((source, selectedEmployees) -> onEmployeesSelected(selectedEmployees));
         addFragment(fragment);
     }
 
-    @Override
-    public void onRoomSelected(Room room) {
+    @OnClick(R.id.btnSelectRoom)
+    public void selectRoomClicked() {
+        RoomsFilterFragment fragment = new RoomsFilterFragment();
+        fragment.setOnItemSelectListener((source, item) -> onRoomSelected(item));
+        addFragment(fragment);
+    }
+
+
+    private void onRoomSelected(Room room) {
         this.selectedRoom = room;
 
-        btnSelectRoom.setText(String.format(Locale.getDefault(), "%s: %s, %s %d",
-                getResources().getString(R.string.room), room.getName(),
-                getResources().getString(R.string.floor), room.getFloor()));
+        showSelectedRoom();
+    }
+
+    private void showSelectedRoom() {
+        if (selectedRoom != null)
+            btnSelectRoom.setText(String.format(Locale.getDefault(), "%s: %s, %s %d",
+                    getResources().getString(R.string.room), selectedRoom.getName(),
+                    getResources().getString(R.string.floor), selectedRoom.getFloor()));
+        else
+            btnSelectRoom.setText(R.string.placeholderSelectARoom);
+    }
+
+    private void onEmployeesSelected(List<Employee> employees) {
+
+        listEmployees.clear();
+        listEmployees.addAll(employees);
+
+        showSelectedEmployees();
+    }
+
+    private void showSelectedEmployees() {
+        viewParticipants.removeAllViews();
+
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+        for (Employee employee : listEmployees) {
+            TextView txtEmployee = (TextView) inflater.inflate(R.layout.component_single_participant, viewParticipants, false);
+                    //new TextView(getActivity());
+            txtEmployee.setText(employee.getPerson().getFullName());
+            txtEmployee.setTag(employee);
+            viewParticipants.addView(txtEmployee);
+
+//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+//            lp.topMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
+//
+//            txtEmployee.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.close), null);
+//            viewParticipants.addView(txtEmployee, lp);
+
+            txtEmployee.setOnClickListener(v -> {
+                listEmployees.remove(v.getTag());
+                showSelectedEmployees();
+            });
+        }
+    }
+
+    @OnClick(R.id.btnFinish)
+    public void saveClicked() {
+        presenter.saveVisit(txtFirstName.getText().toString(),
+                txtLastName.getText().toString(),
+                );
     }
 }

@@ -76,6 +76,13 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                         ObjectAnimator animator = ObjectAnimator.ofFloat(imgSplash, "alpha", 1f, 0f);
                         animator.setDuration(600);
                         animator.setInterpolator(new DecelerateInterpolator());
+                        animator.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                imgSplash.setClickable(false);
+                            }
+                        });
                         animator.start();
                     }
         });

@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:src="@drawable/chevron_right"
         />
 

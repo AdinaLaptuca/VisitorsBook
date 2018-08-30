@@ -31,7 +31,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
                 <EditText
-                    android:id="@+id/txtName"
+                    android:id="@+id/txtFirstName"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:hint="@string/placeholderGivenName"
@@ -47,7 +47,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin">
 
                 <EditText
-                    android:id="@+id/txtSurname"
+                    android:id="@+id/txtLastName"
                     style="@style/editTextStyle"
                     android:layout_width="match_parent"
                     android:hint="@string/placeholderGivenSurname"
@@ -80,7 +80,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:src="@drawable/calendar"
+                    android:src="@drawable/calendar_icon"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btnTimeStart"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -122,7 +122,7 @@
                     android:layout_height="match_parent"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:src="@drawable/calendar"
+                    android:src="@drawable/calendar_icon"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@+id/btnTimeEnd"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
@@ -181,9 +181,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-
-            </LinearLayout>
+                android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
             <Button
                 android:id="@+id/btnAddParticipant"

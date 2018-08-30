@@ -76,7 +76,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 //        setHasOptionsMenu(true);
 
         fab.addOnMenuItemClickListener((miniFab, label, itemId) -> {
-            searchMenuItem.collapseActionView();        // close toolbar search
+            searchMenuItem.collapseActionView();        // close toolbar employees
                 if (itemId == R.id.actionAddVisitor)
                     addFragment(UpcomingVisitorFragment.newInstance(false));
                 else if (itemId == R.id.actionFastCheckin)
@@ -111,22 +111,37 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     @Override
     public void onResume() {
         super.onResume();
-        Log.e("visit fragment", "on onResume");
-//        setMenuVisibility(true);
+
         setHasOptionsMenu(true);
+
+//        setMenuVisibility(true);
 //        getActivity().invalidateOptionsMenu();
-    }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-Log.e("visit fragment", "on pause");
-//        setHasOptionsMenu(false);
-        setMenuVisibility(false);
+//        toolbarActivityInterface.getToolbar().inflateMenu(R.menu.main_screen);
+//
+//        Menu menu = toolbarActivityInterface.getToolbar().getMenu();
+//
+//        searchMenuItem = menu.findItem(R.id.action_search);
+//
+//        searchView = (SearchView) searchMenuItem.getActionView();
+//        searchView.setQueryHint(getResources().getString(R.string.search));
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                Log.e("visit", "onQueryTextChange");
+////                presenter.setSearchString(newText);
+//                return true;
+//            }
+//        });
+//
+//        toolbarActivityInterface.getToolbar().showOverflowMenu();
     }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {}
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

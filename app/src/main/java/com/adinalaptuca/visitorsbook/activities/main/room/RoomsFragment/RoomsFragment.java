@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import com.adinalaptuca.visitorsbook.custom.CustomRecyclerView;
+import com.adinalaptuca.visitorsbook.custom.OnItemSelectListener;
 import com.adinalaptuca.visitorsbook.model.Room;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +29,13 @@ public class RoomsFragment extends BaseFragment implements AdapterView.OnItemCli
         return fragment;
     }
 
-    public interface OnRoomSelectListener {
-        void onRoomSelected(Room room);
-    }
-
     @BindView(R.id.tblData)
     protected CustomRecyclerView tblData;
 
     private List<Room> listRooms = new ArrayList<>();
     private RoomsAdapter adapter;
 
-    private OnRoomSelectListener mOnRoomSelectListener;
+    private OnItemSelectListener<Room> mOnItemSelectListener;
 
     @Override
     protected int layoutId() {
@@ -63,13 +60,13 @@ public class RoomsFragment extends BaseFragment implements AdapterView.OnItemCli
         adapter.notifyDataSetChanged();
     }
 
-    public void setOnRoomSelectListener(OnRoomSelectListener listener) {
-        this.mOnRoomSelectListener = listener;
+    public void setOnItemSelectListener(OnItemSelectListener<Room> listener) {
+        this.mOnItemSelectListener = listener;
     }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        mOnRoomSelectListener.onRoomSelected(listRooms.get(i));
+        mOnItemSelectListener.onItemSelected(this, listRooms.get(i));
         getActivity().onBackPressed();
     }
 }

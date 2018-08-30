@@ -18,6 +18,7 @@ import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+import com.adinalaptuca.visitorsbook.custom.OnItemSelectListener;
 import com.adinalaptuca.visitorsbook.model.Office;
 import com.adinalaptuca.visitorsbook.model.Room;
 import com.google.firebase.firestore.CollectionReference;
@@ -31,7 +32,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class RoomsFilterFragment extends BaseToolbarFragment implements RoomsFilterContract.View, RoomsFragment.OnRoomSelectListener {
+public class RoomsFilterFragment extends BaseToolbarFragment implements RoomsFilterContract.View, OnItemSelectListener<Room> {
 
     private RoomsFilterContract.Presenter presenter;
 
@@ -45,7 +46,7 @@ public class RoomsFilterFragment extends BaseToolbarFragment implements RoomsFil
     @BindView(R.id.viewUtilities)
     protected ViewGroup viewUtilities;
 
-    private RoomsFragment.OnRoomSelectListener mOnRoomSelectListener;
+    private OnItemSelectListener<Room> mOnItemSelectListener;
 
     @Override
     public String getToolbarTitle() {
@@ -152,17 +153,17 @@ public class RoomsFilterFragment extends BaseToolbarFragment implements RoomsFil
     @Override
     public void searchResultsFetched(ArrayList<Room> result) {
         RoomsFragment fragment = RoomsFragment.newInstance(result);
-        fragment.setOnRoomSelectListener(this);
+        fragment.setOnItemSelectListener(this);
         addFragment(fragment);
     }
 
-    public void setOnRoomSelectListener(RoomsFragment.OnRoomSelectListener listener) {
-        this.mOnRoomSelectListener = listener;
+    public void setOnItemSelectListener(OnItemSelectListener<Room> listener) {
+        this.mOnItemSelectListener = listener;
     }
 
     @Override
-    public void onRoomSelected(Room room) {
-        mOnRoomSelectListener.onRoomSelected(room);
+    public void onItemSelected(Object source, Room item) {
+        mOnItemSelectListener.onItemSelected(source, item);
         getActivity().onBackPressed();
     }
 }

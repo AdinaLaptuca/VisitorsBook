@@ -25,7 +25,7 @@ public abstract class Employee implements Parcelable {
     @Nullable
     public abstract String getUserID();
 
-    @SerializedName("role")
+    @SerializedName("employeeRole")
     @Nullable
     public abstract EmployeeRole getEmployeeRole();
 

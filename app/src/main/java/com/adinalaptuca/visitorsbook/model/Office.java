@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class Office implements Parcelable {
     public static final String SERIALIZE_REFERENCE_ID = "refID";
     public static final String SERIALIZE_ROOMS = "rooms";
+    public static final String SERIALIZE_VISITS = "visits";
 
     @SerializedName("fullName")
     @Nullable

@@ -3,9 +3,10 @@ package com.adinalaptuca.visitorsbook.custom;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
 
 public abstract class BaseToolbarFragment extends BaseFragment {
-    BaseToolbarActivityInterface toolbarActivityInterface;
+    protected BaseToolbarActivityInterface toolbarActivityInterface;
 
     @Override
     public void onAttach(Context context)
@@ -22,6 +23,7 @@ public abstract class BaseToolbarFragment extends BaseFragment {
         super.onResume();
 
         setToolbarTitle();
+        toolbarActivityInterface.getToolbar().getMenu().clear();
     }
 
     public abstract String getToolbarTitle();
@@ -31,4 +33,9 @@ public abstract class BaseToolbarFragment extends BaseFragment {
             toolbarActivityInterface.getToolbar().setTitle(getToolbarTitle());
         }
     }
+
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        menu.clear();
+//    }
 }

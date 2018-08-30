@@ -6,7 +6,7 @@ import com.adinalaptuca.visitorsbook.model.Room;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomsFilterContract {
+class RoomsFilterContract {
     interface View extends MvpContract.View {
         void floorsFetched();
 

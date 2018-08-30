@@ -1,29 +1,28 @@
 package com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment;
 
 import android.app.Activity;
-import android.util.Log;
 
+import com.adinalaptuca.visitorsbook.AppDelegate;
+import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
 import com.adinalaptuca.visitorsbook.model.Employee;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
+import com.adinalaptuca.visitorsbook.model.Office;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import rx.Observable;
-import rx.functions.Action1;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class Presenter implements EmployeesContract.Presenter {
 
     private EmployeesContract.View view;
 
-    private List<Employee> listEmployees = new ArrayList<>();
+    private List<Employee> listFilteredEmployees = new ArrayList<>();
+    private List<Employee> listAllEmployess = new ArrayList<>();
+
+    private String searchStr = "";
 
     Presenter(EmployeesContract.View view) {
         this.view = view;
@@ -31,87 +30,49 @@ public class Presenter implements EmployeesContract.Presenter {
 
     @Override
     public List<Employee> getEmployees() {
-        return listEmployees;
+        return listFilteredEmployees;
     }
 
     @Override
-    public void getData() {
+    public void fetchEmployees() {
+        String loginPath = AppDelegate.getInstance(view.getContext()).getLoginPath();
+        String path =
+        String.format(Locale.getDefault(), "%s",
+                loginPath.substring(0, loginPath.lastIndexOf("/")));
 
-//        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference doc = FirebaseFirestore.getInstance().document("v1/employeesData");
+        FirebaseFirestore.getInstance().collection(path)
+                .addSnapshotListener((Activity) view.getContext(), (querySnapshot, e) -> {
+                    if (e == null) {
+                        Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
+                        listAllEmployess.clear();
 
-        List<Employee> list = new ArrayList<>();
-//        list.add(Employee.builder().setFirstName("John").setLastName("Smith").setFunction("Lead dev").build());
-//        list.add(Employee.builder().setFirstName("John").setLastName("Doe").setFunction("Junior dev").build());
-//        list.add(Employee.builder().setFirstName("Duncan").setLastName("McCloud").setFunction("Junior dev").build());
-//        list.add(Employee.builder().setFirstName("John").setLastName("Wick").setFunction("Junior dev").build());
-//        list.add(Employee.builder().setFirstName("Indiana").setLastName("jones").setFunction("Junior dev").build());
-//        list.add(Employee.builder().setFirstName("Han").setLastName("Solo").setFunction("The solo one").build());
-//        list.add(Employee.builder().setFirstName("Chewbaka").setFunction("Junior dev").build());
-//        list.add(Employee.builder().setFirstName("Darth").setLastName("Vader").setFunction("Most evil").build());
-//        list.add(Employee.builder().setFirstName("Simona").setLastName("Halep").setFunction("#1 Mondial").build());
+                        for (DocumentSnapshot snapshot : querySnapshot.getDocuments()) {
+                            Office office = gson.fromJson(gson.toJson(snapshot.getData()), Office.class);
+                            listAllEmployess.addAll(office.getEmployees());
+                        }
 
-        Map<String, List<Employee>> listData = new HashMap<>();
-        listData.put("employees", list);
+                        searchEmployees(searchStr);
+                    }
+                });
+    }
 
-        doc.collection("v1/employeesData/employees")
-                .get()
-                .addOnSuccessListener((Activity) view.getContext(), (queryDocumentSnapshots) -> {
-                    Log.e("pres", "success");
-        });
+    @Override
+    public void searchEmployees(String filter) {
 
+        Locale locale = Locale.getDefault();
+        this.searchStr = filter.toLowerCase(locale);
 
-//        doc.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
-////            Employee employee = Employee.map2Object(documentSnapshot.fetchCompanies());
-////                    new Gson().fromJson(documentSnapshot.fetchCompanies().toString(), Employee.class);
-//            //documentSnapshot.toObject(Employee.class);
-//            Log.e("pres", "1, document: " + documentSnapshot.fetchCompanies());
-//        });
-//
-        doc.collection("employees").addSnapshotListener((Activity) view.getContext(), (querySnapshot, e) -> {
-//            Log.e("pres", "2, document: " + querySnapshot);
-            if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                Log.e("pres", "2.1, document: " + querySnapshot);
-            }
-        });
-//
-//        db.collection("employees").get().addOnSuccessListener((Activity) view.getContext(), queryDocumentSnapshots -> {
-//            Log.e("asd", "debug");
-//        });
-//
-//        db.collection("employees").document()
-//
-//                .set(listData)
-////                .add(Employee.builder().setFirstName("Harry 4").setLastName("Shitter").setFunction("Shitter").build())
-//        .addOnSuccessListener(documentReference -> {
-//            Log.e("pres", "3, document: " + documentReference);
-//        })
-//        .addOnFailureListener(e -> {
-//                        Log.e("employees pres", "3, failure: " + e.getMessage());
-//        });
+        listFilteredEmployees.clear();
 
-//        doc.collection("employees").add(Employee.builder().setFirstName("Harry").setLastName("Shitter").setFunction("Shitter").build());
+        if (!searchStr.trim().isEmpty()) {
+            listFilteredEmployees.addAll(
+                listAllEmployess.stream()
+                        .filter(employee -> employee.getPerson().getFullName().toLowerCase(locale).contains(searchStr))
+                        .collect(Collectors.toList()));
+        }
+        else
+            listFilteredEmployees.addAll(listAllEmployess);
 
-
-//        doc.set(listData)         // write
-//                .addOnSuccessListener(aVoid -> {
-//            Log.e("employees pres", "success");
-//        })
-//        .addOnFailureListener(e -> {
-//            Log.e("employees pres", "failure: " + e.getMessage());
-//        });
-
-
-//        Observable.just(
-//                Employee.builder().setFirstName("John").setLastName("Smith").setFunction("Lead dev").build()
-//        )
-//                .asObservable()
-//                .subscribe(new Action1<Employee>() {
-//                    @Override
-//                    public void call(Employee employee) {
-//                        listEmployees.add(employee);
-//                        view.notifyDataChanged();
-//                    }
-//                });
+        view.employeesFetched();
     }
 }
