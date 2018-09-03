@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-public class Presenter implements EmployeesContract.Presenter {
+public class EmployeesPresenter implements EmployeesContract.Presenter {
 
     private EmployeesContract.View view;
 
@@ -24,7 +24,7 @@ public class Presenter implements EmployeesContract.Presenter {
 
     private String searchStr = "";
 
-    Presenter(EmployeesContract.View view) {
+    EmployeesPresenter(EmployeesContract.View view) {
         this.view = view;
     }
 

@@ -16,7 +16,6 @@ import com.adinalaptuca.visitorsbook.custom.BaseActivity;
 import com.adinalaptuca.visitorsbook.model.Office;
 
 import java.util.List;
-import java.util.Optional;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +28,7 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
 
     private static final String TAG = "SignupActivity";
 
-    private Presenter presenter;
+    private SignupPresenter presenter;
 
     @BindView(R.id.spinnerCompany)
     protected Spinner spinnerCompany;
@@ -71,7 +70,7 @@ public class SignupActivity extends BaseActivity implements SignupContract.View,
 
         unbinder = ButterKnife.bind(this);
 
-        presenter = new Presenter(this);
+        presenter = new SignupPresenter(this);
         presenter.fetchCompanies();
         presenter.fetchRoles();
 

@@ -6,7 +6,6 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +50,7 @@ public class EmployeesFragment extends BaseToolbarFragment implements EmployeesC
 
     @Override
     protected void initView(View v) {
-        presenter = new Presenter(this);
+        presenter = new EmployeesPresenter(this);
 
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));

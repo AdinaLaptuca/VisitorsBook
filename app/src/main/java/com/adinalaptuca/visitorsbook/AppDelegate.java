@@ -1,8 +1,13 @@
 package com.adinalaptuca.visitorsbook;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.StrictMode;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.microblink.MicroblinkSDK;
@@ -44,5 +49,18 @@ public class AppDelegate extends Application {
 
     public void setLoginPath(String loginPath) {
         this.loginPath = loginPath;
+    }
+
+    public void hideKeyboard(Activity activity) {
+        if (activity == null)
+            return;
+
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(activity.INPUT_METHOD_SERVICE);
+        View focus = activity.getCurrentFocus();
+        if (null != focus && null != focus.getWindowToken() && EditText.class.isAssignableFrom(focus.getClass()))
+            imm.hideSoftInputFromWindow(focus.getWindowToken(), 0);
+        else
+            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 }

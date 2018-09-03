@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class Presenter implements SignupContract.Presenter {
+public class SignupPresenter implements SignupContract.Presenter {
 
     private SignupContract.View view;
 
@@ -43,7 +43,7 @@ public class Presenter implements SignupContract.Presenter {
     private List<String> listCompaniesNames = new ArrayList<>();
     private Map<String, List<Office>> listOffices = new HashMap<>();
 
-    Presenter(SignupContract.View view) {
+    SignupPresenter(SignupContract.View view) {
         this.view = view;
     }
 

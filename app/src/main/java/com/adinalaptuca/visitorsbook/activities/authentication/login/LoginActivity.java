@@ -6,21 +6,16 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.ViewAnimator;
 
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.BuildConfig;
@@ -29,7 +24,6 @@ import com.adinalaptuca.visitorsbook.activities.authentication.signup.SignupActi
 import com.adinalaptuca.visitorsbook.activities.authentication.AuthenticationUtils;
 import com.adinalaptuca.visitorsbook.activities.main.MainActivity;
 import com.adinalaptuca.visitorsbook.custom.BaseActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.concurrent.TimeUnit;
 
@@ -38,10 +32,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 import rx.Observable;
-import rx.Scheduler;
-import rx.Single;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
@@ -61,7 +52,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        presenter = new Presenter(this);
+        presenter = new LoginPresenter(this);
 
         unbinder = ButterKnife.bind(this);
 

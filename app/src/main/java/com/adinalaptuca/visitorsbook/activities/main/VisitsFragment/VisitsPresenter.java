@@ -3,8 +3,10 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 import android.app.Activity;
 import android.util.Log;
 
+import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
+import com.adinalaptuca.visitorsbook.model.Office;
 import com.adinalaptuca.visitorsbook.model.Visit;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class Presenter implements VisitsContract.Presenter {
+public class VisitsPresenter implements VisitsContract.Presenter {
 
     private VisitsContract.View view;
 
@@ -26,7 +28,7 @@ public class Presenter implements VisitsContract.Presenter {
 
     private String searchedString = "";
 
-    Presenter(VisitsContract.View view) {
+    VisitsPresenter(VisitsContract.View view) {
         this.view = view;
     }
 
@@ -59,7 +61,10 @@ public class Presenter implements VisitsContract.Presenter {
     @Override
     public void getData() {
 
-        final CollectionReference ref = FirebaseFirestore.getInstance().collection(Constants.DB_COLLECTION_VISITS);
+        String path = String.format(Locale.getDefault(), "%s/%s",
+                AppDelegate.getInstance(view.getContext()).getLoginPath(),
+                Office.SERIALIZE_VISITS);
+        final CollectionReference ref = FirebaseFirestore.getInstance().collection(path);
 
         ref.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
             Gson gson = AutoValueGsonTypeAdapterFactory.autovalueGson();
@@ -67,18 +72,13 @@ public class Presenter implements VisitsContract.Presenter {
             if (documentSnapshot != null && !documentSnapshot.isEmpty()) {
                 listAllVisits.clear();
 
-                DocumentSnapshot snapshot = documentSnapshot.getDocuments().get(0);
-                if (snapshot.contains("visitors")) {
-                    List<HashMap<String, Object>> visitors = (List<HashMap<String, Object>>) snapshot.get("visitors");
-
-                    for (HashMap<String, Object> map : visitors) {
-                        try {
-                            Visit visit = gson.fromJson(gson.toJson(map), Visit.class);
-                            listAllVisits.add(visit);
-                        }
-                        catch (Exception error) {
-                            Log.e("presenter", "error: " + error.getMessage());
-                        }
+                for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
+                    try {
+                        Visit visit = gson.fromJson(gson.toJson(snapshot.getData()), Visit.class);
+                        listAllVisits.add(visit);
+                    }
+                    catch (Exception error) {
+                        Log.e("presenter", "error: " + error.getMessage());
                     }
                 }
             }

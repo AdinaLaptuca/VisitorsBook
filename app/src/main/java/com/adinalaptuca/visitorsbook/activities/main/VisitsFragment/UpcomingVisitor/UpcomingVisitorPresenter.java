@@ -17,10 +17,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Presenter implements UpcomingVisitorContract.Presenter {
+public class UpcomingVisitorPresenter implements UpcomingVisitorContract.Presenter {
     private UpcomingVisitorContract.View view;
 
-    Presenter(UpcomingVisitorContract.View view) {
+    UpcomingVisitorPresenter(UpcomingVisitorContract.View view) {
         this.view = view;
     }
 
@@ -34,6 +34,7 @@ public class Presenter implements UpcomingVisitorContract.Presenter {
         Visit visit = Visit.builder()
                 .setTimeStart(timeStart)
                 .setTimeEnd(timeEnd)
+                .setParticipants(participants)
                 .setPerson(Person.builder()
                         .setFirstName(firstName)
                         .setLastName(lastName)
@@ -47,8 +48,6 @@ public class Presenter implements UpcomingVisitorContract.Presenter {
         CollectionReference ref = FirebaseFirestore.getInstance().collection(path);
         ref.add(visit)
             .addOnCompleteListener((Activity) view.getContext(),
-                    task -> {
-                        Log.e("upc pres", "add visit: " + task.isSuccessful());
-                    });
+                    task -> view.visitSaved());
     }
 }

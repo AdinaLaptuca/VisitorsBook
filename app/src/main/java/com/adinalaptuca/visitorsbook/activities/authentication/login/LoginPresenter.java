@@ -11,11 +11,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.kelvinapps.rxfirebase.RxFirebaseAuth;
 import com.kelvinapps.rxfirebase.RxFirebaseUser;
 
-class Presenter implements LoginContract.Presenter {
+class LoginPresenter implements LoginContract.Presenter {
 
     private LoginContract.View view;
 
-    public Presenter(LoginContract.View view) {
+    public LoginPresenter(LoginContract.View view) {
         this.view = view;
     }
 

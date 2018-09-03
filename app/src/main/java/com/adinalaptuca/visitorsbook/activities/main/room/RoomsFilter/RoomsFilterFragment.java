@@ -2,28 +2,20 @@ package com.adinalaptuca.visitorsbook.activities.main.room.RoomsFilter;
 
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.room.RoomsFragment.RoomsFragment;
-import com.adinalaptuca.visitorsbook.custom.BaseFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.custom.OnItemSelectListener;
-import com.adinalaptuca.visitorsbook.model.Office;
 import com.adinalaptuca.visitorsbook.model.Room;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +52,7 @@ public class RoomsFilterFragment extends BaseToolbarFragment implements RoomsFil
 
     @Override
     protected void initView(View v) {
-        presenter = new Presenter(this);
+        presenter = new RoomsFilterPresenter(this);
         presenter.fetchFloors();
         presenter.fetchUtilites();
 

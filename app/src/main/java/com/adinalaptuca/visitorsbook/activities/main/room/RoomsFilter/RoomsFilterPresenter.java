@@ -22,13 +22,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Presenter implements RoomsFilterContract.Presenter {
+public class RoomsFilterPresenter implements RoomsFilterContract.Presenter {
     private RoomsFilterContract.View view;
 
     private Set<Integer> listFloors = new HashSet<>();
     private List<String> listUtilities = new ArrayList<>();
 
-    public Presenter(RoomsFilterContract.View view) {
+    public RoomsFilterPresenter(RoomsFilterContract.View view) {
         this.view = view;
     }
 

@@ -4,15 +4,16 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.EmployeesFragment.EmployeesFragment;
@@ -43,7 +44,7 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
         DATETIME_START, DATETIME_END
     }
 
-    private Presenter presenter;
+    private UpcomingVisitorPresenter presenter;
 
     @BindView(R.id.txtFirstName)
     protected TextView txtFirstName;
@@ -107,8 +108,49 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null)
+            Log.e("upcoming", "1, onCreate");
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState != null)
+            Log.e("upcoming", "2, onViewCreated: " + savedInstanceState.getString("txtVisitStart", ""));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+Log.e("upcoming", "onSaveInstanceState");
+        outState.putString("txtVisitStart", txtVisitStart.getText().toString());
+        outState.putString("txtVisitEnd", txtVisitEnd.getText().toString());
+    }
+
+    @Override
+    public void onViewStateRestored(Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null)
+            Log.e("upcoming", "onViewStateRestored");
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            Log.e("upcoming", "savedInstanceState");
+        }
+    }
+
+    @Override
     protected void initView(View v) {
-        presenter = new Presenter(this);
+        presenter = new UpcomingVisitorPresenter(this);
 
         btnTimeStart.setEnabled(false);
         btnTimeEnd.setEnabled(false);
@@ -143,8 +185,13 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
         datePicked.set(Calendar.DAY_OF_MONTH, day);
 
         if (datePickerTypeShown == DateType.DATETIME_START) {
+//            DateFormat formatter = new SimpleDateFormat(
+//                    txtVisitStart.getText().length() == Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE.length()
+//                            ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+
             DateFormat formatter = new SimpleDateFormat(timeStart == null
                     ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+
             if (timeStart != null) {
                 datePicked.set(Calendar.HOUR, timeStart.get(Calendar.HOUR));
                 datePicked.set(Calendar.MINUTE, timeStart.get(Calendar.MINUTE));
@@ -168,6 +215,7 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
         }
     }
 
+
     @OnClick({R.id.btnTimeStart, R.id.btnTimeEnd})
     public void timeClicked(View v) {
         if (datePickerTypeShown != null)
@@ -187,43 +235,29 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-        Date date = null;
 
-        if (timePickerTypeShown == DateType.DATETIME_START) {
-            DateFormat formatter = new SimpleDateFormat(
-                    txtVisitStart.getText().length() == Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE.length()
-                            ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+        if (timePickerTypeShown == DateType.DATETIME_START)
+            doOnTimeSet(hour, minute, txtVisitStart, dateStart);
+        else
+            doOnTimeSet(hour, minute, txtVisitEnd, dateEnd);
+    }
 
-            try {
-                date = formatter.parse(txtVisitStart.getText().toString());
-                datePicked.setTime(date);
-                datePicked.set(Calendar.HOUR, hour);
-                datePicked.set(Calendar.MINUTE, minute);
+    private void doOnTimeSet(int hour, int minute, TextView txtDate, Calendar calendarToSet) {
+        DateFormat formatter = new SimpleDateFormat(
+                txtDate.getText().length() == Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE.length()
+                        ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
 
-                formatter = new SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
-                txtVisitStart.setText(formatter.format(datePicked.getTime()));
-                dateStart.setTime(datePicked.getTime());
-            } catch (ParseException e) {
-                Log.e("upcoming", "error: " + e.getMessage());
-            }
-        }
-        else {
-            DateFormat formatter = new SimpleDateFormat(
-                    txtVisitEnd.getText().length() == Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE.length()
-                            ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+        try {
+            Date date = formatter.parse(txtDate.getText().toString());
+            datePicked.setTime(date);
+            datePicked.set(Calendar.HOUR, hour);
+            datePicked.set(Calendar.MINUTE, minute);
 
-            try {
-                date = formatter.parse(txtVisitEnd.getText().toString());
-                datePicked.setTime(date);
-                datePicked.set(Calendar.HOUR, hour);
-                datePicked.set(Calendar.MINUTE, minute);
-
-                formatter = new SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
-                txtVisitEnd.setText(formatter.format(datePicked.getTime()));
-                dateEnd.setTime(datePicked.getTime());
-            } catch (ParseException e) {
-                Log.e("upcoming", "error: " + e.getMessage());
-            }
+            formatter = new SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+            txtDate.setText(formatter.format(datePicked.getTime()));
+            calendarToSet.setTime(datePicked.getTime());
+        } catch (ParseException e) {
+            Log.e("upcoming", "error: " + e.getMessage());
         }
     }
 
@@ -231,6 +265,19 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     public void onDismiss(DialogInterface dialogInterface) {
         datePickerTypeShown = null;
         timePickerTypeShown = null;
+    }
+
+    private Date getDateFromEditText(TextView txtDate) {
+        DateFormat formatter = new SimpleDateFormat(
+                txtDate.getText().length() == Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE.length()
+                        ? Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE : Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE_TIME, Locale.getDefault());
+
+        try {
+            return formatter.parse(txtDate.getText().toString());
+        }
+        catch (Exception e) {}
+
+        return null;
     }
 
     @OnClick(R.id.btnAddParticipant)
@@ -283,12 +330,6 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
             txtEmployee.setTag(employee);
             viewParticipants.addView(txtEmployee);
 
-//            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//            lp.topMargin = (int) getResources().getDimension(R.dimen.activity_vertical_margin);
-//
-//            txtEmployee.setCompoundDrawables(null, null, getResources().getDrawable(R.drawable.close), null);
-//            viewParticipants.addView(txtEmployee, lp);
-
             txtEmployee.setOnClickListener(v -> {
                 listEmployees.remove(v.getTag());
                 showSelectedEmployees();
@@ -298,8 +339,20 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
 
     @OnClick(R.id.btnFinish)
     public void saveClicked() {
+        AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
+        showLoadingDialog(null);
+
         presenter.saveVisit(txtFirstName.getText().toString(),
                 txtLastName.getText().toString(),
-                );
+                getDateFromEditText(txtVisitStart),
+                getDateFromEditText(txtVisitEnd),
+                selectedRoom,
+                listEmployees);
+    }
+
+    @Override
+    public void visitSaved() {
+        dismissLoadingDialog();
+        getActivity().onBackPressed();
     }
 }

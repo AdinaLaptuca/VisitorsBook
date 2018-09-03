@@ -9,7 +9,7 @@ import java.util.List;
 
 interface UpcomingVisitorContract {
     interface View extends MvpContract.View {
-
+        void visitSaved();
     }
 
     interface Presenter extends MvpContract.Presenter<UpcomingVisitorContract.View> {
