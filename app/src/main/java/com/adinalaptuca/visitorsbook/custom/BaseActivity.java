@@ -30,7 +30,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityInter
 
     @Override
     public void dismissLoadingDialog() {
-        progressBar.dismiss();
+        if (progressBar != null)
+            progressBar.dismiss();
     }
 
     @Override

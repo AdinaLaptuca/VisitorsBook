@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ElectronicSignature.ElectronicSignatureFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
@@ -36,13 +40,12 @@ import com.microblink.uisettings.options.ShowOcrResultUIOptions;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class PreviewVisitorDataFragment extends BaseToolbarFragment {
+public class PreviewVisitorDataFragment extends BaseToolbarFragment implements PreviewVisitorContract.View {
 
 //    private static final String EXTRA_IMAGE_PATH    = "EXTRA_IMAGE_PATH";
     private static final String EXTRA_VISIT         = "EXTRA_VISIT";
@@ -55,6 +58,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     public static final int ACTIVITY_RESULT_TAKE_PHOTO = 12;
     public static final int PERMISSION_REQUEST_TAKE_PHOTO = 12;
 
+    private PreviewVisitorContract.Presenter presenter;
+
+    private Visit visit = null;
 
     private RecognizerBundle mRecognizerBundle;     // used for an OCR entry
     private boolean isFastCheckin = false;
@@ -74,14 +80,11 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     @BindView(R.id.lblSurname)
     protected TextView lblSurname;
 
-    @BindView(R.id.lblCNP)
-    protected TextView lblCNP;
+    @BindView(R.id.txtCNP)
+    protected TextView txtCNP;
 
-    @BindView(R.id.lblSeries)
-    protected TextView lblSeries;
-
-    @BindView(R.id.btnFinish)
-    protected TextView btnFinish;
+    @BindView(R.id.txtSeries)
+    protected TextView txtSeries;
 
     public static PreviewVisitorDataFragment newInstance(Visit visit) {
         PreviewVisitorDataFragment fragment = new PreviewVisitorDataFragment();
@@ -127,11 +130,13 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        presenter = new PreviewVisitorPresenter(this);
+
         Bundle bundle = getArguments();
 
         if (bundle != null) {
             if (bundle.containsKey(EXTRA_VISIT)) {
-                Visit visit = (Visit) bundle.getParcelable(EXTRA_VISIT);
+                visit = (Visit) bundle.getParcelable(EXTRA_VISIT);
 
                 lblName.setText(visit.getPerson().getFirstName());
                 lblSurname.setText(visit.getPerson().getLastName());
@@ -141,6 +146,30 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
                 isFastCheckin = bundle.getBoolean(EXTRA_FULL_VISIT, false);
         }
 //            imgPhoto.setImageBitmap(ImageUtils.decodeFile(bundle.getString(EXTRA_IMAGE_PATH)));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.done, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_done)
+            doneClicked();
+
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick({R.id.imgPhoto, R.id.btnTakePhoto})
@@ -255,10 +284,10 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
 
             lblName.setText(getResultEntry(extractedData, idFirstName).getValue());
             lblSurname.setText(getResultEntry(extractedData, idLastName).getValue());
-            lblCNP.setText(getResultEntry(extractedData, idCNP).getValue());
+            txtCNP.setText(getResultEntry(extractedData, idCNP).getValue());
 
             if (idSeries != 0)
-                lblSeries.setText(String.format("%s %s",
+                txtSeries.setText(String.format("%s %s",
                         getResultEntry(extractedData, idSeries).getValue(), getResultEntry(extractedData, idSeriesNumber).getValue()));
     }
 
@@ -280,21 +309,34 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
         addFragment(new ElectronicSignatureFragment());
     }
 
-    @OnClick(R.id.btnFinish)
-    public void finishClicked() {
+    public void doneClicked() {
         if (!validateData())
             return;
 
-        if (isFastCheckin) {
-            addFragment(new UpcomingVisitorFragment());
-            return;
-        }
+        AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
 
-        // TODO save
+        if (isFastCheckin) {
+            addFragment(UpcomingVisitorFragment.newInstance(lblName.getText().toString(),
+                    lblSurname.getText().toString(),
+                    txtCNP.getText().toString(),
+                    txtSeries.getText().toString(),
+                    null,           // TODO pune imaginile
+                    null,
+                    this::checkinDone));
+        }
+        else {
+            showLoadingDialog(null);
+
+            presenter.doCheckin(visit,
+                    txtCNP.getText().toString(),
+                    txtSeries.getText().toString(),
+                    null,
+                    null);
+        }
     }
 
     private boolean validateData() {
-        for (TextView mandatoryField : Arrays.asList(lblName, lblSurname, lblCNP)) {
+        for (TextView mandatoryField : Arrays.asList(lblName, lblSurname, txtCNP)) {
             if (mandatoryField.getText().toString().isEmpty()) {
                 mandatoryField.requestFocus();
                 mandatoryField.setError(getResources().getString(R.string.cant_be_empty));
@@ -306,9 +348,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void checkinDone() {
+        dismissLoadingDialog();
+        AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
+        getActivity().onBackPressed();
     }
-
 }

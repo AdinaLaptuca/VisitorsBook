@@ -1,5 +1,6 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
+import android.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,11 +26,23 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewHolder> {
+
+    interface OnVisitActionListener {
+        void doCheckin(Visit visit);
+        void doCheckout(Visit visit);
+        void viewVisit(Visit visit);
+
+        void removeVisit(Visit visit);
+    }
+
+    private OnVisitActionListener mOnVisitActionListener;
+
     private List<Visit> listVisits;
     private final ViewBinderHelper binderHelper = new ViewBinderHelper();       // used to remember the swiped cells while scrolling
     private String previousDate = DateUtils.dateWithComponents(1970, 1, 1).toString();
 
-    VisitsAdapter(List<Visit> listVisits) {
+    VisitsAdapter(List<Visit> listVisits, OnVisitActionListener listener) {
+        this.mOnVisitActionListener = listener;
         this.listVisits = listVisits;
         binderHelper.setOpenOnlyOne(true);
     }
@@ -67,12 +80,13 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
         holder.lblTimeSpent.setVisibility(View.INVISIBLE);
 
         if (visit.getCheckin() != null) {
-            holder.lblCheckout.setText(R.string.viewVisit);
+            holder.lblCheckout.setText(R.string.checkOut);
 
             holder.imgCheckin.setVisibility(View.VISIBLE);
             holder.lblTimeSpent.setVisibility(View.VISIBLE);
 
             if (visit.getCheckin().getTimeEnd() != null) {
+                holder.lblCheckout.setText(R.string.viewVisit);
                 holder.imgCheckout.setVisibility(View.VISIBLE);
                 holder.lblTimeSpent.setText(String.format(Locale.getDefault(), "%s\n%s",
                         DateUtils.dateToString(visit.getCheckin().getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VISIT_TIME),
@@ -119,21 +133,30 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
 
         @OnClick(R.id.btnCheckOut)
         public void btnCheckOut(View v) {
-            if (v.getContext() instanceof BaseActivityInterface) {
-                Visit visit = listVisits.get(getAdapterPosition());
+            Visit visit = listVisits.get(getAdapterPosition());
 
-                if (visit.getCheckin() == null)
-                    ((BaseActivityInterface) v.getContext()).addFragment(PreviewVisitorDataFragment.newInstance(visit));
-                else if (visit.getCheckin() != null && visit.getCheckin().getTimeEnd() == null)
-                    checkoutVisit(visit);
-                else
-                    ((BaseActivityInterface) v.getContext()).addFragment(ViewVisitFragment.newInstance(visit));
-            }
+            if (visit.getCheckin() == null)
+                mOnVisitActionListener.doCheckin(visit);
+            else if (visit.getCheckin() != null && visit.getCheckin().getTimeEnd() == null)
+                mOnVisitActionListener.doCheckout(visit);
+            else
+                mOnVisitActionListener.viewVisit(visit);
         }
-    }
 
-    private void checkoutVisit(Visit visit)
-    {
-        // TODO
+        @OnClick(R.id.btnEdit)
+        public void editClicked() {
+
+        }
+
+        @OnClick(R.id.btnRemove)
+        public void removeClicked(View v) {
+            new AlertDialog.Builder(v.getContext())
+                    .setMessage(R.string.deleteVisitMessage)
+                    .setNegativeButton(R.string.cancel, null)
+                    .setPositiveButton(R.string.OK, ((dialogInterface, which) -> {
+                        mOnVisitActionListener.removeVisit(listVisits.get(getAdapterPosition()));
+                    }))
+            .show();
+        }
     }
 }

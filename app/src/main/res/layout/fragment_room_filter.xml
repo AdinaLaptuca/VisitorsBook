@@ -87,7 +87,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:min="2"
                 android:max="16"
-                android:progress="3"
+                android:progress="5"
                 />
 
             <TextView

@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
+import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ViewVisit.ViewVisitFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial;
+import com.adinalaptuca.visitorsbook.model.Visit;
 
-public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View {
+public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View, VisitsAdapter.OnVisitActionListener {
 
     private VisitsContract.Presenter presenter;
 
@@ -61,7 +63,7 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
         tblData.setLayoutManager(new LinearLayoutManager(getActivity()));
         tblData.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        adapter = new VisitsAdapter(presenter.getVisits());
+        adapter = new VisitsAdapter(presenter.getVisits(), this);
         tblData.setAdapter(adapter);
 
 //        String roomsPath = String.format(Locale.getDefault(), "%s/%s",
@@ -168,5 +170,27 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     @Override
     public void notifyDataChanged() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void doCheckin(Visit visit) {
+        addFragment(PreviewVisitorDataFragment.newInstance(visit));
+    }
+
+    @Override
+    public void doCheckout(Visit visit) {
+        showLoadingDialog(null);
+        presenter.checkoutVisit(visit);
+    }
+
+    @Override
+    public void viewVisit(Visit visit) {
+        addFragment(ViewVisitFragment.newInstance(visit));
+    }
+
+    @Override
+    public void removeVisit(Visit visit) {
+        showLoadingDialog(null);
+        presenter.removeVisit(visit);
     }
 }

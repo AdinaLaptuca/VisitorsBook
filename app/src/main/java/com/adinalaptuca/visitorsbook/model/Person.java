@@ -36,6 +36,8 @@ public abstract class Person implements Parcelable
         return new AutoValue_Person.Builder();
     }
 
+    public abstract Builder toBuilder();
+
     public static TypeAdapter<Person> typeAdapter(Gson gson) {
         return new AutoValue_Person.GsonTypeAdapter(gson);
     }

@@ -45,6 +45,7 @@
     <string name="checkOut">Check out</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="deleteVisitMessage">Are you sure you want to remove this visit?</string>
 
     <string name="visits">Visits</string>
     <string name="employees">Employees</string>

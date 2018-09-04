@@ -115,7 +115,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="20dp"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -128,6 +127,8 @@
             android:layout_width="match_parent"
             style="@style/buttonGradient"
             android:text="@string/exportPDF"
+
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"

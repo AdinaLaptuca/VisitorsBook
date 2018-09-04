@@ -16,5 +16,9 @@ public class VisitsContract {
         void setSearchString(String query);
 
         void getData();
+
+        void checkoutVisit(Visit visit);
+
+        void removeVisit(Visit visit);
     }
 }

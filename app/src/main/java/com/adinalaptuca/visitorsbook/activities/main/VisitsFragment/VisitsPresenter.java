@@ -6,18 +6,23 @@ import android.util.Log;
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
+import com.adinalaptuca.visitorsbook.model.Checkin;
 import com.adinalaptuca.visitorsbook.model.Office;
 import com.adinalaptuca.visitorsbook.model.Visit;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class VisitsPresenter implements VisitsContract.Presenter {
 
@@ -74,7 +79,9 @@ public class VisitsPresenter implements VisitsContract.Presenter {
 
                 for (DocumentSnapshot snapshot : documentSnapshot.getDocuments()) {
                     try {
-                        Visit visit = gson.fromJson(gson.toJson(snapshot.getData()), Visit.class);
+                        Map<String, Object> map = snapshot.getData();
+                        map.put("id", snapshot.getId());
+                        Visit visit = gson.fromJson(gson.toJson(map), Visit.class);
                         listAllVisits.add(visit);
                     }
                     catch (Exception error) {
@@ -86,6 +93,31 @@ public class VisitsPresenter implements VisitsContract.Presenter {
             Collections.sort(listAllVisits);
 
             applyFilter();
+        });
+    }
+
+    @Override
+    public void checkoutVisit(Visit visit) {
+        String path = visit.getReferenceId(view.getContext());
+        DocumentReference ref = FirebaseFirestore.getInstance().document(path);
+
+        Visit newVisit = visit.toBuilder()
+                .setCheckin(visit.getCheckin().toBuilder().setTimeEnd(new Date()).build())
+                .build();
+
+        ref.set(newVisit).addOnCompleteListener((Activity) view.getContext(), task -> {
+            view.dismissLoadingDialog();
+            view.notifyDataChanged();
+        });
+    }
+
+    @Override
+    public void removeVisit(Visit visit) {
+        DocumentReference ref = FirebaseFirestore.getInstance().document(visit.getReferenceId(view.getContext()));
+
+        ref.delete().addOnCompleteListener((Activity) view.getContext(), task -> {
+            view.dismissLoadingDialog();
+            view.notifyDataChanged();
         });
     }
 }

@@ -2,7 +2,9 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ViewVisit;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,6 +12,7 @@ import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.model.Checkin;
+import com.adinalaptuca.visitorsbook.model.Employee;
 import com.adinalaptuca.visitorsbook.model.Visit;
 import com.adinalaptuca.visitorsbook.utils.DateUtils;
 
@@ -42,6 +45,9 @@ public class ViewVisitFragment extends BaseToolbarFragment {
 
     @BindView(R.id.txtCheckoutTime)
     protected TextView txtCheckoutTime;
+
+    @BindView(R.id.viewParticipants)
+    protected ViewGroup viewParticipants;
 
     public static ViewVisitFragment newInstance(Visit visit) {
         ViewVisitFragment fragment = new ViewVisitFragment();
@@ -82,6 +88,15 @@ public class ViewVisitFragment extends BaseToolbarFragment {
                 setLabelInfo(txtIdSerialNumber, R.string.idSerialNumber, visit.getPerson().getSerialNumber());
                 setLabelInfo(txtCheckinTime, R.string.checkinTime, DateUtils.dateToString(checkin.getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
                 setLabelInfo(txtCheckoutTime, R.string.checkoutTime, DateUtils.dateToString(checkin.getTimeEnd(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
+
+                LayoutInflater inflater = LayoutInflater.from(getActivity());
+
+                for (Employee employee : visit.getParticipants()) {
+                    TextView txtEmployee = (TextView) inflater.inflate(R.layout.component_single_participant, viewParticipants, false);
+                    txtEmployee.setCompoundDrawables(null, null, null, null);
+                    txtEmployee.setText(employee.getPerson().getFullName());
+                    viewParticipants.addView(txtEmployee);
+                }
             }
         }
     }

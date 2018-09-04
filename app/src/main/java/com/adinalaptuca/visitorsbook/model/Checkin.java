@@ -18,6 +18,8 @@ public abstract class Checkin implements Parcelable {
     @SerializedName("timeEnd")
     public abstract Date getTimeEnd();
 
+    public abstract Builder toBuilder();
+
     public static Builder builder() {
         return new AutoValue_Checkin.Builder();
     }
