@@ -1,12 +1,11 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -346,9 +345,7 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
 
     private void showSelectedRoom() {
         if (selectedRoom != null)
-            btnSelectRoom.setText(String.format(Locale.getDefault(), "%s: %s, %s %d",
-                    getResources().getString(R.string.room), selectedRoom.getName(),
-                    getResources().getString(R.string.floor), selectedRoom.getFloor()));
+            btnSelectRoom.setText(selectedRoom.toString(getActivity()));
         else
             btnSelectRoom.setText(R.string.placeholderSelectARoom);
     }
@@ -381,7 +378,28 @@ public class UpcomingVisitorFragment extends BaseToolbarFragment
     }
 
     public void doneClicked() {
-        // TODO validare
+        if (!validateDataNotEmpty(txtFirstName, txtLastName))
+            return;
+
+        if (getDateFromEditText(txtVisitStart) == null) {
+            txtVisitStart.requestFocus();
+            txtVisitStart.setError(getResources().getString(R.string.cant_be_empty));
+            return;
+        }
+
+        if (getDateFromEditText(txtVisitEnd) == null) {
+            txtVisitEnd.requestFocus();
+            txtVisitEnd.setError(getResources().getString(R.string.cant_be_empty));
+            return;
+        }
+
+        if (listEmployees.isEmpty()) {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.participantsErrorMessage)
+                    .setNegativeButton(R.string.OK, null)
+                    .show();
+            return;
+        }
 
         AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
         showLoadingDialog(null);

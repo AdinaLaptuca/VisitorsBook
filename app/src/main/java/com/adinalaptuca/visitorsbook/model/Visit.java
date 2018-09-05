@@ -24,6 +24,7 @@ public abstract class Visit implements Parcelable, Comparable<Visit>
     @Nullable
     public abstract String getId();
 
+    @NonNull
     @SerializedName("timeStart")
     public abstract Date getTimeStart();
 
@@ -41,6 +42,10 @@ public abstract class Visit implements Parcelable, Comparable<Visit>
 
     @SerializedName("participants")
     public abstract List<Employee> getParticipants();
+
+    @Nullable
+    @SerializedName("room")
+    public abstract Room getRoom();
 
     @Exclude
     public String getReferenceId(Context context) {
@@ -69,6 +74,7 @@ public abstract class Visit implements Parcelable, Comparable<Visit>
         public abstract Builder setCheckin(Checkin checkin);
         public abstract Builder setPerson(Person person);
         public abstract Builder setParticipants(List<Employee> participants);
+        public abstract Builder setRoom(Room room);
 
         public abstract Visit build();
     }

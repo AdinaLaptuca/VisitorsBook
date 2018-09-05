@@ -40,6 +40,7 @@
     <string name="terms_conditions">Terms and conditions</string>
     <string name="logout">Log out</string>
     <string name="logoutQuestion">Are you sure you wish to log out? This will terminate your current session</string>
+    <string name="notAvailable">N/A</string>
 
     <string name="checkIn">Check in</string>
     <string name="checkOut">Check out</string>
@@ -55,6 +56,7 @@
     <string name="employees">Employees</string>
     <string name="rooms">Rooms</string>
     <string name="room">Room</string>
+    <string name="Room">Room:</string>
     <string name="floor">Floor:</string>
 
     <string name="takePhotoFragmentTitle">Take photo</string>
@@ -76,6 +78,7 @@
     <string name="printBadge">Print badge</string>
     <string name="finish">Finish</string>
     <string name="addParticipant">Add participant</string>
+    <string name="participantsErrorMessage">You need to select at least one participant</string>
     <string name="otherParticipants">Other participants</string>
     
     <string name="roomSize">Room size (for how many people)</string>

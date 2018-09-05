@@ -41,6 +41,7 @@ public class UpcomingVisitorPresenter implements UpcomingVisitorContract.Present
                         .setFirstName(firstName)
                         .setLastName(lastName)
                         .build())
+                .setRoom(room)
                 .build();
 
         String path = String.format(Locale.getDefault(), "%s/%s",
@@ -80,6 +81,7 @@ public class UpcomingVisitorPresenter implements UpcomingVisitorContract.Present
                 .setCheckin(Checkin.builder()
                         .setTimeStart(timeStart)
                         .build())
+                .setRoom(room)
                 .build();
 
         String path = String.format(Locale.getDefault(), "%s/%s",

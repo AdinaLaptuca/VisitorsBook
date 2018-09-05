@@ -1,15 +1,19 @@
 package com.adinalaptuca.visitorsbook.model;
 
+import android.content.Context;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
+import com.adinalaptuca.visitorsbook.R;
 import com.google.auto.value.AutoValue;
+import com.google.firebase.firestore.Exclude;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @AutoValue
 public abstract class Room implements Parcelable {
@@ -35,6 +39,13 @@ public abstract class Room implements Parcelable {
 
     @SerializedName(SERIALIZE_NAME_UTILITIES)
     public abstract List<String> getUtilities();
+
+    @Exclude
+    public String toString(Context context) {
+        return String.format(Locale.getDefault(), "%s: %s, %s %d",
+                context.getResources().getString(R.string.room), getName(),
+                context.getResources().getString(R.string.floor), getFloor());
+    }
 
     public static Builder builder() {
         return new AutoValue_Room.Builder().setUtilities(new ArrayList<>());

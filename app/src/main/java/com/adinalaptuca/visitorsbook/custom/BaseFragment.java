@@ -8,7 +8,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import com.adinalaptuca.visitorsbook.R;
+
+import java.util.Arrays;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -62,6 +67,18 @@ public abstract class BaseFragment extends Fragment implements MvpContract.View 
                 .replace(R.id.fragment_container, fragment, fragment.getClass().getSimpleName())
                 .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
+    }
+
+    protected boolean validateDataNotEmpty(TextView... fields) {
+        for (TextView mandatoryField : Arrays.asList(fields)) {
+            if (mandatoryField.getText().toString().isEmpty()) {
+                mandatoryField.requestFocus();
+                mandatoryField.setError(getResources().getString(R.string.cant_be_empty));
+                return false;
+            }
+        }
+
+        return true;
     }
 
     @Override

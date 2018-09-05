@@ -46,6 +46,9 @@ public class ViewVisitFragment extends BaseToolbarFragment {
     @BindView(R.id.txtCheckoutTime)
     protected TextView txtCheckoutTime;
 
+    @BindView(R.id.txtRoom)
+    protected TextView txtRoom;
+
     @BindView(R.id.viewParticipants)
     protected ViewGroup viewParticipants;
 
@@ -88,6 +91,7 @@ public class ViewVisitFragment extends BaseToolbarFragment {
                 setLabelInfo(txtIdSerialNumber, R.string.idSerialNumber, visit.getPerson().getSerialNumber());
                 setLabelInfo(txtCheckinTime, R.string.checkinTime, DateUtils.dateToString(checkin.getTimeStart(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
                 setLabelInfo(txtCheckoutTime, R.string.checkoutTime, DateUtils.dateToString(checkin.getTimeEnd(), Constants.DATE_FORMATTER_PATTERN_VIEW_VISITOR_DATE_TIME));
+                setLabelInfo(txtRoom, R.string.Room, visit.getRoom() != null ? visit.getRoom().toString(getActivity()) : getResources().getString(R.string.room));
 
                 LayoutInflater inflater = LayoutInflater.from(getActivity());
 

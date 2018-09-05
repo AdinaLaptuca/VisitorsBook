@@ -67,6 +67,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
 
     @BindView(R.id.btnTakePhoto)
     protected View btnTakePhoto;
+    private boolean isTakePhotoButtonHidden = false;
 
     @BindView(R.id.imgPhoto)
     protected ImageView imgPhoto;
@@ -145,6 +146,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
             else if (bundle.containsKey(EXTRA_FULL_VISIT))
                 isFastCheckin = bundle.getBoolean(EXTRA_FULL_VISIT, false);
         }
+
+        if (isTakePhotoButtonHidden)
+            enterManuallyClicked();
 //            imgPhoto.setImageBitmap(ImageUtils.decodeFile(bundle.getString(EXTRA_IMAGE_PATH)));
     }
 
@@ -277,18 +281,18 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
         if (extractedData != null)
             return;
 
-            btnTakePhoto.setVisibility(View.GONE);
+        enterManuallyClicked();
 
-            imgPhoto.setImageBitmap(getResultEntry(extractedData, R.string.MBFaceImage).getImageValue());
-            viewPhotoPlaceholder.setVisibility(View.INVISIBLE);
+        imgPhoto.setImageBitmap(getResultEntry(extractedData, R.string.MBFaceImage).getImageValue());
+        viewPhotoPlaceholder.setVisibility(View.INVISIBLE);
 
-            lblName.setText(getResultEntry(extractedData, idFirstName).getValue());
-            lblSurname.setText(getResultEntry(extractedData, idLastName).getValue());
-            txtCNP.setText(getResultEntry(extractedData, idCNP).getValue());
+        lblName.setText(getResultEntry(extractedData, idFirstName).getValue());
+        lblSurname.setText(getResultEntry(extractedData, idLastName).getValue());
+        txtCNP.setText(getResultEntry(extractedData, idCNP).getValue());
 
-            if (idSeries != 0)
-                txtSeries.setText(String.format("%s %s",
-                        getResultEntry(extractedData, idSeries).getValue(), getResultEntry(extractedData, idSeriesNumber).getValue()));
+        if (idSeries != 0)
+            txtSeries.setText(String.format("%s %s",
+                    getResultEntry(extractedData, idSeries).getValue(), getResultEntry(extractedData, idSeriesNumber).getValue()));
     }
 
     private RecognitionResultEntry getResultEntry(List<RecognitionResultEntry> extractedData, int keyId) {
@@ -301,6 +305,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
 
     @OnClick(R.id.btnEnterManually)
     public void enterManuallyClicked() {
+        isTakePhotoButtonHidden = true;
         btnTakePhoto.setVisibility(View.GONE);
     }
 
@@ -310,7 +315,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
     }
 
     public void doneClicked() {
-        if (!validateData())
+        if (!validateDataNotEmpty(lblName, lblSurname, txtCNP))
             return;
 
         AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
@@ -335,22 +340,18 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
         }
     }
 
-    private boolean validateData() {
-        for (TextView mandatoryField : Arrays.asList(lblName, lblSurname, txtCNP)) {
-            if (mandatoryField.getText().toString().isEmpty()) {
-                mandatoryField.requestFocus();
-                mandatoryField.setError(getResources().getString(R.string.cant_be_empty));
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     @Override
     public void checkinDone() {
         dismissLoadingDialog();
         AppDelegate.getInstance(getActivity()).hideKeyboard(getActivity());
         getActivity().onBackPressed();
+    }
+
+    @OnClick(R.id.btnPrintBadge)
+    public void printBadgeClicked() {
+//        PrintHelper photoPrinter = new PrintHelper(getActivity());
+//        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
+//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.droids);
+//        photoPrinter.printBitmap("droids.jpg - test print", bitmap);
     }
 }
