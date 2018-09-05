@@ -15,6 +15,8 @@
         android:icon="@drawable/calendar"
         app:showAsAction="ifRoom|collapseActionView"
         android:iconTint="@color/toolbarMenuIcon"
+        android:actionLayout="@layout/component_date_filter"
+
         >
 
         <!--<menu>-->

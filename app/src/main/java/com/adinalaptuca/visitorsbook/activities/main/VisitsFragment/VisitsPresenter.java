@@ -64,11 +64,12 @@ public class VisitsPresenter implements VisitsContract.Presenter {
     }
 
     @Override
-    public void getData() {
+    public void getData(final Date dateFilterAfter, final Date dateFilterBefore) {
 
         String path = String.format(Locale.getDefault(), "%s/%s",
                 AppDelegate.getInstance(view.getContext()).getLoginPath(),
                 Office.SERIALIZE_VISITS);
+
         final CollectionReference ref = FirebaseFirestore.getInstance().collection(path);
 
         ref.addSnapshotListener((Activity) view.getContext(), (documentSnapshot, e) -> {
@@ -82,7 +83,13 @@ public class VisitsPresenter implements VisitsContract.Presenter {
                         Map<String, Object> map = snapshot.getData();
                         map.put("id", snapshot.getId());
                         Visit visit = gson.fromJson(gson.toJson(map), Visit.class);
-                        listAllVisits.add(visit);
+
+                        boolean isFilterValid = true;
+                        isFilterValid = isFilterValid && (dateFilterAfter == null || dateFilterAfter.before(visit.getTimeStart()));
+                        isFilterValid = isFilterValid && (dateFilterBefore == null || dateFilterBefore.after(visit.getTimeEnd()));
+
+                        if (isFilterValid)
+                            listAllVisits.add(visit);
                     }
                     catch (Exception error) {
                         Log.e("presenter", "error: " + error.getMessage());

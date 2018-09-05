@@ -3,6 +3,7 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 import com.adinalaptuca.visitorsbook.custom.MvpContract;
 import com.adinalaptuca.visitorsbook.model.Visit;
 
+import java.util.Date;
 import java.util.List;
 
 public class VisitsContract {
@@ -15,7 +16,7 @@ public class VisitsContract {
         List<Visit> getVisits();
         void setSearchString(String query);
 
-        void getData();
+        void getData(Date dateFilterAfter, Date dateFilterBefore);
 
         void checkoutVisit(Visit visit);
 

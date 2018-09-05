@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="160dp"
-    android:layout_height="wrap_content">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/viewPopup"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fabTouchBackground">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/elevationBasic"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_alignParentRight="true"
+        android:clickable="true">
+
+        <CheckBox
+            android:id="@+id/chkAfter"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:text="@string/after"/>
+
+        <CheckBox
+            android:id="@+id/chkBefore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/before"/>
+
+        <Button
+            android:id="@+id/btnApply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/applyFilter"
+            android:inputType="textCapSentences"
+            android:background="?selectableItemBackground"/>
+
+    </LinearLayout>
+</RelativeLayout>

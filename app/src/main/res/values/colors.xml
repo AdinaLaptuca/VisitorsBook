@@ -31,7 +31,7 @@
     <color name="bgdEdit">#00c6fb</color>
     <color name="bgdRemove">#ff5451</color>
 
-    <color name="fabTouchBackground">#99DDEEFF</color>
+    <color name="fabTouchBackground">#5500bbed</color>
 
     <color name="swipeOptionIcon">@android:color/white</color>
 

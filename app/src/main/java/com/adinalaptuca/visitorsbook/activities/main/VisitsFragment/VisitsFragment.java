@@ -1,5 +1,6 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -9,12 +10,16 @@ import android.support.v7.widget.SearchView;
 import butterknife.BindView;
 
 import android.transition.TransitionManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
+import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
@@ -22,6 +27,11 @@ import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ViewVisit.Vi
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
 import com.adinalaptuca.visitorsbook.custom.fabSpeedDial.FabSpeedDial;
 import com.adinalaptuca.visitorsbook.model.Visit;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View, VisitsAdapter.OnVisitActionListener {
 
@@ -34,6 +44,12 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     protected RecyclerView tblData;
 
     private VisitsAdapter adapter;
+
+    private View viewDateFilter;
+    private CheckBox chkAfter;
+    private CheckBox chkBefore;
+    private Calendar calendarBefore = null;
+    private Calendar calendarAfter = null;
 
     @BindView(R.id.fab)
     protected FabSpeedDial fab;
@@ -50,8 +66,6 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 
     protected void initView(View view) {
         presenter = new VisitsPresenter(this);
-
-//        setHasOptionsMenu(true);
 
         fab.addOnMenuItemClickListener((miniFab, label, itemId) -> {
             searchMenuItem.collapseActionView();        // close toolbar employees
@@ -87,38 +101,18 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        createDateFilter();
+        applyDateFilter();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
         setHasOptionsMenu(true);
-
-//        setMenuVisibility(true);
-//        getActivity().invalidateOptionsMenu();
-
-//        toolbarActivityInterface.getToolbar().inflateMenu(R.menu.main_screen);
-//
-//        Menu menu = toolbarActivityInterface.getToolbar().getMenu();
-//
-//        searchMenuItem = menu.findItem(R.id.action_search);
-//
-//        searchView = (SearchView) searchMenuItem.getActionView();
-//        searchView.setQueryHint(getResources().getString(R.string.search));
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.e("visit", "onQueryTextChange");
-////                presenter.setSearchString(newText);
-//                return true;
-//            }
-//        });
-//
-//        toolbarActivityInterface.getToolbar().showOverflowMenu();
     }
 
     @Override
@@ -156,15 +150,95 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
 //            MenuItemCompat.expandActionView(item);
             return true;
         }
+        else if (id == R.id.action_dates) {
+//            View viewFilter = LayoutInflater.from(getActivity()).inflate(R.layout.component_date_filter, null);
+//
+//            PopupWindow window = new PopupWindow(getActivity());
+//            window.setContentView(viewFilter);
+//            window.showAtLocation(getView(), Gravity.END | Gravity.TOP, 0, toolbarActivityInterface.getToolbar().getMeasuredHeight());
+////            window.showAsDropDown(toolbarActivityInterface.ge);
+//            window.setOutsideTouchable(true);
+
+            toggleDatesFilter();
+
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    private void createDateFilter() {
+        ViewGroup parent = (ViewGroup) getView();
 
-        presenter.getData();
+        viewDateFilter = LayoutInflater.from(getActivity()).inflate(R.layout.component_date_filter, parent, false);
+
+        viewDateFilter.setOnClickListener(v -> hideMenu(parent));
+
+        chkAfter = viewDateFilter.findViewById(R.id.chkAfter);
+        chkBefore = viewDateFilter.findViewById(R.id.chkBefore);
+
+        CompoundButton.OnCheckedChangeListener listener = (compoundButton, isChecked) -> {
+            if (!isChecked)
+                return;
+
+            Calendar calendarToUse = compoundButton == chkAfter ? calendarAfter : calendarBefore;
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity());    //, this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+            if (calendarToUse != null)
+                datePickerDialog.updateDate(calendarToUse.get(Calendar.YEAR), calendarToUse.get(Calendar.MONTH), calendarToUse.get(Calendar.DAY_OF_MONTH));
+
+            datePickerDialog.setOnDateSetListener((datePicker, year, month, day) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, day);
+
+                if (compoundButton == chkAfter)
+                    calendarAfter = calendar;
+                else
+                    calendarBefore = calendar;
+
+                DateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE, Locale.getDefault());
+                String prefixText = getResources().getString(compoundButton == chkAfter ? R.string.after : R.string.before);
+                compoundButton.setText(String.format("%s %s", prefixText, formatter.format(calendar.getTime())));
+            });
+
+            datePickerDialog.setOnCancelListener(dialogInterface -> {
+                compoundButton.setChecked(false);
+            });
+
+            datePickerDialog.show();
+        };
+
+        chkAfter.setOnCheckedChangeListener(listener);
+        chkBefore.setOnCheckedChangeListener(listener);
+
+        viewDateFilter.findViewById(R.id.btnApply).setOnClickListener(v -> {
+            toggleDatesFilter();
+            applyDateFilter();
+        });
+    }
+
+    private void toggleDatesFilter() {
+        ViewGroup parent = (ViewGroup) getView();
+
+        if (parent.findViewById(R.id.viewPopup) == null)
+            showMenu(parent);
+        else
+            hideMenu(parent);
+    }
+
+    private void showMenu(ViewGroup parent) {
+        parent.addView(viewDateFilter, parent.indexOfChild(parent.findViewById(R.id.fab)));
+    }
+
+    private void hideMenu(ViewGroup parent) {
+        parent.removeView(parent.findViewById(R.id.viewPopup));
+    }
+
+    private void applyDateFilter() {
+        presenter.getData(chkAfter.isChecked() ? calendarAfter.getTime() : null,
+                chkBefore.isChecked() ? calendarBefore.getTime() : null);
     }
 
     @Override
