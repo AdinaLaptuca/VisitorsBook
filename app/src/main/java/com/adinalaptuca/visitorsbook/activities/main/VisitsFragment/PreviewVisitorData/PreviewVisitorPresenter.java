@@ -28,6 +28,8 @@ class PreviewVisitorPresenter implements PreviewVisitorContract.Presenter {
                           Bitmap signature) {
         // TODO upload photo and signature
 
+//        FirebaseFirestore.getInstance().getFirestoreSettings().
+
         String path = visit.getReferenceId(view.getContext());
         DocumentReference ref = FirebaseFirestore.getInstance().document(path);
 

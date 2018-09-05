@@ -32,11 +32,13 @@ public class AppDelegate extends Application {
         StrictMode.setVmPolicy(builder.build());
 
         // obtain your licence at http://microblink.com/login or contact us at http://help.microblink.com
-//        MicroblinkSDK.setLicenseFile("MB_com.adinalaptuca.visitorsbook_BlinkID_Android.mblic", this);         // TODO put a different license for each package
+        MicroblinkSDK.setLicenseFile("MB_com.adinalaptuca.visitorsbook.ibm_BlinkID_Android.mblic", this);
 
         // use optimised way for transferring RecognizerBundle between activities, while ensuring
         // data does not get lost when Android restarts the scanning activity
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
+
+//        mAuth.getCurrentUser().updatePassword().
     }
 
     public FirebaseAuth getFirebaseAuth() {

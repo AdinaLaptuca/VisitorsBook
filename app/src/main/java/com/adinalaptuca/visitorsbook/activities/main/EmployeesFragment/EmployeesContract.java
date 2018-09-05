@@ -11,7 +11,7 @@ interface EmployeesContract {
         void employeesFetched();
     }
 
-    interface Presenter extends MvpContract.Presenter<View> {
+    interface Presenter extends MvpContract.Presenter<EmployeesContract.View> {
         List<Employee> getEmployees();
 
         void fetchEmployees();
