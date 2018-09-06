@@ -2,6 +2,7 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisi
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.ElectronicSignature.ElectronicSignatureFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.UpcomingVisitor.UpcomingVisitorFragment;
+import com.adinalaptuca.visitorsbook.custom.OnItemSelectListener;
 import com.adinalaptuca.visitorsbook.utils.ocr.ImageSettings;
 import com.adinalaptuca.visitorsbook.utils.ocr.extract.BaseResultExtractor;
 import com.adinalaptuca.visitorsbook.utils.ocr.extract.RecognitionResultEntry;
@@ -45,7 +47,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 
-public class PreviewVisitorDataFragment extends BaseToolbarFragment implements PreviewVisitorContract.View {
+public class PreviewVisitorDataFragment extends BaseToolbarFragment implements PreviewVisitorContract.View, OnItemSelectListener<Bitmap> {
 
 //    private static final String EXTRA_IMAGE_PATH    = "EXTRA_IMAGE_PATH";
     private static final String EXTRA_VISIT         = "EXTRA_VISIT";
@@ -278,7 +280,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
             int idCNP,
             int idSeries, int idSeriesNumber) {
 
-        if (extractedData != null)
+        if (extractedData == null)
             return;
 
         enterManuallyClicked();
@@ -311,7 +313,14 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
 
     @OnClick(R.id.btnSignature)
     protected void signatureClicked() {
-        addFragment(new ElectronicSignatureFragment());
+        ElectronicSignatureFragment fragment = new ElectronicSignatureFragment();
+        fragment.setOnItemSelectListener(this);
+        addFragment(fragment);
+    }
+
+    @Override
+    public void onItemSelected(Object source, Bitmap item) {
+        // TODO use signature
     }
 
     public void doneClicked() {

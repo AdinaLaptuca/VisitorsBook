@@ -4,10 +4,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.adinalaptuca.visitorsbook.R;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarFragment;
+import com.adinalaptuca.visitorsbook.custom.OnItemSelectListener;
 import com.ajithvgiri.canvaslibrary.CanvasView;
 
 import java.io.File;
@@ -21,6 +25,7 @@ import butterknife.OnClick;
 public class ElectronicSignatureFragment extends BaseToolbarFragment {
 
     private CanvasView viewSignature;
+    private OnItemSelectListener<Bitmap> mOnItemSelectListener;
 
     @Override
     public String getToolbarTitle() {
@@ -40,9 +45,38 @@ public class ElectronicSignatureFragment extends BaseToolbarFragment {
         ((ViewGroup) getView().findViewById(R.id.viewContent)).addView(viewSignature, 0);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        setHasOptionsMenu(true);
+        setMenuVisibility(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.done, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.action_done)
+            doneClicked();
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @OnClick(R.id.fab)
     public void clearSignatureClicked() {
         viewSignature.clearCanvas();
+    }
+
+    private void doneClicked() {
+        mOnItemSelectListener.onItemSelected(this, viewSignature.getDrawingCache());
+        getActivity().onBackPressed();
     }
 
     private void saveSignature() {
@@ -64,5 +98,9 @@ public class ElectronicSignatureFragment extends BaseToolbarFragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setOnItemSelectListener(OnItemSelectListener<Bitmap> listener) {
+        this.mOnItemSelectListener = listener;
     }
 }
