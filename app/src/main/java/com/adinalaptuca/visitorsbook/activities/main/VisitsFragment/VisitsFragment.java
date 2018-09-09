@@ -1,6 +1,7 @@
 package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment;
 
 import android.app.DatePickerDialog;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import butterknife.BindView;
 
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,9 +33,14 @@ import com.adinalaptuca.visitorsbook.model.Visit;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class VisitsFragment extends BaseToolbarFragment implements VisitsContract.View, VisitsAdapter.OnVisitActionListener {
+
+    private static final String EXTRA_OFFICE_REFFERENCE_ID = "EXTRA_OFFICE_REFFERENCE_ID";
+    private static final String EXTRA_DATE_START = "EXTRA_DATE_START";
+    private static final String EXTRA_DATE_END = "EXTRA_DATE_END";
 
     private VisitsContract.Presenter presenter;
 
@@ -51,8 +58,23 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     private Calendar calendarBefore = null;
     private Calendar calendarAfter = null;
 
+    private String officeReferenceId;
+
     @BindView(R.id.fab)
     protected FabSpeedDial fab;
+
+    public static VisitsFragment newInstace(String officeRefferenceId, Date dateStart, Date dateEnd) {
+        VisitsFragment fragment = new VisitsFragment();
+
+        Bundle args = new Bundle();
+        args.putString(EXTRA_OFFICE_REFFERENCE_ID, officeRefferenceId);
+        args.putSerializable(EXTRA_DATE_START, dateStart);
+        args.putSerializable(EXTRA_DATE_END, dateEnd);
+
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     public String getToolbarTitle() {
@@ -105,6 +127,28 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
         super.onActivityCreated(savedInstanceState);
 
         createDateFilter();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            DateFormat formatter = new SimpleDateFormat(Constants.DATE_FORMATTER_PATTERN_UPCOMING_VISITOR_DATE, Locale.getDefault());
+
+            String prefixText = getResources().getString(R.string.after);
+            chkAfter.setText(String.format("%s %s", prefixText, formatter.format(args.getSerializable(EXTRA_DATE_START))));
+
+            calendarAfter = Calendar.getInstance();
+            calendarAfter.setTime((Date) args.getSerializable(EXTRA_DATE_START));
+
+            prefixText = getResources().getString(R.string.before);
+            chkBefore.setText(String.format("%s %s", prefixText, formatter.format(args.getSerializable(EXTRA_DATE_END))));
+
+            calendarBefore = Calendar.getInstance();
+            calendarBefore.setTime((Date) args.getSerializable(EXTRA_DATE_END));
+
+            officeReferenceId = args.getString(EXTRA_OFFICE_REFFERENCE_ID);
+
+            fab.setVisibility(View.GONE);
+        }
+
         applyDateFilter();
     }
 
@@ -151,13 +195,6 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
             return true;
         }
         else if (id == R.id.action_dates) {
-//            View viewFilter = LayoutInflater.from(getActivity()).inflate(R.layout.component_date_filter, null);
-//
-//            PopupWindow window = new PopupWindow(getActivity());
-//            window.setContentView(viewFilter);
-//            window.showAtLocation(getView(), Gravity.END | Gravity.TOP, 0, toolbarActivityInterface.getToolbar().getMeasuredHeight());
-////            window.showAsDropDown(toolbarActivityInterface.ge);
-//            window.setOutsideTouchable(true);
 
             toggleDatesFilter();
 
@@ -237,13 +274,17 @@ public class VisitsFragment extends BaseToolbarFragment implements VisitsContrac
     }
 
     private void applyDateFilter() {
-        presenter.getData(chkAfter.isChecked() ? calendarAfter.getTime() : null,
-                chkBefore.isChecked() ? calendarBefore.getTime() : null);
+        if (officeReferenceId == null)
+            presenter.getData(chkAfter.isChecked() ? calendarAfter.getTime() : null,
+                    chkBefore.isChecked() ? calendarBefore.getTime() : null);
+        else
+            presenter.getData(officeReferenceId, chkAfter.isChecked() ? calendarAfter.getTime() : null,
+                    chkBefore.isChecked() ? calendarBefore.getTime() : null);
     }
 
     @Override
     public void notifyDataChanged() {
-        adapter.notifyDataSetChanged();
+        adapter.dataRefreshed();
     }
 
     @Override

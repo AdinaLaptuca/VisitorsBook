@@ -9,6 +9,8 @@ public class Constants {
 
     public static final String FOLDER_VISITORS          = "visitorsbook";        // for photos, etc
 
+    public static final String PREFFS_NAME              = "PREFFS_NAME";
+
     public static final String DATE_FORMATTER_PATTERN_VISIT_DATE = "MMM\ndd";
     public static final String DATE_FORMATTER_PATTERN_VISIT_TIME = "hh:mm";
 

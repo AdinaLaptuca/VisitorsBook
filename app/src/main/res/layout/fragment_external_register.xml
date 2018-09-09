@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@android:color/white">
 
-    <android.support.design.widget.TextInputLayout
-        style="@style/textInputLayoutStyle"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <Spinner
             android:id="@+id/spinnerOffice"
             style="@style/editTextStyle"
-            android:hint="Select location"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             />
 
-    </android.support.design.widget.TextInputLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightEditText"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
-
-        <EditText
-            android:id="@+id/txtVisitStart"
-            style="@style/editTextStyle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:hint="@string/placeholderVisitStarts"
-            android:layout_toLeftOf="@+id/btnCalendarStart"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:inputType="phone"
-            android:imeOptions="actionNext"
-            />
+            android:layout_height="@dimen/heightEditText"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
 
-        <ImageView
-            android:id="@+id/btnCalendarStart"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:src="@drawable/calendar_icon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="?selectableItemBackground"/>
+            <EditText
+                android:id="@+id/txtVisitStart"
+                style="@style/editTextStyle"
+                android:layout_width="match_parent"
+                android:hint="@string/placeholderVisitStarts"
+                android:layout_toLeftOf="@+id/btnCalendarStart"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:inputType="phone"
+                android:imeOptions="actionNext"
+                />
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/btnCalendarStart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/calendar_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="?selectableItemBackground"/>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/heightEditText"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/txtVisitEnd"
-            style="@style/editTextStyle"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:hint="@string/placeholderVisitEnds"
-            android:layout_toLeftOf="@+id/btnCalendarEnd"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:inputType="phone"
-            android:imeOptions="actionDone"
-            />
+            android:layout_height="@dimen/heightEditText"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
 
-        <ImageView
-            android:id="@+id/btnCalendarEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:src="@drawable/calendar_icon"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:background="?selectableItemBackground"/>
+            <EditText
+                android:id="@+id/txtVisitEnd"
+                style="@style/editTextStyle"
+                android:layout_width="match_parent"
+                android:hint="@string/placeholderVisitEnds"
+                android:layout_toLeftOf="@+id/btnCalendarEnd"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:inputType="phone"
+                android:imeOptions="actionDone"
+                />
+
+            <ImageView
+                android:id="@+id/btnCalendarEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:src="@drawable/calendar_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:background="?selectableItemBackground"/>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>
+

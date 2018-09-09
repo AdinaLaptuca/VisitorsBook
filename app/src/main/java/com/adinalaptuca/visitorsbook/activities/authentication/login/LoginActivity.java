@@ -7,19 +7,25 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.BuildConfig;
+import com.adinalaptuca.visitorsbook.Constants;
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.TermsAndConditionsActivity;
 import com.adinalaptuca.visitorsbook.activities.authentication.signup.SignupActivity;
 import com.adinalaptuca.visitorsbook.activities.authentication.AuthenticationUtils;
 import com.adinalaptuca.visitorsbook.activities.main.MainActivity;
@@ -64,6 +70,22 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                         presenter.fetchLoginPath();
                     }
                     else {
+                        final SharedPreferences prefs = getSharedPreferences(Constants.PREFFS_NAME, Context.MODE_PRIVATE);
+                        if (!prefs.getBoolean("languageSelected", false)) {
+                            ViewGroup viewContent = findViewById(R.id.viewContent);
+                            View viewSelectLanguage = LayoutInflater.from(LoginActivity.this).inflate(R.layout.component_select_language, viewContent, false);
+
+                            TextView btnEnglish = viewSelectLanguage.findViewById(R.id.btnEnglish);
+                            btnEnglish.setText(getResources().getStringArray(R.array.languages)[0]);
+                            btnEnglish.setOnClickListener(v -> {
+                                viewContent.removeView(viewSelectLanguage);
+                                prefs.edit().putBoolean("languageSelected", true).apply();
+                            });
+
+                            ((TextView) viewSelectLanguage.findViewById(R.id.btnRomanian)).setText(getResources().getStringArray(R.array.languages)[1]);
+                            viewContent.addView(viewSelectLanguage, viewContent.getChildCount() - 2);
+                        }
+
                         ObjectAnimator animator = ObjectAnimator.ofFloat(imgSplash, "alpha", 1f, 0f);
                         animator.setDuration(600);
                         animator.setInterpolator(new DecelerateInterpolator());
@@ -77,6 +99,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                         animator.start();
                     }
         });
+    }
+
+    @OnClick(R.id.btnTermsConditions)
+    protected void termsConditionsClicked() {
+        startActivity(new Intent(this, TermsAndConditionsActivity.class));
     }
 
     @OnEditorAction(R.id.txtPassword)

@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 
 import com.adinalaptuca.visitorsbook.AppDelegate;
 import com.adinalaptuca.visitorsbook.R;
+import com.adinalaptuca.visitorsbook.activities.TermsAndConditionsActivity;
+import com.adinalaptuca.visitorsbook.activities.drawerMenu.externalRegisters.ExternalRegisterFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisitorData.PreviewVisitorDataFragment;
 import com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.VisitsFragment;
 import com.adinalaptuca.visitorsbook.custom.BaseToolbarActivity;
@@ -104,6 +106,14 @@ public class MainActivity extends BaseToolbarActivity {
 //        return true;
 //    }
 
+    @OnClick(R.id.lblExternalRegisters)
+    protected void showExternalRegisters() {
+        closeDrawer();
+
+        addFragment(new ExternalRegisterFragment());
+//        replaceFragment(new ExternalRegisterFragment());
+    }
+
     @OnClick(R.id.lblLanguage)
     protected void changeLanguage() {
         closeDrawer();
@@ -111,11 +121,16 @@ public class MainActivity extends BaseToolbarActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.change_language)
                 .setSingleChoiceItems(getResources().getStringArray(R.array.languages), 0, (dialogInterface, i) -> {
-                    Log.e("asd", "clicked: " + i);
+                    Log.e("main activity", "clicked: " + i);
                 })
                 .setPositiveButton(R.string.OK, null)
                 .setNegativeButton(R.string.cancel, null)
         .show();
+    }
+
+    @OnClick(R.id.lblTerms)
+    protected void termsConditionsClicked() {
+        startActivity(new Intent(this, TermsAndConditionsActivity.class));
     }
 
     @Override

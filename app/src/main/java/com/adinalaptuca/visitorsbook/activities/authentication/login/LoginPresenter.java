@@ -26,20 +26,6 @@ class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void trySignIn(String email, String password) {
-//        RxFirebaseAuth.signInWithEmailAndPassword(AppDelegate.getInstance(view.getContext()).getFirebaseAuth(), email.trim(), password)
-//                .asObservable()
-//                .take(1)
-////                .flatMap(x -> RxFirebaseUser.getToken(FirebaseAuth.getInstance().getCurrentUser(), false))
-//                .subscribe(task -> {
-//                    view.dismissLoadingDialog();
-//
-//                    if (task.getUser() != null) {
-//                        view.goToMainscreen();
-//                    }
-//                    else
-//                        view.showToast(view.getContext().getResources().getString(R.string.authentication_failed));
-//                });
-
         AppDelegate.getInstance(view.getContext()).getFirebaseAuth()
                 .signInWithEmailAndPassword(email.trim(), password)
                 .addOnCompleteListener((Activity) view.getContext(), task -> {
@@ -50,11 +36,6 @@ class LoginPresenter implements LoginContract.Presenter {
                     }
                     else
                         view.showToast(view.getContext().getResources().getString(R.string.authentication_failed));
-                })
-                .addOnFailureListener((Activity) view.getContext(), e -> {
-                    view.dismissLoadingDialog();
-                    view.showToast(view.getContext().getResources().getString(R.string.authentication_failed) + " ." + e.getMessage());
-                    Log.e("login", "failed, e: " + e.getMessage());
                 });
     }
 

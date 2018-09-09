@@ -47,6 +47,11 @@ public class VisitsAdapter extends RecyclerView.Adapter<VisitsAdapter.VisitViewH
         binderHelper.setOpenOnlyOne(true);
     }
 
+    void dataRefreshed() {
+        notifyDataSetChanged();
+        previousDate = DateUtils.dateWithComponents(1970, 1, 1).toString();
+    }
+
     @Override
     public int getItemCount() {
         return listVisits.size();

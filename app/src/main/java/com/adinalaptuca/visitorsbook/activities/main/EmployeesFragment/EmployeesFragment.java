@@ -60,6 +60,13 @@ public class EmployeesFragment extends BaseToolbarFragment implements EmployeesC
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        presenter.fetchEmployees();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -131,13 +138,6 @@ public class EmployeesFragment extends BaseToolbarFragment implements EmployeesC
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        presenter.fetchEmployees();
     }
 
     @Override

@@ -36,9 +36,7 @@ public class EmployeesPresenter implements EmployeesContract.Presenter {
     @Override
     public void fetchEmployees() {
         String loginPath = AppDelegate.getInstance(view.getContext()).getLoginPath();
-        String path =
-        String.format(Locale.getDefault(), "%s",
-                loginPath.substring(0, loginPath.lastIndexOf("/")));
+        String path = loginPath.substring(0, loginPath.lastIndexOf("/"));
 
         FirebaseFirestore.getInstance().collection(path)
                 .addSnapshotListener((Activity) view.getContext(), (querySnapshot, e) -> {

@@ -3,6 +3,7 @@ package com.adinalaptuca.visitorsbook.activities.main.VisitsFragment.PreviewVisi
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -159,7 +160,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
         super.onResume();
 
         setHasOptionsMenu(true);
-        setMenuVisibility(true);
+        toolbarActivityInterface.getToolbar().inflateMenu(R.menu.done);
     }
 
     @Override
@@ -253,7 +254,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
                 showOcrData(extractData(data), R.string.PPFirstName, R.string.PPLastName, R.string.PPDriverNumber, 0, 0);
             }
             else {
-                Toast.makeText(getActivity(), "Scan incrrect!", Toast.LENGTH_SHORT).show();     // TODO translate
+                Toast.makeText(getActivity(), "Scan incorrect!", Toast.LENGTH_SHORT).show();     // TODO translate
             }
         }
     }
@@ -358,9 +359,12 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
 
     @OnClick(R.id.btnPrintBadge)
     public void printBadgeClicked() {
-//        PrintHelper photoPrinter = new PrintHelper(getActivity());
-//        photoPrinter.setScaleMode(PrintHelper.SCALE_MODE_FIT);
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.droids);
-//        photoPrinter.printBitmap("droids.jpg - test print", bitmap);
+        if (imgPhoto.getDrawable() == null)
+            return;     // TODO arata toast
+
+        if (!validateDataNotEmpty(lblName, lblSurname))
+            return;
+
+        addFragment(PrintBadgeFragment.newInstance(((BitmapDrawable) imgPhoto.getDrawable()).getBitmap(), lblName.getText().toString(), lblSurname.getText().toString()));
     }
 }

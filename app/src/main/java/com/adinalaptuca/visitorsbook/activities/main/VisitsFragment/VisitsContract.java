@@ -17,6 +17,7 @@ public class VisitsContract {
         void setSearchString(String query);
 
         void getData(Date dateFilterAfter, Date dateFilterBefore);
+        void getData(String officeReferenceId, final Date dateFilterAfter, final Date dateFilterBefore);
 
         void checkoutVisit(Visit visit);
 

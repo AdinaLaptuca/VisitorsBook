@@ -116,5 +116,8 @@
         <item>English</item>
         <item>Română</item>
     </string-array>
+    
+    <string name="selectLanguage_default">Select language</string>
+    <string name="selectLanguage_other">Selectați limba</string>
 
 </resources>

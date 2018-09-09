@@ -65,9 +65,14 @@ public class VisitsPresenter implements VisitsContract.Presenter {
 
     @Override
     public void getData(final Date dateFilterAfter, final Date dateFilterBefore) {
+        getData(AppDelegate.getInstance(view.getContext()).getLoginPath(), dateFilterAfter, dateFilterBefore);
+    }
+
+    @Override
+    public void getData(String officeReferenceId, final Date dateFilterAfter, final Date dateFilterBefore) {
 
         String path = String.format(Locale.getDefault(), "%s/%s",
-                AppDelegate.getInstance(view.getContext()).getLoginPath(),
+                officeReferenceId,
                 Office.SERIALIZE_VISITS);
 
         final CollectionReference ref = FirebaseFirestore.getInstance().collection(path);
