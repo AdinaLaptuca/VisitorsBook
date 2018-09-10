@@ -6,7 +6,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:background="@drawable/bgd_btn_gradient_nw_se"
-    android:clickable="true">
+    android:clickable="true"
+    android:focusable="false">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +43,8 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             tools:text="English"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:drawableRight="@drawable/gb"/>
 
         <TextView
             android:id="@+id/btnRomanian"
@@ -54,7 +56,8 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             tools:text="Română"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:drawableRight="@drawable/ro"/>
         
         <android.support.v4.widget.Space
             android:layout_width="match_parent"

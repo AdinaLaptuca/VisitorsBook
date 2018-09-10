@@ -71,6 +71,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                     }
                     else {
                         final SharedPreferences prefs = getSharedPreferences(Constants.PREFFS_NAME, Context.MODE_PRIVATE);
+
                         if (!prefs.getBoolean("languageSelected", false)) {
                             ViewGroup viewContent = findViewById(R.id.viewContent);
                             View viewSelectLanguage = LayoutInflater.from(LoginActivity.this).inflate(R.layout.component_select_language, viewContent, false);
@@ -78,6 +79,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
                             TextView btnEnglish = viewSelectLanguage.findViewById(R.id.btnEnglish);
                             btnEnglish.setText(getResources().getStringArray(R.array.languages)[0]);
                             btnEnglish.setOnClickListener(v -> {
+                                viewSelectLanguage.setClickable(false);
                                 viewContent.removeView(viewSelectLanguage);
                                 prefs.edit().putBoolean("languageSelected", true).apply();
                             });
@@ -147,7 +149,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         goToMainscreen();
 
         imgSplash.postDelayed(() -> {
-            imgSplash.setAlpha(0f);
+            if (imgSplash != null)
+                imgSplash.setAlpha(0f);
         }, 1500);
     }
 

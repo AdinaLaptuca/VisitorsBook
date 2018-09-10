@@ -71,6 +71,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityInter
     {
         super.onDestroy();
 
-        unbinder.unbind();
+        if (unbinder != null)
+            unbinder.unbind();
     }
 }

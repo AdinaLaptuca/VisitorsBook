@@ -64,8 +64,16 @@
     <string name="checkInVisitor">Check in visitor</string>
     <string name="addVisitor">Add visitor</string>
     <string name="fullVisit">Fast check in</string>
+    <string name="scanIncorrect">Scan incorrect</string>
+    <string name="chooseInputMethods">Choose input method</string>
 
-    <string name="takePhoto">Take a photo of \nyour visitor\'s ID</string>
+    <string-array name="ocrOptions">
+        <item>Romanian ID card</item>
+        <item>Driver license</item>
+        <item>German ID card</item>
+    </string-array>
+
+    <string name="takePhoto">Scan your \nvisitor\'s ID</string>
     <string name="visitorIdPhotoPreview">Visitor\nID photo preview</string>
 
     <string name="visitAndVisitorDetails">Visit and visitor details</string>

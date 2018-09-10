@@ -193,10 +193,9 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
     @OnLongClick({R.id.imgPhoto, R.id.btnTakePhoto})
     public boolean chooseOcrOption() {
         new AlertDialog.Builder(getActivity())
-                .setTitle("Choose input method")        //TODO translate
-                .setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList("Romanian ID card", "Driver license", "German ID card")),    // TODO translate
+                .setTitle(getResources().getString(R.string.chooseInputMethods))
+                .setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, Arrays.asList(getResources().getStringArray(R.array.ocrOptions))),    // TODO translate
                         ((dialog, which) -> {
-//                            Log.e("asd", "which");
                             if (which == 0)
                                 takePhotoClicked();
                             else if (which == 1) {
@@ -254,7 +253,7 @@ public class PreviewVisitorDataFragment extends BaseToolbarFragment implements P
                 showOcrData(extractData(data), R.string.PPFirstName, R.string.PPLastName, R.string.PPDriverNumber, 0, 0);
             }
             else {
-                Toast.makeText(getActivity(), "Scan incorrect!", Toast.LENGTH_SHORT).show();     // TODO translate
+                Toast.makeText(getActivity(), getResources().getString(R.string.scanIncorrect), Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -12,6 +12,7 @@ import com.adinalaptuca.visitorsbook.model.AutoValueGsonTypeAdapterFactory;
 import com.adinalaptuca.visitorsbook.model.Company;
 import com.adinalaptuca.visitorsbook.model.Employee;
 import com.adinalaptuca.visitorsbook.model.EmployeeRole;
+import com.adinalaptuca.visitorsbook.model.LoginPath;
 import com.adinalaptuca.visitorsbook.model.Office;
 import com.adinalaptuca.visitorsbook.model.Person;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -194,21 +195,6 @@ public class SignupPresenter implements SignupContract.Presenter {
                                         final String email,
                                         final String password) {
 
-//        AppDelegate.getInstance(view.getContext()).getFirebaseAuth()        // register the user
-////                .setLanguageCode()
-//                .createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener((Activity) view.getContext(), registerTask -> {
-//
-//                    if (!registerTask.isSuccessful()) {             // user couldn't be registered
-//                        view.dismissLoadingDialog();
-//                        view.showToast(view.getContext().getResources().getString(R.string.registration_failed) +
-//                                (registerTask.getException() != null ? registerTask.getException().getMessage() : ""));
-//                    }
-//                    else {            // user registered correctly
-//
-//                    }
-//                });
-
         createUser(email, password, () -> {
             EmployeeRole role = getEmployeeRole(employeeRole);
 
@@ -228,6 +214,7 @@ public class SignupPresenter implements SignupContract.Presenter {
             CollectionReference cr = FirebaseFirestore.getInstance().collection(path);
             cr.add(office)
                     .addOnCompleteListener((Activity) view.getContext(), task -> {
+
                         view.dismissLoadingDialog();
 
                         if (task.isSuccessful())
@@ -248,21 +235,6 @@ public class SignupPresenter implements SignupContract.Presenter {
                                    final String email,
                                    final String password) {
 
-//        AppDelegate.getInstance(view.getContext()).getFirebaseAuth()        // register the user
-////                .setLanguageCode()
-//                .createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener((Activity) view.getContext(), registerTask -> {
-//
-//                            if (!registerTask.isSuccessful()) {             // user couldn't be registered
-//                                view.dismissLoadingDialog();
-//                                view.showToast(view.getContext().getResources().getString(R.string.registration_failed) +
-//                                        (registerTask.getException() != null ? registerTask.getException().getMessage() : ""));
-//                            }
-//                            else {            // user registered correctly
-//
-//                            }
-//                        });
-
         createUser(email, password, () -> {
             Office office = getOffice(companyName, officeName);
 
@@ -271,6 +243,14 @@ public class SignupPresenter implements SignupContract.Presenter {
                     companyName,
                     Company.SERIALIZE_NAME_OFFICES,
                     office.getReferenceID());
+
+            {   // add to login path
+                FirebaseFirestore.getInstance().collection("loginPaths")
+                        .add(LoginPath.builder()
+                                .setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .setPath(path)
+                                .build());
+            }
 
             Employee newEmployee = Employee.builder()
                     .setPerson(Person.builder()
@@ -301,8 +281,6 @@ public class SignupPresenter implements SignupContract.Presenter {
 //                .setLanguageCode()
                 .createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Activity) view.getContext(), registerTask -> {
-
-//                    registerTask.getResult().getUser().getUid();      TODO add user to loginPaths
 
                     if (!registerTask.isSuccessful()) {             // user couldn't be registered
                         view.dismissLoadingDialog();

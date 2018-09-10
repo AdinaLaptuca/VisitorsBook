@@ -72,29 +72,6 @@ public class EmployeesFragment extends BaseToolbarFragment implements EmployeesC
 
         setHasOptionsMenu(true);
         setMenuVisibility(true);
-//        getActivity().invalidateOptionsMenu();
-//        toolbarActivityInterface.getToolbar().inflateMenu(R.menu.employees);
-//
-//        Menu menu = toolbarActivityInterface.getToolbar().getMenu();
-//
-//        searchMenuItem = menu.findItem(R.id.action_search);
-//
-//        searchView = (SearchView) searchMenuItem.getActionView();
-//        searchView.setQueryHint(getResources().getString(R.string.search));
-//
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.e("emplouess", "onQueryTextChange");
-////                presenter.setSearchString(newText);
-//                return true;
-//            }
-//        });
     }
 
     @Override
